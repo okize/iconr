@@ -1,0 +1,20 @@
+{
+
+  "info": {
+    "genericMessage": "%s"
+  },
+
+  "error": {
+    "genericError": "%s",
+    "wrongDirectory": "Cannot resolve the input directory path, was it entered correctly?"
+  },
+
+  "warn": {
+    "genericWarn": "%s"
+  },
+
+  "ask": {
+    "genericAsk": "%s"
+  }
+
+}
