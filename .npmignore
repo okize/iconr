@@ -1,0 +1,4 @@
+*.coffee
+examples/
+src/
+test/
