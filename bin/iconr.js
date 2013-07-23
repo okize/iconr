@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
 // modules
-var cli = require('../lib/cli'),
-    argv = require('optimist').argv;
+var path = require('path'),
+    argv = require('optimist').argv,
+    cli = require(path.resolve(__dirname, '..', 'lib', 'cli'));
 
 // init cli
 cli(argv);
