@@ -1,39 +1,45 @@
 {
   "private": "true",
-  "name": "icono",
-  "version": "0.0.1",
+  "name": "iconr",
+  "version": "0.1.0",
   "description": "CLI tool that takes a directory of SVG images and outputs a CSS file and a directory of PNG images as a fallback.",
-  "main": "./bin/icono.js",
+  "main": "./bin/iconr.js",
   "bin": {
-    "icono": "./bin/icono.js"
+    "iconr": "./bin/iconr.js"
   },
   "keywords": [
     "svg",
     "png",
     "css",
+    "datauri",
     "fallback"
   ],
   "dependencies": {
-    "commander": "1.2.x",
-    "lodash": "1.3.x"
+    "optimist": "0.6.x",
+    "svgo": "0.3.7",
+    "underscore": "1.5.x"
+  },
+  "devDependencies": {
+    "coffee-script":  "1.6.x",
+    "uglify-js":  "~2.2"
   },
   "scripts": {
     "test": ""
   },
+  "engines": {
+    "node": ">=0.10.0",
+    "npm": ">=1.2.x"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/okize/icono.git"
+    "url": "https://github.com/okize/iconr.git"
   },
-  "bugs": "https://github.com/okize/icono/issues",
-  "homepage": "https://github.com/okize/icono/",
+  "bugs": "https://github.com/okize/iconr/issues",
+  "homepage": "https://github.com/okize/iconr/",
   "author": {
     "name": "Morgan Wigmanich",
     "email": "okize123@gmail.com",
     "url": "https://github.com/okize"
   },
-  "license": "MIT",
-  "engines": {
-    "node": "0.10.x",
-    "npm": "1.2.x"
-  }
+  "license": "MIT"
 }
