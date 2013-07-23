@@ -1,4 +1,5 @@
 *.coffee
-examples/
 src/
 test/
+docs/
+examples/
