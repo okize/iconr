@@ -18,8 +18,14 @@ displayHelp = ->
 
 module.exports = (argv) ->
 
+  # flags we care about for app operation
+  flags =
+    verbose: if argv.verbose or argv.v then true else false
+    pretty: if argv.pretty or argv.p then true else false
+    debug: if argv.debug or argv.d then true else false
+
   # args passed
-  return iconr(argv._) if argv._.length > 0
+  return iconr(argv._, flags) if argv._.length > 0
 
   # --version
   return displayVersion() if argv.version or argv.V
