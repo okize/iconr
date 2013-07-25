@@ -1,7 +1,18 @@
 {
 
   "info": {
-    "genericMessage": "%s"
+    "genericMessage": "%s",
+    "appStart": "Starting conversion of SVG images",
+    "filterNonSvg": "Filtering out any non-SVG files",
+    "readingSvg": "Reading SVG data",
+    "optimizingSvg": "Optimizing SVGs",
+    "encodingSvg": "Encoding SVGs into data URIs",
+    "convertingSvg": "Converting SVGs into PNGs (this could take a while)",
+    "readingPng": "Reading PNG data",
+    "encodingPng": "Encoding PNGs into data URIs",
+    "generatingCss": "Generating CSS rules",
+    "saveCss": "Saving CSS file",
+    "appEnd": "Finished!"
   },
 
   "error": {
