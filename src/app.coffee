@@ -3,19 +3,20 @@ fs = require('fs')
 path = require('path')
 _ = require('underscore')
 Q = require('q')
-svg2png = require('svg2png')
 util = require( path.resolve(__dirname, './', 'util') )
 log = require( path.resolve(__dirname, './', 'log') )
 
-ut = require('util')
-Q.longStackSupport = true
+pretty = require('PrettyCSS')
 
 # Q wrappers for some node methods
 readDir = Q.denodeify fs.readdir
 readFile = Q.denodeify fs.readFile
+writeFile = Q.denodeify fs.writeFile
 pathExists = Q.denodeify fs.exists
 
 module.exports = (args) ->
+
+  console.time('time-to-run'); # start timer
 
   # console.log args
 
@@ -26,7 +27,7 @@ module.exports = (args) ->
   # stores results through the promise chain
   results = []
 
-  # confirm directory exists
+  # confirm input directory exists
   pathExists inDir, (exists) ->
 
     if exists
@@ -41,13 +42,13 @@ module.exports = (args) ->
           queue = []
 
           filteredFiles.forEach (file) ->
-            filepath = path.resolve inDir, file
-            queue.push readFile(filepath, 'utf8')
+            svgPath = path.resolve inDir, file
+            queue.push readFile(svgPath, 'utf8')
 
             # add to results
             results.push
               name: util.trimExt file
-              filepath: filepath
+              svgpath: svgPath
 
           Q.all(queue)
 
@@ -75,13 +76,56 @@ module.exports = (args) ->
             _.extend results[i], svgData
 
         )
+        .then( -> # convert SVGs to PNGs
+
+          # console.log 'converting ' + results.length + ' SVGs to PNG'
+
+          queue = []
+
+          _.each results, (obj) ->
+            destFile = path.resolve(outDir, obj.name + '.png')
+            queue.push util.saveSvgAsPng(obj.svgpath, destFile)
+
+          Q.all(queue)
+
+        )
+        .then( (pngPaths) -> # read PNGs into memory
+
+          # console.log 'conversion complete'
+
+          queue = []
+
+          pngPaths.forEach (path, i) ->
+            queue.push readFile(path, 'utf8')
+            _.extend results[i], pngpath: path # add to results
+
+          Q.all(queue)
+
+        )
+        .then( (pngData) -> # convert PNGs to data strings
+
+          pngData.forEach (data, i) ->
+            _.extend results[i], pngdatauri: util.encodeImage(data, 'base64', 'png') # add to results
+
+        )
+        .then( -> # save a CSS file from the results
+
+          css = util.createCss results
+
+        )
         .then( ->
-          console.log JSON.stringify results, null, ' '
+
+          # if debug expose results object
+          # console.log JSON.stringify results, null, ' '
+
         )
         .fail( (error) ->
           log.data 'error', error
         )
-        .done()
+        .finally( ->
+          console.timeEnd('time-to-run'); # end timer
+        )
+        .done() # finished!
 
     else
       log.msg 'error', 'wrongDirectory'
