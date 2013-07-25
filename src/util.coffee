@@ -1,10 +1,11 @@
 # modules
-fs = require('fs')
-mime = require('mime')
-_ = require('underscore')
-Q = require('q')
+fs = require 'fs'
+mime = require 'mime'
+_ = require 'underscore'
+Q = require 'q'
 svgo = new (require('svgo'))()
-svg2png = require('svg2png')
+svg2png = require 'svg2png'
+pretty = require 'cssbeautify'
 
 module.exports =
 
@@ -48,18 +49,23 @@ module.exports =
     d.promise
 
   # returns a string that can be saved as a CSS file
-  createCss: (results) ->
-    results
+  createCssRules: (results) ->
+    str = ''
+    _.each results, (res, i) ->
+      str +=
+        '.' + res.name + '{' +
+        'height:' + res.height + 'px;' +
+        'width:' + res.width + 'px;' +
+        'background-image:url(' + res.svgdatauri + ');' +
+        '}' +
+        '.no-inlinesvg .' + res.name + '{' +
+        'background-image:url(' + res.pngdatauri + ');' +
+        '}' +
+        '.no-datauri .' + res.name + '{' +
+        'background-image:url(' + res.pngpath + ');' +
+        '}';
+    str
 
-
-    # _.each results, (obj) ->
-    #   console.log obj.pngdatauri.length
-
-
-
-    # .then( (filteredFiles) ->
-    #   console.log 'starting SVG to PNG conversion...'
-    #   _.each filteredFiles, (file) ->
-    #     svg2png path.resolve(inDir, file), path.resolve(outDir, util.trimExt(file)) + '.png', (err) ->
-    #       throw err if err
-    # )
+  # returns a "beautified" version of a css string
+  prettyCss: (str) ->
+    pretty str

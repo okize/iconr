@@ -1,21 +1,19 @@
 # modules
-path = require('path')
-fs = require('fs')
-iconr = require(path.join(__dirname, '..', 'lib', 'app'))
+path = require 'path'
+fs = require 'fs'
+iconr = require path.join(__dirname, '..', 'lib', 'app')
 
 # output version number of app
 displayVersion = ->
 
-  pkg = require(path.join(__dirname, '..', 'package.json'))
+  pkg = require path.join(__dirname, '..', 'package.json')
   console.log pkg.version
 
 # output help documentation of app
 displayHelp = ->
 
-  filepath = undefined
-  doc = undefined
-  filepath = path.join(__dirname, '..', 'txt', 'help.txt')
-  doc = fs.readFileSync(filepath, 'utf8')
+  filepath = path.join(__dirname, '..', 'lang', 'help.txt')
+  doc = fs.readFileSync filepath, 'utf8'
   console.log '\n' + doc + '\n'
 
 module.exports = (argv) ->

@@ -1,7 +1,7 @@
 # modules
-path = require('path')
-colors = require('colors')
-messages = require( path.resolve(__dirname, '..', 'lang', 'messages.json') )
+path = require 'path'
+colors = require 'colors'
+messages = require path.resolve(__dirname, '..', 'lang', 'messages.json')
 
 # configuration for command line colorization
 colorMap =
