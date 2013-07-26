@@ -17,4 +17,4 @@ Options:
 
 Examples:
 
-  $ iconr ./svgIcons ./
+  $ iconr ./svgIcons ./svgCss -v
