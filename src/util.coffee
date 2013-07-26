@@ -1,5 +1,6 @@
 # modules
 fs = require 'fs'
+path = require 'path'
 mime = require 'mime'
 _ = require 'underscore'
 Q = require 'q'
@@ -27,9 +28,9 @@ module.exports =
     filename.replace(/\.[^/.]+$/, '')
 
   # removes files from a list that aren't SVG images
-  filterNonSvgFiles: (files) ->
+  filterNonSvgFiles: (files, dir) ->
     _.filter files, (file) ->
-      # fs.statSync( path.join(inDir + '/' + file) ).isFile() == true &&
+      fs.statSync( path.join(dir + '/' + file) ).isFile() == true &&
       mime.lookup(file) == 'image/svg+xml'
 
   # returns an optimized SVG data string as a promise
