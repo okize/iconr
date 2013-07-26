@@ -18,7 +18,7 @@ module.exports =
     messages[type][key]
 
   # logs requested message to the console
-  msg: (type, key, data) ->
+  log: (type, key, data) ->
     if typeof data is 'undefined'
       data = ''
     console.log messages[type][key][colorMap[type]], data
@@ -36,9 +36,11 @@ module.exports =
   # logs a summary message of application operation totals
   summary: (log) ->
     totalTime = (log.appEnd - log.appStart) / 1000000
-    console.log '===SUMMARY==='.blue
+    console.log '\n'
+    console.log ' SUMMARY: '.white.inverse
     console.log '* converted ' + log.svgCount + ' SVG images totaling ' + log.svgSize + ' bytes'
-    console.log '* time: ' + totalTime + ' seconds'
+    console.log '* it took ' + totalTime + ' seconds'
+    console.log '\n'
 
   # dumps a json object to console
   dump: (json) ->

@@ -19,7 +19,7 @@ module.exports = (args, opts) ->
   # temp (these will be passed as arguments)
   inDir = path.resolve(__dirname, '..', 'test', 'inDir')
   outDir = path.resolve(__dirname, '..', 'test', 'outDir')
-  resultsTemp = require(path.resolve(__dirname, '../test', 'results.json'))
+  # results = require(path.resolve(__dirname, '../test', 'results.json'))
 
   # name of the CSS file output
   cssFilename = 'iconr.css'
@@ -38,6 +38,9 @@ module.exports = (args, opts) ->
       svgCount: 0
       svgSize: 0
 
+  # starting app
+  msg.log 'info', 'appStart' if opts.verbose
+
   # confirm input directory exists
   pathExists inDir, (exists) ->
 
@@ -45,14 +48,21 @@ module.exports = (args, opts) ->
 
       # read files in directory
       readDir(inDir)
-        .then( (files) -> # filter anything that isn't an SVG
+        .then( (files) ->
+
+          # filter anything that isn't an SVG
+          msg.log 'info', 'filterNonSvg' if opts.verbose
+
           util.filterNonSvgFiles files
+
         )
-        .then( (filteredFiles) -> # read SVG data into an array
+        .then( (filteredFiles) ->
+
+          # read SVGs into memory
+          msg.log 'info', 'readingSvg' if opts.verbose
 
           # log icon count
-          if opts.verbose
-            log.svgCount = filteredFiles.length
+          log.svgCount = filteredFiles.length if opts.verbose
 
           queue = []
 
@@ -61,8 +71,7 @@ module.exports = (args, opts) ->
             queue.push readFile(svgPath, 'utf8')
 
             # log total file size of the SVG files we're optimizing
-            if opts.verbose
-              log.svgSize += fs.statSync(svgPath).size
+            log.svgSize += fs.statSync(svgPath).size if opts.verbose
 
             # add to results
             results.push
@@ -72,85 +81,104 @@ module.exports = (args, opts) ->
           Q.all(queue)
 
         )
-        # .then( (svgData) -> # optimize SVG data and get width & heights
+        .then( (svgData) ->
 
-        #   queue = []
+          # optimize SVG data and get width & heights
+          msg.log 'info', 'optimizingSvg' if opts.verbose
 
-        #   svgData.forEach (svg) ->
-        #     queue.push util.optimizeSvg(svg)
+          queue = []
 
-        #   Q.all(queue)
+          svgData.forEach (svg) ->
+            queue.push util.optimizeSvg(svg)
 
-        # )
-        # .then( (data) -> # merge compressed SVG data into results
-
-        #   _.each data, (obj, i) ->
-
-        #     svgData =
-        #       svgsrc: obj.data
-        #       svgdatauri: util.encodeImage(obj.data, 'base64', 'svg')
-        #       height: util.roundNum(obj.info.height)
-        #       width: util.roundNum(obj.info.width)
-
-        #     _.extend results[i], svgData
-
-        # )
-        # .then( -> # convert SVGs to PNGs
-
-        #   # console.log 'converting SVGs to PNG'
-
-        #   queue = []
-
-        #   _.each results, (obj) ->
-        #     destFile = path.resolve(outDir, obj.name + '.png')
-        #     queue.push util.saveSvgAsPng(obj.svgpath, destFile)
-
-        #   Q.all(queue)
-
-        # )
-        # .then( (pngPaths) -> # read PNGs into memory
-
-        #   # console.log 'conversion complete'
-
-        #   queue = []
-
-        #   pngPaths.forEach (path, i) ->
-        #     queue.push readFile(path, 'utf8')
-        #     _.extend results[i], pngpath: path # add to results
-
-        #   Q.all(queue)
-
-        # )
-        # .then( (pngData) -> # convert PNGs to data strings
-
-        #   pngData.forEach (data, i) ->
-        #     _.extend results[i], pngdatauri: util.encodeImage(data, 'base64', 'png') # add to results
-
-        # )
-        .then( -> # generate a string of CSS rules from the results
-
-          iconrHeader + util.createCssRules resultsTemp
+          Q.all(queue)
 
         )
-        .then( (cssString) -> # save generated CSS to file
+        .then( (data) ->
+
+          # merge compressed & encoded SVG data into results
+          msg.log 'info', 'encodingSvg' if opts.verbose
+
+          _.each data, (obj, i) ->
+
+            svgData =
+              svgsrc: obj.data
+              svgdatauri: util.encodeImage(obj.data, 'base64', 'svg')
+              height: util.roundNum(obj.info.height)
+              width: util.roundNum(obj.info.width)
+
+            _.extend results[i], svgData
+
+        )
+        .then( ->
+
+          # convert SVGs to PNGs
+          msg.log 'info', 'convertingSvg' if opts.verbose
+
+          queue = []
+
+          _.each results, (obj) ->
+            destFile = path.resolve(outDir, obj.name + '.png')
+            queue.push util.saveSvgAsPng(obj.svgpath, destFile)
+
+          Q.all(queue)
+
+        )
+        .then( (pngPaths) ->
+
+          # read PNGs into memory
+          msg.log 'info', 'readingPng' if opts.verbose
+
+          queue = []
+
+          pngPaths.forEach (path, i) ->
+            queue.push readFile(path, 'utf8')
+            _.extend results[i], pngpath: path # add to results
+
+          Q.all(queue)
+
+        )
+        .then( (pngData) ->
+
+          # convert PNGs to data strings
+          msg.log 'info', 'encodingPng' if opts.verbose
+
+          pngData.forEach (data, i) ->
+            _.extend results[i], pngdatauri: util.encodeImage(data, 'base64', 'png') # add to results
+
+        )
+        .then( ->
+
+          # generate a string of CSS rules from the results
+          msg.log 'info', 'generatingCss' if opts.verbose
+
+          iconrHeader + util.createCssRules results
+
+        )
+        .then( (cssString) ->
+
+          # save generated CSS to file
+          msg.log 'info', 'saveCss' if opts.verbose
 
           # if pretty print is required
-          if opts.pretty
-            cssString = util.prettyCss cssString
+          cssString = util.prettyCss cssString if opts.pretty
 
           writeFile path.resolve(outDir, '..', cssFilename), cssString
 
         )
-        .fail( (error) -> # errors should output here
+        .fail( (error) ->
 
+          # errors should output here
           msg.data 'error', error
 
         )
         .finally( ->
 
           # in debug mode also expose results object
-          if opts.debug
-            msg.dump resultsTemp
+          msg.dump results if opts.debug
+
+          # finished!
+          msg.log 'info', 'appEnd' if opts.verbose
 
           # log a summary message if in verbose mode
           if opts.verbose
@@ -158,7 +186,7 @@ module.exports = (args, opts) ->
             msg.summary log
 
         )
-        .done() # finished!
+        .done()
 
     else
       msg.log 'error', 'wrongDirectory'
