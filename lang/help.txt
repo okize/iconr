@@ -1,16 +1,19 @@
 Usage:
 
-  iconr [inputDirectory] [outputDirectory]
+  iconr -options [inputDirectory] [outputDirectory]
 
 Description:
 
-  Parses a directory of SVG images and outputs a css file of inlined data-uris as well as a directory of PNG images for fallback.
+  Parses a directory of SVG images and outputs a CSS file of inlined data URIs as well as a directory of PNG images for fallback.
 
 Options:
 
   -h, --help           Output usage information
   -V, --version        Output version number
+  -p, --pretty         Output CSS in a "beautified" format
+  -v, --verbose        Verbose mode: log application progress to the console
+  -d, --debug          Debug mode: will output additional information for development
 
 Examples:
 
-  $ iconr ./svgIcons ./css
+  $ iconr ./svgIcons ./
