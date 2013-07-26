@@ -1,5 +1,4 @@
 {
-  "private": "true",
   "name": "iconr",
   "version": "0.1.0",
   "description": "CLI tool that takes a directory of SVG images and outputs a CSS file and a directory of PNG images as a fallback.",
@@ -20,6 +19,7 @@
     "colors": "0.6.x",
     "microtime": "0.4.x",
     "mime": "1.2.x",
+    "mkdirp": "0.3.5",
     "optimist": "0.6.x",
     "q": "0.9.x",
     "svgo": "0.3.7",
