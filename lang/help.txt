@@ -11,8 +11,9 @@ Options:
   -h, --help           Output usage information
   -V, --version        Output version number
   -p, --pretty         Output CSS in a "beautified" format
-  -v, --verbose        Verbose mode: log application progress to the console
   -d, --debug          Debug mode: will output additional information for development
+  -v, --verbose        Verbose mode: log application progress to the console
+  -s, --summary        Displays a summary of application process tasks
 
 Examples:
 
