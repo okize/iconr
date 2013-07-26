@@ -31,15 +31,17 @@ module.exports =
     if type is 'error'
       console.error msg[colorMap[type]], data
     else
-      console.error msg[colorMap[type]], data
+      console.log msg[colorMap[type]], data
 
   # logs a summary message of application operation totals
   summary: (log) ->
     totalTime = (log.appEnd - log.appStart) / 1000000
     console.log '\n'
-    console.log ' SUMMARY: '.white.inverse
-    console.log '* converted ' + log.svgCount + ' SVG images totaling ' + log.svgSize + ' bytes'
-    console.log '* it took ' + totalTime + ' seconds'
+    console.log ' ' + ' SUMMARY: '.yellow.inverse
+    console.log ' - converted '.yellow + log.svgCount + ' SVG images totaling '.yellow + log.svgSize + ' bytes'.yellow
+    # console.log ' - into a CSS file that is '.yellow + log.cssSize + ' bytes'.yellow
+    console.log ' - it took '.yellow + totalTime + ' seconds'.yellow
+    console.log ' - an average of '.yellow + (totalTime / log.svgCount) + ' seconds per icon'.yellow
     console.log '\n'
 
   # dumps a json object to console
