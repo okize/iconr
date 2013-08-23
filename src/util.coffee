@@ -20,7 +20,7 @@ module.exports =
 
     if type is 'base64'
       str = ';base64,'
-      encoded = new Buffer(data).toString('base64')
+      encoded = new Buffer(data).toString 'base64'
     else
       encoded = encodeURIComponent(new Buffer(data).toString())
 
@@ -71,7 +71,7 @@ module.exports =
         'background-image:url(' + res.pngdatauri + ');' +
         '}' +
         '.no-datauri .' + res.name + '{' +
-        'background-image:url(' + res.pngpath + ');' +
+        'background-image:url("' + res.pngpath + '");' +
         '}';
     str
 
