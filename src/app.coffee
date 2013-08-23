@@ -166,7 +166,7 @@ module.exports = (args, opts) ->
       queue = []
 
       pngPaths.forEach (path, i) ->
-        queue.push readFile(path, 'utf8')
+        queue.push readFile(path, null)
         _.extend results[i], pngpath: path # add to results
 
       Q.all(queue)
