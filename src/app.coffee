@@ -6,6 +6,11 @@ Q = require 'q'
 colors = require 'colors'
 microtime = require 'microtime'
 mkdirp = require 'mkdirp'
+Progger = require 'progger'
+p = new Progger
+  speed: 100
+  token: '.'
+  color: 'blue'
 util = require path.resolve(__dirname, './', 'util')
 msg = require path.resolve(__dirname, './', 'msg')
 
@@ -122,9 +127,11 @@ module.exports = (args, opts) ->
 
       _.each data, (obj, i) ->
 
+        encoding = if opts.base64 then 'base64' else ''
+
         svgData =
           svgsrc: obj.data
-          svgdatauri: util.encodeImage(obj.data, 'base64', 'svg')
+          svgdatauri: util.encodeImage(obj.data, encoding, 'svg')
           height: util.roundNum(obj.info.height)
           width: util.roundNum(obj.info.width)
 
@@ -142,10 +149,16 @@ module.exports = (args, opts) ->
         destFile = path.resolve(pngDir, obj.name + '.png')
         queue.push util.saveSvgAsPng(obj.svgpath, destFile)
 
+      # start progress dots
+      p.start()
+
       Q.all(queue)
 
     )
     .then( (pngPaths) ->
+
+      # stop progress dots
+      p.stop()
 
       # read PNGs into memory
       msg.log 'info', 'readingPng' if opts.verbose
@@ -165,7 +178,8 @@ module.exports = (args, opts) ->
       msg.log 'info', 'encodingPng' if opts.verbose
 
       pngData.forEach (data, i) ->
-        _.extend results[i], pngdatauri: util.encodeImage(data, 'base64', 'png') # add to results
+        # add to results
+        _.extend results[i], pngdatauri: util.encodeImage(data, 'base64', 'png')
 
     )
     .then( ->
@@ -201,7 +215,7 @@ module.exports = (args, opts) ->
     .finally( ->
 
       # in debug mode also expose results object
-      msg.dump results if opts.debug
+      # msg.dump results if opts.debug
 
       # log a summary message if in verbose mode
       if opts.summary && showSummary

@@ -23,6 +23,7 @@ module.exports = (argv) ->
     verbose: if argv.verbose or argv.v then true else false
     summary: if argv.summary or argv.s then true else false
     pretty: if argv.pretty or argv.p then true else false
+    base64: if argv.base64 or argv.b then true else false
     debug: if argv.debug or argv.d then true else false
 
   # args passed

@@ -12,11 +12,19 @@ module.exports =
 
   # returns binary data as encoded string
   encodeImage: (data, type, format) ->
+    str = ','
+
     formatMap =
-      'svg': '\'data:image/svg+xml;base64,',
-      'png': '\'data:image/png;base64,'
-    encoded = new Buffer(data).toString(type)
-    formatMap[format] + encoded + '\''
+      'svg': '\'data:image/svg+xml',
+      'png': '\'data:image/png'
+
+    if type is 'base64'
+      str = ';base64,'
+      encoded = new Buffer(data).toString('base64')
+    else
+      encoded = encodeURIComponent(new Buffer(data).toString())
+
+    formatMap[format] + str + encoded + '\''
 
   # returns a rounded string from a float or string
   roundNum: (num) ->
