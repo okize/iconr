@@ -1,6 +1,6 @@
 Usage:
 
-  iconr -options [inputDirectory] [outputDirectory]
+  iconr [inputDirectory] [outputDirectory] -options
 
 Description:
 
@@ -11,9 +11,10 @@ Options:
   -h, --help           Output usage information
   -V, --version        Output version number
   -p, --pretty         Output CSS in a "beautified" format
-  -d, --debug          Debug mode: will output additional information for development
+  -b, --b64            Base64 encode SVG data URI
   -v, --verbose        Verbose mode: log application progress to the console
   -s, --summary        Displays a summary of application process tasks
+  -d, --debug          Debug mode: will output additional information for development
 
 Examples:
 
