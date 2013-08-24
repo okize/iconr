@@ -226,6 +226,9 @@ module.exports = (args, opts) ->
       # errors should output here
       console.log error.stack if opts.debug
 
+      # if there's errors don't show summary
+      showSummary = false
+
     )
     .finally( ->
 
