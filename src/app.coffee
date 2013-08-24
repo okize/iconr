@@ -202,6 +202,21 @@ module.exports = (args, opts) ->
 
       writeFile path.resolve(outDir, cssFilename), cssString
 
+    )
+    .then( ->
+
+      # number of bytes that will cause IE8 to choke on a datauri
+      tooLarge = 32768
+
+      # check the size of the datauris and throw warning if too big
+      results.forEach (res) ->
+        size = res.pngdatauri.length
+        if size >= tooLarge
+          msg.log 'warn', 'largeDataUri', res.name + ' (' + size + ' bytes)'
+
+    )
+    .then( ->
+
       # finished!
       msg.log 'info', 'appEnd' if opts.verbose
 
