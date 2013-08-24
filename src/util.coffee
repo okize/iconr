@@ -30,6 +30,16 @@ module.exports =
   roundNum: (num) ->
     Math.round(num).toString()
 
+  # checks if there are spaces in the filename
+  hasSpace: (filename) ->
+    filename.indexOf(' ') >= 0
+
+  # replaces spaces in filenames with dashes
+  replaceSpaces: (filename, inDir) ->
+    if this.hasSpace(filename) is true
+      newFilename = filename.split(' ').join('-')
+      fs.renameSync(inDir + '/' + filename, inDir + '/' + newFilename)
+
   # trims file extension from filename
   trimExt: (filename) ->
     # return filename.split('.')[0]
