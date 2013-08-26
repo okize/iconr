@@ -81,7 +81,7 @@ module.exports =
         'background-image:url(' + res.pngdatauri + ');' +
         '}' +
         '.no-datauri .' + res.name + '{' +
-        'background-image:url("' + res.pngpath + '");' +
+        'background-image:url(\'' + res.pngpath + '\');' +
         '}';
     str
 
