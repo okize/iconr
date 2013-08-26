@@ -92,6 +92,10 @@ module.exports = (args, opts) ->
 
       queue = []
 
+      # replace spaces in any filenames
+      # filteredFiles.forEach (file) ->
+      #   util.replaceSpaces file, inDir
+
       filteredFiles.forEach (file) ->
         svgPath = path.resolve inDir, file
         queue.push readFile(svgPath, 'utf8')
@@ -99,7 +103,7 @@ module.exports = (args, opts) ->
         # log total file size of the SVG files we're optimizing
         log.svgSize += fs.statSync(svgPath).size if opts.verbose
 
-        # add to results
+        # add to results object
         results.push
           name: util.trimExt file
           svgpath: svgPath
@@ -167,7 +171,11 @@ module.exports = (args, opts) ->
 
       pngPaths.forEach (path, i) ->
         queue.push readFile(path, null)
-        _.extend results[i], pngpath: path # add to results
+
+        # make path relative to location of output css file then
+        # add to results object
+        pngpath = path.replace(outDir, '.')
+        _.extend results[i], pngpath: pngpath
 
       Q.all(queue)
 
@@ -178,7 +186,7 @@ module.exports = (args, opts) ->
       msg.log 'info', 'encodingPng' if opts.verbose
 
       pngData.forEach (data, i) ->
-        # add to results
+        # add to results object
         _.extend results[i], pngdatauri: util.encodeImage(data, 'base64', 'png')
 
     )
