@@ -1,6 +1,6 @@
 {
   "name": "iconr",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "CLI tool that takes a directory of SVG images and outputs a CSS file and a directory of PNG images as a fallback.",
   "preferGlobal": true,
   "main": "./bin/iconr.js",
