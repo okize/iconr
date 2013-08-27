@@ -15,6 +15,7 @@ Options:
   -f, --filename       Set filename of css output (default is iconr.css)
   -v, --verbose        Verbose mode: log application progress to the console
   -s, --summary        Displays a summary of application process tasks
+  -n, --nopng          Suppress creation of PNG fallback images
   -d, --debug          Debug mode: will output additional information for development
 
 Examples:
