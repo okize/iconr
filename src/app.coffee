@@ -6,6 +6,7 @@ Q = require 'q'
 colors = require 'colors'
 microtime = require 'microtime'
 mkdirp = require 'mkdirp'
+rimraf = require 'rimraf'
 Progger = require 'progger'
 p = new Progger
   speed: 100
@@ -175,10 +176,12 @@ module.exports = (args, opts) ->
       pngPaths.forEach (path, i) ->
         queue.push readFile(path, null)
 
+        # PNG fallbacks enabled
         # make path relative to location of output css file then
         # add to results object
-        pngpath = path.replace(outDir, '.')
-        _.extend results[i], pngpath: pngpath
+        if !opts.nopng
+          pngpath = path.replace(outDir, '.')
+          _.extend results[i], pngpath: pngpath
 
       Q.all(queue)
 
@@ -195,10 +198,22 @@ module.exports = (args, opts) ->
     )
     .then( ->
 
+      if opts.nopng
+
+        msg.log 'info', 'deletingPng' if opts.verbose
+
+        # delete generated PNG directory
+        rimraf pngDir, (error) ->
+          if error
+            throw error
+
+    )
+    .then( ->
+
       # generate a string of CSS rules from the results
       msg.log 'info', 'generatingCss' if opts.verbose
 
-      iconrHeader + util.createCssRules results
+      iconrHeader + util.createCssRules(results, opts)
 
     )
     .then( (cssString) ->
