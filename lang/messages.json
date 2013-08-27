@@ -10,6 +10,7 @@
     "convertingSvg": " - Converting SVGs into PNGs",
     "readingPng": " - Reading PNG data",
     "encodingPng": " - Encoding PNGs into data URIs",
+    "deletingPng": " - Deleting generated PNGs",
     "generatingCss": " - Generating CSS rules",
     "saveCss": " - Saving CSS file",
     "appEnd": " - Finished!"
@@ -23,12 +24,12 @@
   },
 
   "warn": {
-    "genericWarn": "%s",
-    "largeDataUri": " ! IE8 may have issues displaying %s because of the large size of it's data URI"
+    "genericWarn": " ⚠ %s",
+    "largeDataUri": " ⚠ IE8 will be unable to display %s because it's data URI is too large"
   },
 
   "ask": {
-    "genericAsk": "%s"
+    "genericAsk": " ? %s"
   }
 
 }
