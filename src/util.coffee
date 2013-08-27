@@ -68,21 +68,25 @@ module.exports =
     d.promise
 
   # returns a string that can be saved as a CSS file
-  createCssRules: (results) ->
+  createCssRules: (results, opts) ->
     str = ''
     _.each results, (res, i) ->
       str +=
-        '.' + res.name + '{' +
-        'height:' + res.height + 'px;' +
-        'width:' + res.width + 'px;' +
-        'background-image:url(' + res.svgdatauri + ');' +
-        '}' +
-        '.no-inlinesvg .' + res.name + '{' +
-        'background-image:url(' + res.pngdatauri + ');' +
-        '}' +
-        '.no-datauri .' + res.name + '{' +
-        'background-image:url(\'' + res.pngpath + '\');' +
-        '}';
+        ".#{res.name}{" +
+        "height:#{res.height}px;" +
+        "width:#{res.width}px;" +
+        "background-image:url(#{res.svgdatauri});" +
+        "}" +
+        ".no-inlinesvg .#{res.name}{" +
+        "background-image:url(#{res.pngdatauri});" +
+        "}"
+
+      # fallback PNG images
+      if !opts.nopng
+        str +=
+          ".no-datauri .#{res.name}{" +
+          "background-image:url('#{res.pngpath}');" +
+          "}"
     str
 
   # returns a "beautified" version of a css string
