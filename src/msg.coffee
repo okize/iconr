@@ -38,10 +38,10 @@ module.exports =
     totalTime = (log.appEnd - log.appStart) / 1000000
     console.log '\n'
     console.log ' ' + ' SUMMARY: '.magenta.inverse
-    console.log ' - converted '.magenta + log.svgCount + ' SVG images totaling '.magenta + log.svgSize + ' bytes'.magenta
-    console.log ' - into a CSS file that is '.magenta + log.cssSize + ' bytes'.magenta
-    console.log ' - it took '.magenta + totalTime + ' seconds'.magenta
-    console.log ' - an average of '.magenta + (totalTime / log.svgCount) + ' seconds per icon'.magenta
+    console.log ' ☉ converted '.magenta + log.svgCount + ' SVG images totaling '.magenta + log.svgSize + ' bytes'.magenta
+    console.log ' ☉ into a CSS file that is '.magenta + log.cssSize + ' bytes'.magenta
+    console.log ' ☉ it took '.magenta + totalTime + ' seconds'.magenta
+    console.log ' ☉ an average of '.magenta + (totalTime / log.svgCount) + ' seconds per icon'.magenta
     console.log '\n'
 
   # dumps a json object to console
