@@ -1,5 +1,4 @@
-node_modules/
-docs/
-test/
-plm-test/
-dev_notes
+/node_modules/
+/npm-debug.log
+/test/
+/plm-test/
