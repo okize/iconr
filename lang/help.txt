@@ -12,11 +12,12 @@ Options:
   -V, --version        Output version number
   -p, --pretty         Output CSS in a "beautified" format
   -b, --b64            Base64 encode SVG data URI
-  -f, --filename       Set filename of css output (default is iconr.css)
   -v, --verbose        Verbose mode: log application progress to the console
   -s, --summary        Displays a summary of application process tasks
   -n, --nopng          Suppress creation of PNG fallback images
   -d, --debug          Debug mode: will output additional information for development
+  -f, --filename       Set filename of css output (default is iconr.css)
+  -c, --classname      Set a prefix for css classes (default is filename)
 
 Examples:
 
