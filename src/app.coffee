@@ -93,10 +93,6 @@ module.exports = (args, opts) ->
 
       queue = []
 
-      # replace spaces in any filenames
-      # filteredFiles.forEach (file) ->
-      #   util.replaceSpaces file, inDir
-
       filteredFiles.forEach (file) ->
         svgPath = path.resolve inDir, file
         queue.push readFile(svgPath, 'utf8')
