@@ -69,15 +69,19 @@ module.exports =
 
   # returns a string that can be saved as a CSS file
   createCssRules: (results, opts) ->
+
+    # string to prefix classnames with
+    cssClassnamePrefix = if opts.classname? then opts.classname else ''
+
     str = ''
     _.each results, (res, i) ->
       str +=
-        ".#{res.name}{" +
+        ".#{cssClassnamePrefix + res.name}{" +
         "height:#{res.height}px;" +
         "width:#{res.width}px;" +
         "background-image:url(#{res.svgdatauri});" +
         "}" +
-        ".no-inlinesvg .#{res.name}{" +
+        ".no-inlinesvg .#{cssClassnamePrefix + res.name}{" +
         "background-image:url(#{res.pngdatauri});" +
         "}"
 
