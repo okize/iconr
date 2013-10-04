@@ -27,6 +27,7 @@ module.exports = (argv) ->
     nopng: if argv.nopng or argv.n then true else false
     debug: if argv.debug or argv.d then true else false
     filename: if argv.filename or argv.f then argv.filename else null
+    classname: if argv.classname or argv.c then argv.classname else ''
 
   # args passed
   return iconr(argv._, flags) if argv._.length > 0
