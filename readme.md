@@ -11,4 +11,4 @@ Expects [Modernizr](http://modernizr.com/) classes on front-end.
 
 Released under the [MIT License](http://www.opensource.org/licenses/mit-license.php).
 
-[![NPM](https://nodei.co/npm/iconr.png)](https://nodei.co/npm/iconr/)
+[![NPM](https://nodei.co/npm/iconr.png?downloads=true)](https://nodei.co/npm/iconr/)
