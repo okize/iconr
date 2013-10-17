@@ -80,20 +80,38 @@ module.exports = (args, opts) ->
     )
     .then( (filteredFiles) ->
 
-      # no SVG images found
+      # exit if no SVG images found
       if filteredFiles.length < 1
         showSummary = false
         return msg.log 'error', 'noSvg'
+
+      # stores like of files after spaces (if any) have been removed
+      spacelessFiles = []
+
+      # replace spaces in filenames
+      filteredFiles.forEach (filename) ->
+        if util.hasSpace(filename) is true
+          msg.log 'warn', 'spaceInFilename', filename if opts.verbose
+          newFilename = filename.split(' ').join('-')
+          spacelessFiles.push newFilename
+          util.replaceSpaceInFilename filename, newFilename, inDir
+        else
+         spacelessFiles.push filename
+
+      spacelessFiles
+
+    )
+    .then( (spacelessFiles) ->
 
       # read SVGs into memory
       msg.log 'info', 'readingSvg' if opts.verbose
 
       # log icon count
-      log.svgCount = filteredFiles.length if opts.verbose
+      log.svgCount = spacelessFiles.length if opts.verbose
 
       queue = []
 
-      filteredFiles.forEach (file) ->
+      spacelessFiles.forEach (file) ->
         svgPath = path.resolve inDir, file
         queue.push readFile(svgPath, 'utf8')
 

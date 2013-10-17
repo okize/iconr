@@ -35,10 +35,8 @@ module.exports =
     filename.indexOf(' ') >= 0
 
   # replaces spaces in filenames with dashes
-  replaceSpaces: (filename, inDir) ->
-    if this.hasSpace(filename) is true
-      newFilename = filename.split(' ').join('-')
-      fs.renameSync(inDir + '/' + filename, inDir + '/' + newFilename)
+  replaceSpaceInFilename: (oldFilename, newFilename, inDir) ->
+    fs.renameSync(inDir + '/' + oldFilename, inDir + '/' + newFilename)
 
   # trims file extension from filename
   trimExt: (filename) ->
