@@ -1,12 +1,14 @@
 # modules
 fs = require 'fs'
 path = require 'path'
+execFile = require('child_process').execFile
 mime = require 'mime'
 _ = require 'underscore'
 Q = require 'q'
 svgo = new (require('svgo'))()
-svg2png = require 'svg2png'
 pretty = require 'cssbeautify'
+phantomjs = path.resolve(__dirname, '../node_modules/phantomjs/bin/phantomjs')
+svgToPngFile = path.resolve(__dirname, './', 'svgToPng.js')
 
 module.exports =
 
@@ -58,18 +60,22 @@ module.exports =
     d.promise
 
   # spins up phantomjs and saves SVGs as PNGs
-  saveSvgAsPng: (inFile, outFile) ->
+  # phantomjs will output WARNINGS to stderr so ignore for now
+  saveSvgAsPng: (sourceFileName, destinationFileName, height, width) ->
+    args = [phantomjs, svgToPngFile, sourceFileName, destinationFileName, height, width]
     d = Q.defer()
-    svg2png inFile, outFile, (err) ->
-      d.reject new Error(err) if err
-      d.resolve outFile
+    execFile process.execPath, args, (err, stdout, stderr) ->
+      if err
+        d.reject new Error err
+      else if stdout.length > 0
+        d.reject new Error stdout.toString().trim()
+      else
+        d.resolve destinationFileName
     d.promise
 
   # returns a string that can be saved as a CSS file
   createCssRules: (results, opts) ->
-
-    # string to prefix classnames with
-    cssClassnamePrefix = if opts.classname? then opts.classname else ''
+    cssClassnamePrefix = if opts.classname? then opts.classname else '' # string to prefix classnames with
 
     str = ''
     _.each results, (res, i) ->
@@ -86,7 +92,7 @@ module.exports =
       # fallback PNG images
       if !opts.nopng
         str +=
-          ".no-datauri .#{res.name}{" +
+          ".no-datauri .#{cssClassnamePrefix + res.name}{" +
           "background-image:url('#{res.pngpath}');" +
           "}"
     str
