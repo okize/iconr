@@ -58,8 +58,9 @@ module.exports =
     d.promise
 
   # spins up phantomjs and saves SVGs as PNGs
-  saveSvgAsPng: (inFile, outFile) ->
+  saveSvgAsPng: (inFile, outFile, height, width) ->
     d = Q.defer()
+    console.log "height: #{height} | width: #{width}"
     svg2png inFile, outFile, (err) ->
       d.reject new Error(err) if err
       d.resolve outFile

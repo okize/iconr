@@ -166,7 +166,7 @@ module.exports = (args, opts) ->
 
       _.each results, (obj) ->
         destFile = path.resolve(pngDir, obj.name + '.png')
-        queue.push util.saveSvgAsPng(obj.svgpath, destFile)
+        queue.push util.saveSvgAsPng(obj.svgpath, destFile, obj.height, obj.width)
 
       # start progress dots
       p.start()
