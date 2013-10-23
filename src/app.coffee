@@ -96,7 +96,7 @@ module.exports = (args, opts) ->
           spacelessFiles.push newFilename
           util.replaceSpaceInFilename filename, newFilename, inDir
         else
-         spacelessFiles.push filename
+          spacelessFiles.push filename
 
       spacelessFiles
 
