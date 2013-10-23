@@ -7,6 +7,7 @@ Q = require 'q'
 svgo = new (require('svgo'))()
 svg2png = require 'svg2png'
 pretty = require 'cssbeautify'
+converter = require path.resolve(__dirname, './', 'converter')
 
 module.exports =
 
