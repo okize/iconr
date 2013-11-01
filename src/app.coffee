@@ -56,13 +56,12 @@ module.exports = (args, opts) ->
   results = []
 
   # logs data about the application operations
-  if opts.verbose
-    log =
-      appStart: microtime.now()
-      appEnd: 0
-      svgCount: 0
-      svgSize: 0
-      cssSize: 0
+  log =
+    appStart: microtime.now()
+    appEnd: 0
+    svgCount: 0
+    svgSize: 0
+    cssSize: 0
 
   # starting app
   msg.log 'info', 'appStart' if opts.verbose
@@ -107,7 +106,7 @@ module.exports = (args, opts) ->
       msg.log 'info', 'readingSvg' if opts.verbose
 
       # log icon count
-      log.svgCount = spacelessFiles.length if opts.verbose
+      log.svgCount = spacelessFiles.length
 
       queue = []
 
@@ -116,7 +115,7 @@ module.exports = (args, opts) ->
         queue.push readFile(svgPath, 'utf8')
 
         # log total file size of the SVG files we're optimizing
-        log.svgSize += fs.statSync(svgPath).size if opts.verbose
+        log.svgSize += fs.statSync(svgPath).size
 
         # add to results object
         results.push
@@ -235,7 +234,7 @@ module.exports = (args, opts) ->
       # if pretty print is required
       cssString = util.prettyCss cssString if opts.pretty
 
-      log.cssSize = cssString.length if opts.verbose
+      log.cssSize = cssString.length
 
       writeFile path.resolve(outDir, cssFilename), cssString
 
