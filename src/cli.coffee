@@ -25,6 +25,7 @@ module.exports = (argv) ->
     pretty: if argv.pretty or argv.p then true else false
     base64: if argv.base64 or argv.b then true else false
     nopng: if argv.nopng or argv.n then true else false
+    nofile: if argv.nofile or argv.N then true else false
     debug: if argv.debug or argv.d then true else false
     filename: if argv.filename or argv.f then argv.filename else null
     classname: if argv.classname or argv.c then argv.classname else ''
