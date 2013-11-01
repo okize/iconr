@@ -10,14 +10,15 @@ Options:
 
   -h, --help           Output usage information
   -V, --version        Output version number
-  -p, --pretty         Output CSS in a "beautified" format
-  -b, --b64            Base64 encode SVG data URI
-  -v, --verbose        Verbose mode: log application progress to the console
   -s, --summary        Displays a summary of application process tasks
-  -n, --nopng          Suppress creation of PNG fallback images
+  -v, --verbose        Verbose mode: log application progress to the console
   -d, --debug          Debug mode: will output additional information for development
   -f, --filename       Set filename of css output (default is iconr.css)
+  -N, --nofile         Use to output to stdout instead of saving to file
   -c, --classname      Set a prefix for css classes (default is filename)
+  -p, --pretty         Output CSS in a "beautified" format
+  -n, --nopng          Suppress creation of PNG fallback images
+  -b, --b64            Base64 encode SVG data URI
 
 Examples:
 
