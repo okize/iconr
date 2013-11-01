@@ -168,7 +168,7 @@ module.exports = (args, opts) ->
         queue.push util.saveSvgAsPng(obj.svgpath, destFile, obj.height, obj.width)
 
       # start progress dots
-      p.start()
+      p.start() if opts.verbose
 
       Q.all(queue)
 
@@ -176,7 +176,7 @@ module.exports = (args, opts) ->
     .then( (pngPaths) ->
 
       # stop progress dots
-      p.stop()
+      p.stop() if opts.verbose
 
       # read PNGs into memory
       msg.log 'info', 'readingPng' if opts.verbose
@@ -247,7 +247,7 @@ module.exports = (args, opts) ->
       # check the size of the datauris and throw warning if too big
       results.forEach (res) ->
         size = res.pngdatauri.length
-        if size >= tooLarge
+        if size >= tooLarge and opts.verbose
           msg.log 'warn', 'largeDataUri', res.name + ' (' + size + ' bytes)'
 
     )
