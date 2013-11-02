@@ -12,6 +12,7 @@
     "encodingPng": " - Encoding PNGs into data URIs",
     "deletingPng": " - Deleting generated PNGs",
     "generatingCss": " - Generating CSS rules",
+    "outputCss": " - Generated CSS:",
     "saveCss": " - Saving CSS file",
     "appEnd": " - Finished!"
   },
