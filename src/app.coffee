@@ -71,9 +71,9 @@ module.exports = (args, opts) ->
   readDir(inDir)
     .then( (files) ->
 
-      # filter anything that isn't an SVG
       msg.log 'info', 'filterNonSvg' if opts.verbose
 
+      # filter anything that isn't an SVG
       util.filterNonSvgFiles files, inDir
 
     )
@@ -84,7 +84,7 @@ module.exports = (args, opts) ->
         showSummary = false
         return msg.log 'error', 'noSvg'
 
-      # stores like of files after spaces (if any) have been removed
+      # list of files after spaces (if any) have been removed
       spacelessFiles = []
 
       # replace spaces in filenames
