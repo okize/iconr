@@ -24,21 +24,19 @@ pathExists = Q.denodeify fs.exists
 module.exports = (args, opts) ->
 
   # input argument of SVG image(s)
-  input = path.resolve(args[0])
+  inDir = input = path.resolve(args[0])
 
   # check if input is a file or a directory
   inputIsFile = fs.lstatSync(input).isFile()
   inputIsDir = fs.lstatSync(input).isDirectory()
 
-  inDir = path.resolve(args[0])
-
   # confirm input file exists
-  if inputIsFile
-    return msg.log 'error', 'wrongFile' if !fs.existsSync input
+  if inputIsFile && if !fs.existsSync input
+    return msg.log 'error', 'wrongFile'
 
   # confirm input directory exists
-  if inputIsDir
-    return msg.log 'error', 'wrongDirectory' if !fs.existsSync input
+  if inputIsDir && if !fs.existsSync input
+    return msg.log 'error', 'wrongDirectory'
 
   # no output directory provided
   return msg.log 'error', 'noOutDir' if args.length < 2
