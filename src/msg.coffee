@@ -33,8 +33,8 @@ module.exports =
     else
       console.log msg[colorMap[type]], data
 
-  # logs a summary message of application operation totals
-  summary: (log) ->
+  # logs analytics of application operation totals
+  analytics: (log) ->
     totalTime = (log.appEnd - log.appStart) / 1000000
     console.log '\n'
     console.log ' ' + ' SUMMARY: '.magenta.inverse
