@@ -31,12 +31,12 @@ module.exports = (args, opts) ->
   inputIsDir = fs.lstatSync(input).isDirectory()
 
   # confirm input file exists
-  if inputIsFile && if !fs.existsSync input
-    return msg.log 'error', 'wrongFile'
+  if inputIsFile
+    return msg.log 'error', 'wrongFile' if !fs.existsSync input
 
   # confirm input directory exists
-  if inputIsDir && if !fs.existsSync input
-    return msg.log 'error', 'wrongDirectory'
+  if inputIsDir
+    return msg.log 'error', 'wrongDirectory' if !fs.existsSync input
 
   # no output directory provided
   return msg.log 'error', 'noOutDir' if args.length < 2
