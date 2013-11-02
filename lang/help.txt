@@ -10,11 +10,11 @@ Options:
 
   -h, --help           Output usage information
   -V, --version        Output version number
-  -s, --summary        Displays a summary of application process tasks
+  -a, --analytics      Displays a summary of application process tasks
   -v, --verbose        Verbose mode: log application progress to the console
   -d, --debug          Debug mode: will output additional information for development
   -f, --filename       Set filename of css output (default is iconr.css)
-  -N, --nofile         Use this to output to stdout instead of saving a file
+  -o, --nofile         Use this to output to stdout instead of saving a file
   -c, --classname      Set a prefix for css classes (default classname is SVG filename)
   -p, --pretty         Output CSS in a "beautified" format
   -n, --nopng          Suppress creation of PNG fallback images

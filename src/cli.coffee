@@ -21,7 +21,7 @@ module.exports = (argv) ->
   # flags we care about for app operation
   flags =
     verbose: if argv.verbose or argv.v then true else false
-    summary: if argv.summary or argv.s then true else false
+    analytics: if argv.analytics or argv.a then true else false
     pretty: if argv.pretty or argv.p then true else false
     base64: if argv.base64 or argv.b then true else false
     nopng: if argv.nopng or argv.n then true else false
