@@ -75,14 +75,17 @@ module.exports =
 
   # returns a string that can be saved as a CSS file
   createCssRules: (results, opts) ->
-    cssClassnamePrefix = if opts.classname? then opts.classname else '' # string to prefix classnames with
+    # string to prefix classnames with
+    cssClassnamePrefix = if opts.classname? then opts.classname else ''
 
     str = ''
     _.each results, (res, i) ->
+      height = if not isNaN res.height then "height:#{res.height}px;" else ''
+      width = if not isNaN res.width then "width:#{res.width}px;" else ''
       str +=
         ".#{cssClassnamePrefix + res.name}{" +
-        "height:#{res.height}px;" +
-        "width:#{res.width}px;" +
+        "#{height}" +
+        "#{width}" +
         "background-image:url(#{res.svgdatauri});" +
         "}" +
         ".no-inlinesvg .#{cssClassnamePrefix + res.name}{" +
