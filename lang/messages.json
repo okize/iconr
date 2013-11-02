@@ -19,6 +19,7 @@
 
   "error": {
     "genericError": "%s",
+    "wrongFile": "Cannot resolve the input file path, was it entered correctly?",
     "wrongDirectory": "Cannot resolve the input directory path, was it entered correctly?",
     "noOutDir": "Please include an output directory",
     "noSvg": "No SVG images found in input directory!"
