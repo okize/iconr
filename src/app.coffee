@@ -223,7 +223,9 @@ module.exports = (args, opts) ->
       # generate a string of CSS rules from the results
       msg.log 'info', 'generatingCss' if opts.verbose
 
-      iconrHeader + util.createCssRules(results, opts)
+      str = if opts.nocomment then '' else iconrHeader
+
+      str + util.createCssRules(results, opts)
 
     )
     .then( (cssString) ->
