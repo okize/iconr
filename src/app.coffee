@@ -283,7 +283,6 @@ module.exports = (args, opts) ->
 
       # log the process analytics
       if opts.analytics && showAnalytics
-        console.log 'ANALYTICS!'
         log.appEnd = microtime.now()
         msg.analytics log
 
