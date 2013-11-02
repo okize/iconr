@@ -47,8 +47,20 @@ module.exports =
 
   # removes files from a list that aren't SVG images
   filterNonSvgFiles: (files, dir) ->
+    mimem = require("mime-magic")
+
     _.filter files, (file) ->
-      fs.statSync( path.join(dir + '/' + file) ).isFile() == true &&
+      filePath = path.join(dir + '/' + file)
+      fs.statSync(filePath).isFile() == true &&
+
+      console.log filePath
+
+      mimem filePath, (err, type) ->
+        if err
+          console.error err.message
+        else
+          console.log "Detected mime type: %s", type
+
       mime.lookup(file) == 'image/svg+xml'
 
   # returns an optimized SVG data string as a promise
