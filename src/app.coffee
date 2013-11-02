@@ -270,7 +270,7 @@ module.exports = (args, opts) ->
     .fail( (error) ->
 
       # errors should output here
-      console.log error.stack if opts.debug
+      process.stdout.write error.stack if opts.debug
 
       # if there's errors don't show analytics
       showAnalytics = false
@@ -283,7 +283,6 @@ module.exports = (args, opts) ->
 
       # log the process analytics
       if opts.analytics && showAnalytics
-        console.log 'ANALYTICS!'
         log.appEnd = microtime.now()
         msg.analytics log
 
