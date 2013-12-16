@@ -146,10 +146,11 @@ module.exports = (args, opts) ->
       _.each data, (obj, i) ->
 
         encoding = if opts.base64 then 'base64' else ''
+        svgOut = if opts.optimizesvg then obj.data else obj.original
 
         svgData =
-          svgsrc: obj.data
-          svgdatauri: util.encodeImage(obj.data, encoding, 'svg')
+          svgsrc: svgOut
+          svgdatauri: util.encodeImage(svgOut, encoding, 'svg')
           height: util.roundNum(obj.info.height)
           width: util.roundNum(obj.info.width)
 
