@@ -208,7 +208,7 @@ module.exports = (args, opts) ->
     )
     .then( ->
 
-      if opts.nopng || opts.nofile
+      if opts.nopng || opts.stdout
 
         msg.log 'info', 'deletingPng' if opts.verbose
 
@@ -233,7 +233,7 @@ module.exports = (args, opts) ->
       # prettify the CSS
       cssString = util.prettyCss cssString if opts.pretty
 
-      if opts.nofile
+      if opts.stdout
 
         # send generated CSS to stdout
         msg.log 'info', 'outputCss' if opts.verbose
