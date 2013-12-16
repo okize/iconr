@@ -52,10 +52,13 @@ module.exports =
       mime.lookup(file) == 'image/svg+xml'
 
   # returns an optimized SVG data string as a promise
+  # also appends the original SVG data to the SVGO output
   optimizeSvg: (data) ->
     d = Q.defer()
     svgo.optimize data, (result) ->
-      d.reject new Error(result.error) if result.error
+      if result.error
+        d.reject new Error(result.error)
+      result.original = data
       d.resolve result
     d.promise
 

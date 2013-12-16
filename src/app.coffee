@@ -146,10 +146,11 @@ module.exports = (args, opts) ->
       _.each data, (obj, i) ->
 
         encoding = if opts.base64 then 'base64' else ''
+        svgOut = if opts.optimizesvg then obj.data else obj.original
 
         svgData =
-          svgsrc: obj.data
-          svgdatauri: util.encodeImage(obj.data, encoding, 'svg')
+          svgsrc: svgOut
+          svgdatauri: util.encodeImage(svgOut, encoding, 'svg')
           height: util.roundNum(obj.info.height)
           width: util.roundNum(obj.info.width)
 
@@ -208,7 +209,7 @@ module.exports = (args, opts) ->
     )
     .then( ->
 
-      if opts.nopng || opts.nofile
+      if opts.nopng || opts.stdout
 
         msg.log 'info', 'deletingPng' if opts.verbose
 
@@ -223,7 +224,7 @@ module.exports = (args, opts) ->
       # generate a string of CSS rules from the results
       msg.log 'info', 'generatingCss' if opts.verbose
 
-      str = if opts.nocomment then '' else iconrHeader
+      str = if opts.killcomment then '' else iconrHeader
 
       str + util.createCssRules(results, opts)
 
@@ -233,7 +234,7 @@ module.exports = (args, opts) ->
       # prettify the CSS
       cssString = util.prettyCss cssString if opts.pretty
 
-      if opts.nofile
+      if opts.stdout
 
         # send generated CSS to stdout
         msg.log 'info', 'outputCss' if opts.verbose
