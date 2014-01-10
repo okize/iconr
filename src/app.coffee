@@ -5,8 +5,6 @@ _ = require 'underscore'
 Q = require 'q'
 colors = require 'colors'
 microtime = require 'microtime'
-mkdirp = require 'mkdirp'
-rimraf = require 'rimraf'
 Progger = require 'progger'
 p = new Progger
   speed: 100
