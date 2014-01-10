@@ -3,6 +3,8 @@
 ## Description
 Parses a directory of SVG images and outputs a CSS file of inlined data URIs as well as a directory of PNG images for fallback.
 
+![Iconr Screenshot](https://raw.github.com/okize/iconr/gh-pages/iconr-screenshot.gif)
+
 ## Dependencies
 
 Expects [Modernizr](http://modernizr.com/) classes on front-end.
