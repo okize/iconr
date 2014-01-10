@@ -7,7 +7,7 @@ Parses a directory of SVG images and outputs a CSS file of inlined data URIs as 
 
 ## Usage
 
-'''
+```
 Usage:
 
   iconr [inputDirectory] [outputDirectory] -options
@@ -36,7 +36,7 @@ Examples:
 
   $ iconr ./svgIcons ./svgCss -vao
   $ iconr ./images/svg-icons ./css -pn --filename="svg-icons.css"
-'''
+```
 
 ## Dependencies
 
