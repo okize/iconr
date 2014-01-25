@@ -29,8 +29,8 @@ module.exports = (argv) ->
     optimizesvg: if argv.optimizesvg or argv.o then true else false
     killcomment: if argv.killcomment or argv.k then true else false
     debug: if argv.debug or argv.d then true else false
-    filename: if argv.filename or argv.f then argv.filename else null
-    classname: if argv.classname or argv.c then argv.classname else ''
+    filename: if argv.filename or argv.f then argv.filename or argv.f else null
+    classname: if argv.classname or argv.c then argv.classname or argv.c else ''
 
   # args passed
   return iconr(argv._, flags) if argv._.length > 0
