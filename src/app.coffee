@@ -156,64 +156,72 @@ module.exports = (args, opts) ->
     )
     .then( ->
 
-      # convert SVGs to PNGs
-      msg.log 'info', 'convertingSvg' if opts.verbose
+      unless opts.nopngdata and opts.nopng
 
-      queue = []
+        # convert SVGs to PNGs
+        msg.log 'info', 'convertingSvg' if opts.verbose
 
-      _.each results, (obj) ->
-        destFile = path.resolve(pngDir, obj.name + '.png')
-        queue.push util.saveSvgAsPng(obj.svgpath, destFile, obj.height, obj.width)
+        queue = []
 
-      # start progress dots
-      p.start() if opts.verbose
+        _.each results, (obj) ->
+          destFile = path.resolve(pngDir, obj.name + '.png')
+          queue.push util.saveSvgAsPng(obj.svgpath, destFile, obj.height, obj.width)
 
-      Q.all(queue)
+        # start progress dots
+        p.start() if opts.verbose
+
+        Q.all(queue)
 
     )
     .then( (pngPaths) ->
 
-      # stop progress dots
-      p.stop() if opts.verbose
+      if pngPaths?
 
-      # read PNGs into memory
-      msg.log 'info', 'readingPng' if opts.verbose
+        # stop progress dots
+        p.stop() if opts.verbose
 
-      queue = []
+        # read PNGs into memory
+        msg.log 'info', 'readingPng' if opts.verbose
 
-      pngPaths.forEach (path, i) ->
-        queue.push readFile(path, null)
+        queue = []
 
-        # PNG fallbacks enabled
-        # make path relative to location of output css file then
-        # add to results object
-        if !opts.nopng
-          pngpath = path.replace(outDir, '.')
-          _.extend results[i], pngpath: pngpath
+        pngPaths.forEach (path, i) ->
+          queue.push readFile(path, null)
 
-      Q.all(queue)
+          # PNG fallbacks enabled
+          # make path relative to location of output css file then
+          # add to results object
+          if !opts.nopng
+            pngpath = path.replace(outDir, '.')
+            _.extend results[i], pngpath: pngpath
+
+        Q.all(queue)
 
     )
     .then( (pngData) ->
 
-      # convert PNGs to data strings
-      msg.log 'info', 'encodingPng' if opts.verbose
+      if pngData?
 
-      pngData.forEach (data, i) ->
-        # add to results object
-        _.extend results[i], pngdatauri: util.encodeImage(data, 'base64', 'png')
+        # convert PNGs to data strings
+        msg.log 'info', 'encodingPng' if opts.verbose
+
+        pngData.forEach (data, i) ->
+          # add to results object
+          _.extend results[i], pngdatauri: util.encodeImage(data, 'base64', 'png')
 
     )
     .then( ->
 
-      if opts.nopng || opts.stdout
+      if !opts.nopngdata and !opts.nopng
 
-        msg.log 'info', 'deletingPng' if opts.verbose
+        if opts.nopng || opts.stdout
 
-        # delete generated PNG directory
-        rimraf pngDir, (error) ->
-          if error
-            throw error
+          msg.log 'info', 'deletingPng' if opts.verbose
+
+          # delete generated PNG directory
+          rimraf pngDir, (error) ->
+            if error
+              throw error
 
     )
     .then( ->
@@ -249,14 +257,16 @@ module.exports = (args, opts) ->
     )
     .then( ->
 
-      # number of bytes that will cause IE8 to choke on a datauri
-      tooLarge = 32768
+      if !opts.nopngdata
 
-      # check the size of the datauris and throw warning if too big
-      results.forEach (res) ->
-        size = res.pngdatauri.length
-        if size >= tooLarge and opts.verbose
-          msg.log 'warn', 'largeDataUri', res.name + ' (' + size + ' bytes)'
+        # number of bytes that will cause IE8 to choke on a datauri
+        tooLarge = 32768
+
+        # check the size of the datauris and throw warning if too big
+        results.forEach (res) ->
+          size = res.pngdatauri.length
+          if size >= tooLarge and opts.verbose
+            msg.log 'warn', 'largeDataUri', res.name + ' (' + size + ' bytes)'
 
     )
     .then( ->
