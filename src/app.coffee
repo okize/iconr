@@ -230,15 +230,17 @@ module.exports = (args, opts) ->
       util.createCssRules(results, opts)
 
     )
-    .then( (cssString) ->
+    .then( (cssArray) ->
 
-      # prettify the CSS
-      cssString = util.prettyCss cssString if opts.pretty
+      cssString = util.mungeCss cssArray
 
       if opts.stdout
 
         # send generated CSS to stdout
         msg.log 'info', 'outputCss' if opts.verbose
+
+        # prettify the CSS if necessary
+        cssString = util.prettyCss cssString if opts.pretty
 
         process.stdout.write cssString
 
@@ -250,7 +252,7 @@ module.exports = (args, opts) ->
         # save generated CSS to file
         msg.log 'info', 'saveCss' if opts.verbose
 
-        util.saveCss outputDir, cssFilename, cssString
+        util.saveCss outputDir, cssFilename, cssArray, opts
 
     )
     .then( ->
