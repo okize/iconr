@@ -15,12 +15,15 @@ writeFile = Q.denodeify fs.writeFile
 
 module.exports =
 
+  # remove .css from end of filename if present
   trimFilename: (filename) ->
 
-    # if filename.match /\.css/gi
-    #   console.log 'match'
-    newFilename = filename
-    newFilename
+    index = filename.lastIndexOf('.css')
+
+    if index != -1
+      filename = filename.substring 0, index
+
+    filename
 
   # returns binary data as encoded string
   encodeImage: (data, type, format) ->
