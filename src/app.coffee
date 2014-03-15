@@ -24,22 +24,22 @@ pathExists = Q.denodeify fs.exists
 module.exports = (args, opts) ->
 
   # input directory of SVG icons
-  inDir = path.resolve(args[0])
+  inputDir = path.resolve(args[0])
 
   # confirm input directory exists
-  return msg.log 'error', 'wrongDirectory' if !fs.existsSync inDir
+  return msg.log 'error', 'wrongDirectory' if !fs.existsSync inputDir
 
   # no output directory provided
-  return msg.log 'error', 'noOutDir' if args.length < 2
+  return msg.log 'error', 'noOutputDir' if args.length < 2
 
   # output directory
-  outDir = path.resolve(args[1])
+  outputDir = path.resolve(args[1])
 
   # png directory
-  pngDir = outDir + '/images'
+  pngDir = outputDir + '/images'
 
   # if the output directory does not exist, create it
-  if !fs.existsSync outDir
+  if !fs.existsSync outputDir
     mkdirp pngDir
 
   # name of the CSS file output
@@ -65,13 +65,13 @@ module.exports = (args, opts) ->
 
   # start of promise chain
   # read files in directory
-  readDir(inDir)
+  readDir(inputDir)
     .then( (files) ->
 
       msg.log 'info', 'filterNonSvg' if opts.verbose
 
       # filter anything that isn't an SVG
-      util.filterNonSvgFiles files, inDir
+      util.filterNonSvgFiles files, inputDir
 
     )
     .then( (svgFiles) ->
@@ -90,7 +90,7 @@ module.exports = (args, opts) ->
           msg.log 'warn', 'spaceInFilename', filename if opts.verbose
           newFilename = filename.split(' ').join('-')
           filteredFiles.push newFilename
-          util.replaceSpaceInFilename filename, newFilename, inDir
+          util.replaceSpaceInFilename filename, newFilename, inputDir
         else
           filteredFiles.push filename
 
@@ -108,7 +108,7 @@ module.exports = (args, opts) ->
       queue = []
 
       filteredFiles.forEach (file) ->
-        svgPath = path.resolve inDir, file
+        svgPath = path.resolve inputDir, file
         queue.push readFile(svgPath, 'utf8')
 
         # log total file size of the SVG files we're optimizing
@@ -192,7 +192,7 @@ module.exports = (args, opts) ->
           # make path relative to location of output css file then
           # add to results object
           if !opts.nopng
-            pngpath = path.replace(outDir, '.')
+            pngpath = path.replace(outputDir, '.')
             _.extend results[i], pngpath: pngpath
 
         Q.all(queue)
@@ -252,7 +252,7 @@ module.exports = (args, opts) ->
         # save generated CSS to file
         msg.log 'info', 'saveCss' if opts.verbose
 
-        writeFile path.resolve(outDir, cssFilename), cssString
+        util.saveCss outputDir, cssFilename, cssString
 
     )
     .then( ->
