@@ -25,6 +25,7 @@ module.exports = (argv) ->
     pretty: if argv.pretty or argv.p then true else false
     base64: if argv.base64 or argv.b then true else false
     nopng: if argv.nopng or argv.n then true else false
+    nopngdata: if argv.nopngdata or argv.N then true else false
     stdout: if argv.stdout or argv.S then true else false
     optimizesvg: if argv.optimizesvg or argv.o then true else false
     killcomment: if argv.killcomment or argv.k then true else false
