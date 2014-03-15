@@ -13,7 +13,7 @@
     "deletingPng": " - Deleting generated PNGs",
     "generatingCss": " - Generating CSS rules",
     "outputCss": " - Generated CSS:",
-    "saveCss": " - Saving CSS file",
+    "saveCss": " - Saving CSS file(s)",
     "appEnd": " - Finished!"
   },
 
