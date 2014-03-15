@@ -20,7 +20,7 @@
   "error": {
     "genericError": "%s",
     "wrongDirectory": "Cannot resolve the input directory path, was it entered correctly?",
-    "noOutDir": "Please include an output directory",
+    "noOutputDir": "Please include an output directory",
     "noSvg": "No SVG images found in input directory!"
   },
 
