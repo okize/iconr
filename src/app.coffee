@@ -18,8 +18,6 @@ msg = require path.resolve(__dirname, './', 'msg')
 # Q wrappers for some node methods
 readDir = Q.denodeify fs.readdir
 readFile = Q.denodeify fs.readFile
-writeFile = Q.denodeify fs.writeFile
-pathExists = Q.denodeify fs.exists
 
 module.exports = (args, opts) ->
 
