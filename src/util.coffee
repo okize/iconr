@@ -97,10 +97,14 @@ module.exports =
         "#{height}" +
         "#{width}" +
         "background-image:url(#{res.svgdatauri});" +
-        "}" +
-        ".no-inlinesvg .#{cssClassnamePrefix + res.name}{" +
-        "background-image:url(#{res.pngdatauri});" +
         "}"
+
+      # fallback PNG data URI
+      if !opts.nopngdata
+        str +=
+          ".no-inlinesvg .#{cssClassnamePrefix + res.name}{" +
+          "background-image:url(#{res.pngdatauri});" +
+          "}"
 
       # fallback PNG images
       if !opts.nopng
