@@ -15,6 +15,7 @@ Options:
   -d, --debug          Debug mode: will output additional information for development
   -p, --pretty         Output CSS in a "beautified" format
   -b, --b64            Base64 encode SVG data URI (fallback PNG is always Base64)
+  -N, --nopngdata      Suppress creation of PNG fallback data URI (needed for IE8)
   -n, --nopng          Suppress creation of PNG fallback images (needed for < IE8)
   -o, --optimizesvg    Will attempt to optimize the SVG to minimize file size
   -c, --classname      Set a prefix for css classes (default classname is SVG filename)
