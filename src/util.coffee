@@ -123,7 +123,7 @@ module.exports =
           "}"
 
       # fallback PNG images
-      if !opts.nopng
+      if !opts.nopng && !opts.stdout
         cssNoDataUri +=
           ".no-datauri .#{cssClassnamePrefix + res.name}{" +
           "background-image:url('#{res.pngpath}');" +

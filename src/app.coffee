@@ -40,6 +40,11 @@ module.exports = (args, opts) ->
   if !fs.existsSync outputDir
     mkdirp pngDir
 
+  # if the sdout option
+  if opts.stdout
+    opts.verbose = false
+    opts.analytics = false
+
   # name of the CSS file output
   cssFilename = if opts.filename? then util.trimFilename(opts.filename) else 'iconr'
 
