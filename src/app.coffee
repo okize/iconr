@@ -215,16 +215,14 @@ module.exports = (args, opts) ->
     )
     .then( ->
 
-      if !opts.nopngdata and !opts.nopng
+      if opts.nopng || opts.stdout
 
-        if opts.nopng || opts.stdout
+        msg.log 'info', 'deletingPng' if opts.verbose
 
-          msg.log 'info', 'deletingPng' if opts.verbose
-
-          # delete generated PNG directory
-          rimraf pngDir, (error) ->
-            if error
-              throw error
+        # delete generated PNG directory
+        rimraf pngDir, (error) ->
+          if error
+            throw error
 
     )
     .then( ->
