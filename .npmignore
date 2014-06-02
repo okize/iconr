@@ -1,4 +1,6 @@
 *.coffee
+gulpfile*
+.jshintr
 src/
 test/
 samples/
