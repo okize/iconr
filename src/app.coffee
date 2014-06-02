@@ -1,7 +1,7 @@
 # modules
 fs = require 'fs'
 path = require 'path'
-_ = require 'underscore'
+_ = require 'lodash'
 Q = require 'q'
 colors = require 'colors'
 microtime = require 'microtime'
