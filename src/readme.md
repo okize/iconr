@@ -20,28 +20,9 @@ Expects [Modernizr](http://modernizr.com/) classes on front-end.
 Contributions and pull requests are very welcome. Please follow these guidelines when submitting new code.
 
 1. Make all changes in Coffeescript files, **not** JavaScript files.
-2. For feature changes, update both jQuery *and* Prototype versions
-3. Use `npm install -d` to install the correct development dependencies.
-4. Use `cake build` or `cake watch` to generate Iconr's JavaScript file and minified version.
-5. Don't touch the `VERSION` file
-6. Submit a Pull Request using GitHub.
-
-### Using CoffeeScript & Cake
-
-First, make sure you have the proper CoffeeScript / Cake set-up in place. We have added a package.json that makes this easy:
-
-```
-npm install -d
-```
-
-This will install `coffee-script` and `uglifyjs`.
-
-Once you're configured, building the JavasScript from the command line is easy:
-
-    cake build                # build Iconr from source
-    cake watch                # watch coffee/ for changes and build Iconr
-
-If you're interested, you can find the recipes in Cakefile.
+2. Use `npm install -d` to install the correct development dependencies.
+3. Use `gulp watch` to generate Iconr's compiled JavaScript files as you code.
+4. Submit a Pull Request using GitHub.
 
 ## License
 
