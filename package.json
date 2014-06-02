@@ -29,7 +29,12 @@
     "underscore": "1.6.x"
   },
   "devDependencies": {
-    "coffee-script": "1.6.x"
+    "coffee-script": "*",
+    "gulp": "*",
+    "gulp-clean": "*",
+    "gulp-coffee": "*",
+    "gulp-coffeelint": "*",
+    "gulp-util": "*"
   },
   "engines": {
     "node": ">=0.10.0",
