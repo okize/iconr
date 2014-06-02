@@ -34,6 +34,7 @@
     "gulp-clean": "*",
     "gulp-coffee": "*",
     "gulp-coffeelint": "*",
+    "gulp-template": "*",
     "gulp-util": "*"
   },
   "engines": {
