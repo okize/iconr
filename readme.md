@@ -1,4 +1,4 @@
-# iconr [![NPM version](https://badge.fury.io/js/iconr.png)](http://badge.fury.io/js/iconr) [![NPM version](https://david-dm.org/okize/iconr.png)](https://david-dm.org/okize/iconr)
+# iconr [![NPM version](http://img.shields.io/npm/v/iconr.svg?style=flat)](https://www.npmjs.org/package/iconr) [![Dependency Status](http://img.shields.io/david/okize/iconr.svg?style=flat)](https://david-dm.org/okize/iconr) [![Downloads](http://img.shields.io/npm/dm/iconr.svg?style=flat)](https://www.npmjs.org/package/iconr)
 
 ## Description
 Parses a directory of SVG images and outputs a CSS file of inlined data URIs as well as a directory of PNG images for fallback.
