@@ -1,4 +1,8 @@
-# iconr [![NPM version](http://img.shields.io/npm/v/iconr.svg?style=flat)](https://www.npmjs.org/package/iconr) [![Dependency Status](http://img.shields.io/david/okize/iconr.svg?style=flat)](https://david-dm.org/okize/iconr) [![Downloads](http://img.shields.io/npm/dm/iconr.svg?style=flat)](https://www.npmjs.org/package/iconr)
+[![NPM version](http://img.shields.io/npm/v/iconr.svg?style=flat)](https://www.npmjs.org/package/iconr)
+[![Dependency Status](http://img.shields.io/david/okize/iconr.svg?style=flat)](https://david-dm.org/okize/iconr)
+[![Downloads](http://img.shields.io/npm/dm/iconr.svg?style=flat)](https://www.npmjs.org/package/iconr)
+
+# Iconr
 
 ## Description
 Parses a directory of SVG images and outputs a CSS file of inlined data URIs as well as a directory of PNG images for fallback.
@@ -57,5 +61,3 @@ Contributions and pull requests are very welcome. Please follow these guidelines
 ## License
 
 Released under the [MIT License](http://www.opensource.org/licenses/mit-license.php).
-
-[![NPM](https://nodei.co/npm/iconr.png?downloads=true)](https://nodei.co/npm/iconr/)
