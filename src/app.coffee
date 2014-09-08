@@ -25,7 +25,7 @@ module.exports = (args, opts) ->
   inputDir = path.resolve(args[0])
 
   # confirm input directory exists
-  return msg.log 'error', 'wrongDirectory' if !fs.existsSync inputDir
+  return msg.log 'error', 'wrongDirectory' unless fs.existsSync inputDir
 
   # no output directory provided
   return msg.log 'error', 'noOutputDir' if args.length < 2
@@ -37,8 +37,7 @@ module.exports = (args, opts) ->
   pngDir = outputDir + '/images'
 
   # if the output directory does not exist, create it
-  if !fs.existsSync outputDir
-    mkdirp pngDir
+  mkdirp pngDir unless fs.existsSync outputDir
 
   # if the sdout option
   if opts.stdout
@@ -194,7 +193,7 @@ module.exports = (args, opts) ->
           # PNG fallbacks enabled
           # make path relative to location of output css file then
           # add to results object
-          if !opts.nopng
+          unless opts.nopng
             pngpath = path.replace(outputDir, '.')
             _.extend results[i], pngpath: pngpath
 
@@ -260,7 +259,7 @@ module.exports = (args, opts) ->
     )
     .then( ->
 
-      if !opts.nopngdata
+      unless opts.nopngdata
 
         # number of bytes that will cause IE8 to choke on a datauri
         tooLarge = 32768
