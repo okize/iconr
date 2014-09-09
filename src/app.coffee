@@ -15,6 +15,9 @@ p = new Progger
 util = require path.resolve(__dirname, './', 'util')
 msg = require path.resolve(__dirname, './', 'msg')
 
+# number of bytes that will cause IE8 to choke on a datauri
+TOO_BIG_FOR_IE8 = 32768
+
 # Q wrappers for some node methods
 readDir = Q.denodeify fs.readdir
 readFile = Q.denodeify fs.readFile
@@ -261,13 +264,10 @@ module.exports = (args, opts) ->
 
       unless opts.nopngdata
 
-        # number of bytes that will cause IE8 to choke on a datauri
-        tooLarge = 32768
-
         # check the size of the datauris and throw warning if too big
         results.forEach (res) ->
           size = res.pngdatauri.length
-          if size >= tooLarge and opts.verbose
+          if size >= TOO_BIG_FOR_IE8 and opts.verbose
             msg.log 'warn', 'largeDataUri', res.name + ' (' + size + ' bytes)'
 
     )
