@@ -78,7 +78,14 @@ module.exports =
   # spins up phantomjs and saves SVGs as PNGs
   # phantomjs will output WARNINGS to stderr so ignore for now
   saveSvgAsPng: (sourceFileName, destinationFileName, height, width) ->
-    args = [phantomjs, svgToPngFile, sourceFileName, destinationFileName, height, width]
+    args = [
+      phantomjs
+      svgToPngFile
+      sourceFileName
+      destinationFileName
+      height
+      width
+    ]
     d = Q.defer()
     execFile process.execPath, args, (err, stdout, stderr) ->
       if err

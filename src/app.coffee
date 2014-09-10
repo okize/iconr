@@ -48,7 +48,10 @@ module.exports = (args, opts) ->
     opts.analytics = false
 
   # name of the CSS file output
-  cssFilename = if opts.filename? then util.trimFilename(opts.filename) else 'iconr'
+  cssFilename =
+    if opts.filename?
+    then util.trimFilename(opts.filename)
+    else 'iconr'
 
   # this is necessary to prevent the analytics from displaying
   # during an application error
@@ -223,8 +226,7 @@ module.exports = (args, opts) ->
 
         # delete generated PNG directory
         rimraf pngDir, (error) ->
-          if error
-            throw error
+          throw error if error
 
     )
     .then( ->

@@ -22,8 +22,7 @@ convert = (source, destination, height, width) ->
       phantom.exit()
     ), 0
 
-# expects four arguments:
-# source SVG, destination PNG, height & width
+# expects 4 arguments: source SVG, destination PNG, height & width
 if phantom.args.length isnt 4
   console.error 'Missing arguments! Usage: source SVG, destination PNG, height & width'
   phantom.exit()
