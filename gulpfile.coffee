@@ -61,8 +61,10 @@ gulp.task 'docs', ->
   log 'create documentation'
   gulp
     .src(readmeTemplate)
-    .pipe(template
-      helpfile: fs.readFileSync 'lang/help.txt', 'utf8'
+    .pipe(
+      template
+        description: JSON.parse(fs.readFileSync './package.json', 'utf8').description
+        helpfile: fs.readFileSync './lang/help.txt', 'utf8'
     )
     .pipe(
       gulp.dest './'
