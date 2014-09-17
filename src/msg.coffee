@@ -1,6 +1,6 @@
 # modules
 path = require 'path'
-colors = require 'colors'
+chalk = require 'chalk'
 messages = require path.resolve(__dirname, '..', 'lang', 'messages.json')
 
 # configuration for command line colorization
@@ -21,7 +21,7 @@ module.exports =
   log: (type, key, data) ->
     if typeof data is 'undefined'
       data = ''
-    console.log messages[type][key][colorMap[type]], data
+    console.log chalk[colorMap[type]] messages[type][key], data
 
   # logs message to the console
   # to be used when not in control of message language
@@ -29,19 +29,19 @@ module.exports =
     if typeof data is 'undefined'
       data = ''
     if type is 'error'
-      console.error msg[colorMap[type]], data
+      console.error chalk[colorMap[type]] msg, data
     else
-      console.log msg[colorMap[type]], data
+      console.log chalk[colorMap[type]] msg, data
 
   # logs analytics of application operation totals
   analytics: (log) ->
     totalTime = (log.appEnd - log.appStart) / 1000000
     console.log '\n'
-    console.log ' ' + ' SUMMARY: '.magenta.inverse
-    console.log ' ☉ converted '.magenta + log.svgCount + ' SVG images totaling '.magenta + log.svgSize + ' bytes'.magenta
-    console.log ' ☉ into a CSS file that is '.magenta + log.cssSize + ' bytes'.magenta
-    console.log ' ☉ it took '.magenta + totalTime + ' seconds'.magenta
-    console.log ' ☉ an average of '.magenta + (totalTime / log.svgCount) + ' seconds per icon'.magenta
+    console.log ' ' + chalk.magenta.inverse ' SUMMARY: '
+    console.log chalk.magenta '', '☉', 'converted', chalk.white.bold(log.svgCount), 'SVG images totaling', chalk.white.bold(log.svgSize), 'bytes'
+    console.log chalk.magenta '', '☉', 'into a CSS file that is', chalk.white.bold(log.cssSize), 'bytes'
+    console.log chalk.magenta '', '☉', 'and it took', chalk.white.bold(totalTime), 'seconds'
+    console.log chalk.magenta '', '☉', 'at an average of', chalk.white.bold(totalTime / log.svgCount), 'seconds per icon'
     console.log '\n'
 
   # dumps a json object to console
