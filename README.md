@@ -1,6 +1,7 @@
 [![NPM version](http://img.shields.io/npm/v/iconr.svg?style=flat)](https://www.npmjs.org/package/iconr)
 [![Dependency Status](http://img.shields.io/david/okize/iconr.svg?style=flat)](https://david-dm.org/okize/iconr)
 [![Downloads](http://img.shields.io/npm/dm/iconr.svg?style=flat)](https://www.npmjs.org/package/iconr)
+[![Stories in Ready](https://badge.waffle.io/okize/iconr.png?label=ready&title=Ready)](https://waffle.io/okize/iconr)
 
 # Iconr
 
