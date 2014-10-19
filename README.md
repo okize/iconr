@@ -45,6 +45,12 @@ Examples:
 
 ```
 
+## Installing
+
+```
+  $ npm install -g iconr
+```
+
 ## Dependencies
 
 Expects [Modernizr](http://modernizr.com/) classes on front-end.

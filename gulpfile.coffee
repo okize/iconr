@@ -10,7 +10,7 @@ clean = require 'gulp-clean'
 
 # configuration
 appRoot = __dirname
-readmeTemplate = 'src/readme.md'
+readmeTemplate = 'src/README.md'
 sourceDir = 'src/**/*.coffee'
 buildDir = 'lib'
 
