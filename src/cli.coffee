@@ -1,22 +1,35 @@
 # modules
 path = require 'path'
 fs = require 'fs'
-iconr = require path.join(__dirname, '..', 'lib', 'app')
+pkg = require '../package.json'
+updateNotifier = require 'update-notifier'
+iconr = require './app'
 
 # output version number of app
 displayVersion = ->
-
-  pkg = require path.join(__dirname, '..', 'package.json')
   console.log pkg.version
 
 # output help documentation of app
 displayHelp = ->
+  helpFile = path.join(__dirname, '..', 'lang', 'help.txt')
+  helpText = fs.readFileSync helpFile, 'utf8'
+  console.log '\n' + helpText + '\n'
 
-  filepath = path.join(__dirname, '..', 'lang', 'help.txt')
-  doc = fs.readFileSync filepath, 'utf8'
-  console.log '\n' + doc + '\n'
+# checks for available update
+# https://github.com/yeoman/update-notifier
+checkForUpdates = ->
+  notifier = updateNotifier(
+    packageName: pkg.name
+    packageVersion: pkg.version
+    # updateCheckInterval: 1000 * 60 * 60 * 24 # 1 day
+  )
+
+  if notifier.update?
+    console.log "Update available: #{notifier.update.latest} \n"
 
 module.exports = (argv) ->
+
+  checkForUpdates()
 
   # flags we care about for app operation
   flags =
