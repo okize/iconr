@@ -26,7 +26,8 @@
     "progger": "0.1.x",
     "q": "1.0.x",
     "rimraf": "2.2.x",
-    "svgo": "0.4.x"
+    "svgo": "0.4.x",
+    "update-notifier": "0.2.x"
   },
   "devDependencies": {
     "coffee-script": "*",
