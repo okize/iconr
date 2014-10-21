@@ -1,7 +1,8 @@
 # modules
 path = require 'path'
 fs = require 'fs'
-gulp = require 'gulp'
+gulp = require('gulp-help')(require 'gulp')
+run = require 'run-sequence'
 gutil = require 'gulp-util'
 coffee = require 'gulp-coffee'
 coffeelint = require 'gulp-coffeelint'
@@ -19,32 +20,31 @@ log = (msg) ->
   gutil.log gutil.colors.blue(msg)
 
 # default task that's run with 'gulp'
-gulp.task 'default', [
-  'watch'
-]
+gulp.task 'default', 'Creates docs and builds module.', (done) ->
+  run(
+    'clean'
+    ['docs', 'build']
+    done
+  )
 
-# watches source files and triggers build on change
-gulp.task 'watch', ->
+gulp.task 'watch', 'Watches coffeescript files and triggers build on change.', ->
   log 'watching files...'
   gulp.watch sourceDir, ['build']
 
-# removes distribution folder
-gulp.task 'clean', ->
+gulp.task 'clean', 'Deletes build directory.', ->
   log 'deleting build diectory'
   gulp
     .src(buildDir, read: false)
     .pipe(clean())
 
-# lints coffeescript
-gulp.task 'lint', ->
+gulp.task 'lint', 'Lints coffeescript.', ->
   log 'linting coffeescript'
   gulp
     .src(sourceDir)
     .pipe(coffeelint())
     .pipe(coffeelint.reporter())
 
-# builds coffeescript source into deployable javascript
-gulp.task 'build', ->
+gulp.task 'build', 'Compiles coffeescript source into javascript.', ->
   log 'compiling coffeescript'
   gulp
     .src(sourceDir)
@@ -56,23 +56,18 @@ gulp.task 'build', ->
       gulp.dest buildDir
     )
 
-# generates readme.md
-gulp.task 'docs', ->
-  log 'create documentation'
+gulp.task 'docs', 'Generates readme file.', ->
+  log 'generating readme'
+  pak = JSON.parse(fs.readFileSync './package.json', 'utf8')
+  helpText = fs.readFileSync './lang/help.txt', 'utf8'
   gulp
     .src(readmeTemplate)
     .pipe(
       template
-        description: JSON.parse(fs.readFileSync './package.json', 'utf8').description
-        helpfile: fs.readFileSync './lang/help.txt', 'utf8'
+        name: pak.name
+        description: pak.description
+        help: helpText
     )
     .pipe(
       gulp.dest './'
     )
-
-# deploys application
-gulp.task 'deploy', [
-  'docs',
-  'clean',
-  'build'
-]

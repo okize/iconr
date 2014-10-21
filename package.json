@@ -35,8 +35,10 @@
     "gulp-clean": "*",
     "gulp-coffee": "*",
     "gulp-coffeelint": "*",
+    "gulp-help": "*",
     "gulp-template": "*",
-    "gulp-util": "*"
+    "gulp-util": "*",
+    "run-sequence": "*"
   },
   "engines": {
     "node": ">=0.10.0",

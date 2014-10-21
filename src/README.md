@@ -2,7 +2,7 @@
 [![Dependency Status](http://img.shields.io/david/okize/iconr.svg?style=flat)](https://david-dm.org/okize/iconr)
 [![Downloads](http://img.shields.io/npm/dm/iconr.svg?style=flat)](https://www.npmjs.org/package/iconr)
 
-# Iconr
+# <%= name %>
 
 ## Description
 <%= description %>
@@ -12,7 +12,7 @@
 ## Usage
 
 ```
-<%= helpfile %>
+<%= help %>
 ```
 
 ## Installing
