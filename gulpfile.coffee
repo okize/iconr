@@ -7,10 +7,14 @@ gutil = require 'gulp-util'
 coffee = require 'gulp-coffee'
 coffeelint = require 'gulp-coffeelint'
 template = require 'gulp-template'
+bump = require 'gulp-bump'
+confirm = require 'gulp-confirm'
+spawn = require('child_process').spawn
 clean = require 'gulp-clean'
 
 # configuration
 appRoot = __dirname
+pak = JSON.parse(fs.readFileSync './package.json', 'utf8')
 readmeTemplate = 'src/README.md'
 sourceDir = 'src/**/*.coffee'
 buildDir = 'lib'
@@ -20,10 +24,12 @@ log = (msg) ->
   gutil.log gutil.colors.blue(msg)
 
 # default task that's run with 'gulp'
-gulp.task 'default', 'Creates docs and builds module.', (done) ->
+gulp.task 'default', 'Builds module, bumps version & publishes to npm.', (done) ->
   run(
     'clean'
     ['docs', 'build']
+    'bump'
+    'npm'
     done
   )
 
@@ -58,7 +64,6 @@ gulp.task 'build', 'Compiles coffeescript source into javascript.', ->
 
 gulp.task 'docs', 'Generates readme file.', ->
   log 'generating readme'
-  pak = JSON.parse(fs.readFileSync './package.json', 'utf8')
   helpText = fs.readFileSync './lang/help.txt', 'utf8'
   gulp
     .src(readmeTemplate)
@@ -71,3 +76,16 @@ gulp.task 'docs', 'Generates readme file.', ->
     .pipe(
       gulp.dest './'
     )
+
+gulp.task 'bump', 'Bumps patch version of module', ->
+  gulp
+  .src('./package.json')
+  .pipe(bump(
+    type: 'patch'
+  ))
+  .pipe gulp.dest('./')
+
+gulp.task 'npm', 'Publishes module to npm', (done) ->
+  spawn('npm', ['publish'],
+    stdio: 'inherit'
+  ).on 'close', done
