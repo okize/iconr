@@ -8,7 +8,6 @@ coffee = require 'gulp-coffee'
 coffeelint = require 'gulp-coffeelint'
 template = require 'gulp-template'
 bump = require 'gulp-bump'
-confirm = require 'gulp-confirm'
 spawn = require('child_process').spawn
 clean = require 'gulp-clean'
 
@@ -22,16 +21,6 @@ buildDir = 'lib'
 # small wrapper around gulp util logging
 log = (msg) ->
   gutil.log gutil.colors.blue(msg)
-
-# default task that's run with 'gulp'
-gulp.task 'default', 'Builds module, bumps version & publishes to npm.', (done) ->
-  run(
-    'clean'
-    ['docs', 'build']
-    'bump'
-    'npm'
-    done
-  )
 
 gulp.task 'watch', 'Watches coffeescript files and triggers build on change.', ->
   log 'watching files...'
@@ -89,3 +78,12 @@ gulp.task 'npm', 'Publishes module to npm', (done) ->
   spawn('npm', ['publish'],
     stdio: 'inherit'
   ).on 'close', done
+
+gulp.task 'release', 'Builds module, bumps version & publishes to npm.', (done) ->
+  run(
+    'clean'
+    ['docs', 'build']
+    'bump'
+    'npm'
+    done
+  )
