@@ -18,16 +18,16 @@
     "chalk": "0.5.x",
     "cssbeautify": "0.3.x",
     "lodash": "2.4.*",
-    "microtime": "1.0.x",
+    "microtime": "1.2.x",
     "mime": "1.2.x",
     "mkdirp": "0.5.x",
     "optimist": "0.6.x",
     "phantomjs": "1.9.x",
     "progger": "0.1.x",
-    "q": "1.0.x",
+    "q": "1.1.x",
     "rimraf": "2.2.x",
     "svgo": "0.4.x",
-    "update-notifier": "0.2.x"
+    "update-notifier": "0.3.x"
   },
   "devDependencies": {
     "coffee-script": "*",
