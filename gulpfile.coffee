@@ -9,7 +9,7 @@ coffeelint = require 'gulp-coffeelint'
 template = require 'gulp-template'
 bump = require 'gulp-bump'
 spawn = require('child_process').spawn
-clean = require 'gulp-clean'
+clean = require 'del'
 
 # configuration
 appRoot = __dirname
@@ -28,9 +28,9 @@ gulp.task 'watch', 'Watches coffeescript files and triggers build on change.', -
 
 gulp.task 'clean', 'Deletes build directory.', ->
   log 'deleting build diectory'
-  gulp
-    .src(buildDir, read: false)
-    .pipe(clean())
+  clean [
+    buildDir
+  ]
 
 gulp.task 'lint', 'Lints coffeescript.', ->
   log 'linting coffeescript'
