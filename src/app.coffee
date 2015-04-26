@@ -269,7 +269,7 @@ module.exports = (args, opts) ->
         results.forEach (res) ->
           size = res.pngdatauri.length
           if size >= TOO_BIG_FOR_IE8 and opts.verbose
-            msg.log 'warn', 'largeDataUri', res.name + ' (' + size + ' bytes)'
+            msg.log 'warn', 'largeDataUri', "#{res.name} (#{size} bytes)"
 
     )
     .then( ->

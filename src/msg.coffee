@@ -21,7 +21,7 @@ module.exports =
   log: (type, key, data) ->
     if typeof data is 'undefined'
       data = ''
-    console.log chalk[colorMap[type]] messages[type][key], data
+    console.log chalk[colorMap[type]](messages[type][key]), data
 
   # logs message to the console
   # to be used when not in control of message language
