@@ -1,4 +1,5 @@
 # modules
+Promise = require 'bluebird'
 fs = require 'fs'
 path = require 'path'
 _ = require 'lodash'
@@ -17,9 +18,9 @@ msg = require path.resolve(__dirname, './', 'msg')
 # number of bytes that will cause IE8 to choke on a datauri
 TOO_BIG_FOR_IE8 = 32768
 
-# Q wrappers for some node methods
-readDir = Q.denodeify fs.readdir
-readFile = Q.denodeify fs.readFile
+# promise wrappers for some node methods
+readDir = Promise.promisify fs.readdir
+readFile = Promise.promisify fs.readFile
 
 module.exports = (args, opts) ->
 
@@ -278,7 +279,7 @@ module.exports = (args, opts) ->
       msg.log 'info', 'appEnd' if opts.verbose
 
     )
-    .fail( (error) ->
+    .catch( (error) ->
 
       # errors should output here
       console.log error.stack if opts.debug
