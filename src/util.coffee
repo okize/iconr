@@ -1,4 +1,5 @@
 # modules
+Promise = require 'bluebird'
 fs = require 'fs'
 path = require 'path'
 execFile = require('child_process').execFile
@@ -9,9 +10,6 @@ svgo = new (require('svgo'))()
 pretty = require 'cssbeautify'
 phantomjs = path.resolve(__dirname, '../node_modules/phantomjs/bin/phantomjs')
 svgToPngFile = path.resolve(__dirname, './', 'svgToPng.js')
-
-# Q wrapper for writeFile
-writeFile = Q.denodeify fs.writeFile
 
 module.exports =
 
@@ -151,6 +149,9 @@ module.exports =
 
   # saves CSS file(s) to disk
   saveCss: (filename, cssArr, opts) ->
+
+    # promise wrapper for writeFile
+    writeFile = Promise.promisify fs.writeFile
 
     # save separate css files
     if opts.separatecss
