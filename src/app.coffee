@@ -3,7 +3,6 @@ Promise = require 'bluebird'
 fs = require 'fs'
 path = require 'path'
 _ = require 'lodash'
-Q = require 'q'
 microtime = require 'microtime'
 mkdirp = require 'mkdirp'
 rimraf = require 'rimraf'
@@ -127,7 +126,8 @@ module.exports = (args, opts) ->
           name: util.trimExt file
           svgpath: svgPath
 
-      Q.all(queue)
+
+      Promise.all(queue)
 
     )
     .then( (svgData) ->
@@ -140,7 +140,7 @@ module.exports = (args, opts) ->
       svgData.forEach (svg) ->
         queue.push util.optimizeSvg(svg)
 
-      Q.all(queue)
+      Promise.all(queue)
 
     )
     .then( (data) ->
@@ -178,7 +178,7 @@ module.exports = (args, opts) ->
         # start progress dots
         p.start() if opts.verbose
 
-        Q.all(queue)
+        Promise.all(queue)
 
     )
     .then( (pngPaths) ->
@@ -203,7 +203,7 @@ module.exports = (args, opts) ->
             pngpath = path.replace(outputDir, '.')
             _.extend results[i], pngpath: pngpath
 
-        Q.all(queue)
+        Promise.all(queue)
 
     )
     .then( (pngData) ->
