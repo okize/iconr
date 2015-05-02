@@ -1,7 +1,7 @@
 # modules
-path = require 'path'
-chalk = require 'chalk'
-messages = require path.resolve(__dirname, '..', 'lang', 'messages.json')
+path = require('path')
+chalk = require('chalk')
+messages = require(path.resolve(__dirname, '..', 'lang', 'messages.json'))
 
 # configuration for command line colorization
 colorMap =

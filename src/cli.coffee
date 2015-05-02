@@ -1,9 +1,9 @@
 # modules
-path = require 'path'
-fs = require 'fs'
-pkg = require '../package.json'
-updateNotifier = require 'update-notifier'
-iconr = require './app'
+path = require('path')
+fs = require('fs')
+pkg = require('../package.json')
+updateNotifier = require('update-notifier')
+iconr = require('./app')
 
 # output version number of app
 displayVersion = ->

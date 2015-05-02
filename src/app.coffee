@@ -1,18 +1,18 @@
 # modules
-Promise = require 'bluebird'
-fs = require 'fs'
-path = require 'path'
-_ = require 'lodash'
-microtime = require 'microtime'
-mkdirp = require 'mkdirp'
-rimraf = require 'rimraf'
-Progger = require 'progger'
+Promise = require('bluebird')
+fs = require('fs')
+path = require('path')
+_ = require('lodash')
+microtime = require('microtime')
+mkdirp = require('mkdirp')
+rimraf = require('rimraf')
+Progger = require('progger')
 p = new Progger
   speed: 100
   token: '.'
   color: 'blue'
-util = require path.resolve(__dirname, './', 'util')
-msg = require path.resolve(__dirname, './', 'msg')
+util = require(path.resolve(__dirname, './', 'util'))
+msg = require(path.resolve(__dirname, './', 'msg'))
 
 # number of bytes that will cause IE8 to choke on a datauri
 TOO_BIG_FOR_IE8 = 32768

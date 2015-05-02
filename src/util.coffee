@@ -1,13 +1,13 @@
 # modules
-Promise = require 'bluebird'
-fs = require 'fs'
-path = require 'path'
+Promise = require('bluebird')
+fs = require('fs')
+path = require('path')
 execFile = require('child_process').execFile
-mime = require 'mime'
-_ = require 'lodash'
-Q = require 'q'
+mime = require('mime')
+_ = require('lodash')
+Q = require('q')
 svgo = new (require('svgo'))()
-pretty = require 'cssbeautify'
+pretty = require('cssbeautify')
 phantomjs = path.resolve(__dirname, '../node_modules/phantomjs/bin/phantomjs')
 svgToPngFile = path.resolve(__dirname, './', 'svgToPng.js')
 
