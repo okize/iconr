@@ -1,15 +1,15 @@
 # modules
-path = require 'path'
-fs = require 'fs'
-gulp = require('gulp-help')(require 'gulp')
-run = require 'run-sequence'
-gutil = require 'gulp-util'
-coffee = require 'gulp-coffee'
-coffeelint = require 'gulp-coffeelint'
-template = require 'gulp-template'
-bump = require 'gulp-bump'
+path = require('path')
+fs = require('fs')
+gulp = require('gulp-help')(require('gulp'))
+run = require('run-sequence')
+gutil = require('gulp-util')
+coffee = require('gulp-coffee')
+coffeelint = require('gulp-coffeelint')
+template = require('gulp-template')
+bump = require('gulp-bump')
 spawn = require('child_process').spawn
-clean = require 'del'
+clean = require('del')
 
 # configuration
 appRoot = __dirname
@@ -74,7 +74,7 @@ gulp.task 'bump', 'Bumps patch version of module', ->
   ))
   .pipe gulp.dest('./')
 
-gulp.task 'npm', 'Publishes module to npm', (done) ->
+gulp.task 'publish', 'Publishes module to npm', (done) ->
   spawn('npm', ['publish'],
     stdio: 'inherit'
   ).on 'close', done
@@ -84,6 +84,6 @@ gulp.task 'release', 'Builds module, bumps version & publishes to npm.', (done) 
     'clean'
     ['docs', 'build']
     'bump'
-    'npm'
+    'publish'
     done
   )
