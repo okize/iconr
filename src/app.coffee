@@ -1,6 +1,6 @@
 # modules
 Promise = require('bluebird')
-fs = require('fs')
+fs = Promise.promisifyAll require('fs')
 path = require('path')
 _ = require('lodash')
 microtime = require('microtime')
@@ -16,10 +16,6 @@ msg = require(path.resolve(__dirname, './', 'msg'))
 
 # number of bytes that will cause IE8 to choke on a datauri
 TOO_BIG_FOR_IE8 = 32768
-
-# promise wrappers for some node methods
-readDir = Promise.promisify fs.readdir
-readFile = Promise.promisify fs.readFile
 
 module.exports = (args, opts) ->
 
@@ -72,7 +68,7 @@ module.exports = (args, opts) ->
 
   # start of promise chain
   # read files in directory
-  readDir(inputDir)
+  fs.readdirAsync(inputDir)
     .then( (files) ->
 
       msg.log 'info', 'filterNonSvg' if opts.verbose
@@ -116,7 +112,7 @@ module.exports = (args, opts) ->
 
       filteredFiles.forEach (file) ->
         svgPath = path.resolve inputDir, file
-        queue.push readFile(svgPath, 'utf8')
+        queue.push fs.readFileAsync(svgPath, 'utf8')
 
         # log total file size of the SVG files we're optimizing
         log.svgSize += fs.statSync(svgPath).size
@@ -194,7 +190,7 @@ module.exports = (args, opts) ->
         queue = []
 
         pngPaths.forEach (path, i) ->
-          queue.push readFile(path, null)
+          queue.push fs.readFileAsync(path, null)
 
           # PNG fallbacks enabled
           # make path relative to location of output css file then
