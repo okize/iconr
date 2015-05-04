@@ -179,6 +179,9 @@ module.exports = (args, opts) ->
     )
     .then( (pngPaths) ->
 
+      # remove undefined items from path array
+      pngPaths = _.filter pngPaths, (path) -> typeof path != "undefined"
+
       if pngPaths?
 
         # stop progress dots
