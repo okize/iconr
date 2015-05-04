@@ -1,15 +1,14 @@
 # modules
 Promise = require('bluebird')
-fs = Promise.promisifyAll require('fs')
+fs = Promise.promisifyAll(require('fs'))
+proc = Promise.promisifyAll(require('child_process'))
 path = require('path')
-execFile = require('child_process').execFile
 mime = require('mime')
 _ = require('lodash')
 Q = require('q')
 svgo = new (require('svgo'))()
 pretty = require('cssbeautify')
-phantomjs = path.resolve(__dirname, '../node_modules/phantomjs/bin/phantomjs')
-svgToPngFile = path.resolve(__dirname, './', 'svgToPng.js')
+msg = require(path.resolve(__dirname, './', 'msg'))
 
 module.exports =
 
@@ -76,6 +75,9 @@ module.exports =
   # spins up phantomjs and saves SVGs as PNGs
   # phantomjs will output WARNINGS to stderr so ignore for now
   saveSvgAsPng: (sourceFileName, destinationFileName, height, width) ->
+    phantomjs = path.resolve(__dirname, '../node_modules/phantomjs/bin/', 'phantomjs')
+    svgToPngFile = path.resolve(__dirname, './', 'svgToPng.js')
+    sourceFileName = sourceFileName + 'asdf'
     args = [
       phantomjs
       svgToPngFile
@@ -84,15 +86,15 @@ module.exports =
       height
       width
     ]
-    d = Q.defer()
-    execFile process.execPath, args, (err, stdout, stderr) ->
-      if err
-        d.reject new Error err
-      else if stdout.length > 0
-        d.reject new Error stdout.toString().trim()
-      else
-        d.resolve destinationFileName
-    d.promise
+    proc
+      .execFileAsync process.execPath, args
+      .then (stdout, stderr) ->
+        if stdout[0].length > 0
+          throw new Error stdout[0].toString().trim()
+        else
+          destinationFileName
+      .catch (err) ->
+        msg.log 'error', 'svgNotFound', sourceFileName
 
   # returns a string that can be saved as a CSS file
   createCssRules: (results, opts) ->

@@ -22,7 +22,7 @@
     "wrongDirectory": "Cannot resolve the input directory path, was it entered correctly?",
     "noOutputDir": "Please include an output directory",
     "noSvg": "No SVG images found in input directory!",
-    "svgNotFound": "Source SVG could not be found, is %s the correct path?"
+    "svgNotFound": "\nSource SVG could not be found, is %s the correct path?"
   },
 
   "warn": {
