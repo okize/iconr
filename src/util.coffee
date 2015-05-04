@@ -1,6 +1,6 @@
 # modules
 Promise = require('bluebird')
-fs = require('fs')
+fs = Promise.promisifyAll require('fs')
 path = require('path')
 execFile = require('child_process').execFile
 mime = require('mime')
@@ -150,9 +150,6 @@ module.exports =
   # saves CSS file(s) to disk
   saveCss: (filename, cssArr, opts) ->
 
-    # promise wrapper for writeFile
-    writeFile = Promise.promisify fs.writeFile
-
     # save separate css files
     if opts.separatecss
 
@@ -161,15 +158,15 @@ module.exports =
         cssArr = cssArr.map (css) => @prettyCss css
 
       # save CSS with SVG data URIs
-      writeFile filename + '.css', cssArr[0]
+      fs.writeFileAsync filename + '.css', cssArr[0]
 
       # save CSS with fallback PNG data URIs
       if cssArr[1].length != 0
-        writeFile filename + '-noinlinesvg.css', cssArr[1]
+        fs.writeFileAsync filename + '-noinlinesvg.css', cssArr[1]
 
       # save CSS with fallback PNG image paths
       if cssArr[2].length != 0
-        writeFile filename + '-nodatauri.css', cssArr[2]
+        fs.writeFileAsync filename + '-nodatauri.css', cssArr[2]
 
     else
 
@@ -180,4 +177,4 @@ module.exports =
       css = @prettyCss css if opts.pretty
 
       # write CSS into a single file
-      writeFile filename + '.css', css
+      fs.writeFileAsync filename + '.css', css
