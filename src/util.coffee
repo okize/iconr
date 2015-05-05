@@ -163,11 +163,11 @@ module.exports =
       fs.writeFileAsync filename + '.css', cssArr[0]
 
       # save CSS with fallback PNG data URIs
-      if cssArr[1].length != 0
+      if cssArr[1]?.length != 0
         fs.writeFileAsync filename + '-noinlinesvg.css', cssArr[1]
 
       # save CSS with fallback PNG image paths
-      if cssArr[2].length != 0
+      if cssArr[2]?.length != 0
         fs.writeFileAsync filename + '-nodatauri.css', cssArr[2]
 
     else
