@@ -77,7 +77,6 @@ module.exports =
   saveSvgAsPng: (sourceFileName, destinationFileName, height, width) ->
     phantomjs = path.resolve(__dirname, '../node_modules/phantomjs/bin/', 'phantomjs')
     svgToPngFile = path.resolve(__dirname, './', 'svgToPng.js')
-    sourceFileName = sourceFileName + 'asdf'
     args = [
       phantomjs
       svgToPngFile
