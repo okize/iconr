@@ -1,12 +1,12 @@
 # modules
 Promise = require('bluebird')
+SvgOptimize = require('svgo')
+svgo = Promise.promisifyAll(new SvgOptimize())
 fs = Promise.promisifyAll(require('fs'))
 proc = Promise.promisifyAll(require('child_process'))
 path = require('path')
 mime = require('mime')
 _ = require('lodash')
-Q = require('q')
-svgo = new (require('svgo'))()
 pretty = require('cssbeautify')
 msg = require(path.resolve(__dirname, './', 'msg'))
 
@@ -64,13 +64,12 @@ module.exports =
   # returns an optimized SVG data string as a promise
   # also appends the original SVG data to the SVGO output
   optimizeSvg: (data) ->
-    d = Q.defer()
-    svgo.optimize data, (result) ->
-      if result.error
-        d.reject new Error(result.error)
-      result.original = data
-      d.resolve result
-    d.promise
+    svgo
+      .optimizeAsync(data)
+      .catch (result) ->
+        # I have no idea why this needs to be done in a catch block but it does
+        _.assign result, {original: data}
+        result
 
   # spins up phantomjs and saves SVGs as PNGs
   # phantomjs will output WARNINGS to stderr so ignore for now
@@ -86,13 +85,13 @@ module.exports =
       width
     ]
     proc
-      .execFileAsync process.execPath, args
+      .execFileAsync(process.execPath, args)
       .then (stdout, stderr) ->
         if stdout[0].length > 0
           throw new Error stdout[0].toString().trim()
         else
           destinationFileName
-      .catch (err) ->
+      .catch (error) ->
         msg.log 'error', 'svgNotFound', sourceFileName
 
   # returns a string that can be saved as a CSS file
