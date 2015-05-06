@@ -129,6 +129,8 @@ module.exports = (args, opts) ->
     .then( (svgData) ->
 
       # optimize SVG data and get width & heights
+      # note: optimization process is necessary even if it is not requested
+      # in order to get SVG width & height
       msg.log 'info', 'optimizingSvg' if opts.verbose
 
       queue = []
