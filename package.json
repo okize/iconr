@@ -33,6 +33,7 @@
     "coffee-script": "*",
     "del": "*",
     "gulp": "*",
+    "gulp-babel": "*",
     "gulp-bump": "*",
     "gulp-coffee": "*",
     "gulp-coffeelint": "*",
