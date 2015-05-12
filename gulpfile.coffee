@@ -6,6 +6,7 @@ run = require('run-sequence')
 gutil = require('gulp-util')
 coffee = require('gulp-coffee')
 coffeelint = require('gulp-coffeelint')
+plumber = require('gulp-plumber')
 template = require('gulp-template')
 bump = require('gulp-bump')
 spawn = require('child_process').spawn
@@ -19,8 +20,15 @@ sourceDir = 'src/**/*.coffee'
 buildDir = 'lib'
 
 # small wrapper around gulp util logging
-log = (msg) ->
-  gutil.log gutil.colors.blue(msg)
+log = (msg, type) ->
+  if type == 'error'
+    gutil.log gutil.colors.red(msg)
+  else
+    gutil.log gutil.colors.blue(msg)
+
+# used to prevent watch from breaking on CS error
+swallowError = (error) ->
+  log error, 'error'
 
 gulp.task 'watch', 'Watches coffeescript files and triggers build on change.', ->
   log 'watching files...'
@@ -43,10 +51,12 @@ gulp.task 'build', 'Compiles coffeescript source into javascript.', ->
   log 'compiling coffeescript'
   gulp
     .src(sourceDir)
+    .pipe(plumber())
     .pipe(coffee(
       bare: true
       sourceMap: false
-    ).on('error', gutil.log))
+    ))
+    .on('error', swallowError)
     .pipe(
       gulp.dest buildDir
     )
