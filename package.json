@@ -18,6 +18,7 @@
     "bluebird": "^2.9.25",
     "chalk": "^1.0.0",
     "cssbeautify": "0.3.x",
+    "gzip-size": "^1.0.0",
     "lodash": "^3.0.0",
     "microtime": "^1.2.0",
     "mime": "^1.2.0",
