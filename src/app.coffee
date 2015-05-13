@@ -4,6 +4,7 @@ fs = Promise.promisifyAll require('fs')
 path = require('path')
 _ = require('lodash')
 microtime = require('microtime')
+gzipSize = require('gzip-size')
 mkdirp = require('mkdirp')
 rimraf = require('rimraf')
 Progger = require('progger')
@@ -62,6 +63,7 @@ module.exports = (args, opts) ->
     svgCount: 0
     svgSize: 0
     cssSize: 0
+    cssGzipSize: 0
 
   # starting app
   msg.log 'info', 'appStart' if opts.verbose
@@ -254,8 +256,9 @@ module.exports = (args, opts) ->
 
       else
 
-        # save CSS size
+        # save CSS & gzipped size
         log.cssSize = cssString.length
+        log.cssGzipSize = gzipSize.sync(cssString)
 
         # save generated CSS to file
         msg.log 'info', 'saveCss' if opts.verbose
