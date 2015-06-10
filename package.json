@@ -37,6 +37,7 @@
     "gulp-bump": "*",
     "gulp-coffee": "*",
     "gulp-coffeelint": "*",
+    "gulp-eslint": "*",
     "gulp-help": "*",
     "gulp-plumber": "*",
     "gulp-template": "*",
