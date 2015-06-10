@@ -5,6 +5,7 @@ gulp = require('gulp-help')(require('gulp'))
 run = require('run-sequence')
 gutil = require('gulp-util')
 babel = require('gulp-babel')
+eslint = require('gulp-eslint')
 coffee = require('gulp-coffee')
 coffeelint = require('gulp-coffeelint')
 plumber = require('gulp-plumber')
@@ -17,6 +18,7 @@ clean = require('del')
 appRoot = __dirname
 pak = JSON.parse(fs.readFileSync './package.json', 'utf8')
 readmeTemplate = 'src/README.md'
+sourceDirCoffee = 'src/**/*.coffee'
 sourceDir = 'src/**/*.es6'
 buildDir = 'lib'
 
@@ -41,17 +43,17 @@ gulp.task 'clean', 'Deletes build directory.', ->
     buildDir
   ]
 
-gulp.task 'lint', 'Lints coffeescript.', ->
+gulp.task 'lint-coffee', 'Lints coffeescript.', ->
   log 'linting coffeescript'
   gulp
-    .src(sourceDir)
+    .src(sourceDirCoffee)
     .pipe(coffeelint())
     .pipe(coffeelint.reporter())
 
 gulp.task 'build-coffee', 'Compiles coffeescript source into javascript.', ->
   log 'compiling coffeescript'
   gulp
-    .src(sourceDir)
+    .src(sourceDirCoffee)
     .pipe(plumber())
     .pipe(coffee(
       bare: true
@@ -61,6 +63,14 @@ gulp.task 'build-coffee', 'Compiles coffeescript source into javascript.', ->
     .pipe(
       gulp.dest buildDir
     )
+
+gulp.task 'lint', 'Lints javascript.', ->
+  log 'linting es6 javascript...'
+  gulp
+    .src(sourceDir)
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failOnError())
 
 gulp.task 'build', 'Compiles ES6 javascript source into ES5 javascript.', ->
   log 'compiling es6 javascript'
