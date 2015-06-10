@@ -4,6 +4,7 @@ fs = require('fs')
 gulp = require('gulp-help')(require('gulp'))
 run = require('run-sequence')
 gutil = require('gulp-util')
+babel = require('gulp-babel')
 coffee = require('gulp-coffee')
 coffeelint = require('gulp-coffeelint')
 plumber = require('gulp-plumber')
@@ -16,7 +17,7 @@ clean = require('del')
 appRoot = __dirname
 pak = JSON.parse(fs.readFileSync './package.json', 'utf8')
 readmeTemplate = 'src/README.md'
-sourceDir = 'src/**/*.coffee'
+sourceDir = 'src/**/*.es6'
 buildDir = 'lib'
 
 # small wrapper around gulp util logging
@@ -47,7 +48,7 @@ gulp.task 'lint', 'Lints coffeescript.', ->
     .pipe(coffeelint())
     .pipe(coffeelint.reporter())
 
-gulp.task 'build', 'Compiles coffeescript source into javascript.', ->
+gulp.task 'build-coffee', 'Compiles coffeescript source into javascript.', ->
   log 'compiling coffeescript'
   gulp
     .src(sourceDir)
@@ -59,6 +60,17 @@ gulp.task 'build', 'Compiles coffeescript source into javascript.', ->
     .on('error', swallowError)
     .pipe(
       gulp.dest buildDir
+    )
+
+gulp.task 'build', 'Compiles ES6 javascript source into ES5 javascript.', ->
+  log 'compiling es6 javascript'
+  gulp
+    .src(sourceDir)
+    .pipe(plumber())
+    .pipe(babel())
+    .on('error', swallowError)
+    .pipe(
+      gulp.dest(buildDir)
     )
 
 gulp.task 'docs', 'Generates readme file.', ->
