@@ -2,7 +2,6 @@
   "env": {
     "node": true,
     "mocha": true,
-    "phantomjs": true,
     "es6": true
   },
 

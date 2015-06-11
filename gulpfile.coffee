@@ -35,7 +35,7 @@ swallowError = (error) ->
 
 gulp.task 'watch', 'Watches coffeescript files and triggers build on change.', ->
   log 'watching files...'
-  gulp.watch sourceDir, ['build']
+  gulp.watch sourceDir, ['lint', 'build']
 
 gulp.task 'clean', 'Deletes build directory.', ->
   log 'deleting build diectory'
