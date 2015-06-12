@@ -138,37 +138,32 @@ module.exports = {
 
   // saves CSS file(s) to disk
   saveCss: (filename, cssArr, opts) => {
-    let css, ref, ref1;
 
     // save separate css files
     if (opts.separatecss) {
 
       // prettify the CSS if necessary
       if (opts.pretty) {
-
-        cssArr = cssArr.map((cssStr) => {
-          return pretty(cssStr);
-        });
-
+        cssArr = cssArr.map((cssStr) => pretty(cssStr));
       }
 
       // save CSS with SVG data URIs
       fs.writeFileAsync(filename + '.css', cssArr[0]);
 
       // save CSS with fallback PNG data URIs
-      if (((ref = cssArr[1]) !== null ? ref.length : void 0) !== 0) {
-        return fs.writeFileAsync(filename + '-noinlinesvg.css', cssArr[1]);
+      if (!opts.nopngdata && (cssArr[1].length !== 0)) {
+        fs.writeFileAsync(filename + '-noinlinesvg.css', cssArr[1]);
       }
 
       // save CSS with fallback PNG image paths
-      if (((ref1 = cssArr[2]) !== null ? ref1.length : void 0) !== 0) {
-        return fs.writeFileAsync(filename + '-nodatauri.css', cssArr[2]);
+      if (!opts.nopng && (cssArr[2].length !== 0)) {
+        fs.writeFileAsync(filename + '-nodatauri.css', cssArr[2]);
       }
 
     } else {
 
       // combine CSS into string
-      css = this.mungeCss(cssArr);
+      let css = this.mungeCss(cssArr);
 
       // prettify the CSS if necessary
       if (opts.pretty) {
@@ -176,9 +171,11 @@ module.exports = {
       }
 
       // write CSS into a single file
-      return fs.writeFileAsync(filename + '.css', css);
+      fs.writeFileAsync(filename + '.css', css);
 
     }
+
+    return;
   }
 
 };
