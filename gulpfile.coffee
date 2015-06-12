@@ -14,7 +14,7 @@ clean = require('del')
 # configuration
 appRoot = __dirname
 pak = JSON.parse(fs.readFileSync './package.json', 'utf8')
-readmeTemplate = 'src/README.md'
+readmeTemplate = 'template/README.md'
 sourceDirCoffee = 'src/**/*.coffee'
 sourceDir = 'src/**/*.es6'
 buildDir = 'lib'
