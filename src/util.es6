@@ -128,7 +128,7 @@ module.exports = {
   },
 
   // saves CSS file(s) to disk
-  saveCss: (filename, cssArr, opts) => {
+  saveCss: function (filename, cssArr, opts) {
 
     // save separate css files
     if (opts.separatecss) {
