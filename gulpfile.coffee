@@ -91,8 +91,9 @@ gulp.task 'publish', 'Publishes module to npm', (done) ->
 gulp.task 'release', 'Builds module, bumps version & publishes to npm.', (done) ->
   run(
     'clean'
-    ['docs', 'build']
+    'build'
     'bump'
+    'docs'
     'publish'
     done
   )
