@@ -4,11 +4,10 @@ fs = require('fs')
 gulp = require('gulp-help')(require('gulp'))
 run = require('run-sequence')
 gutil = require('gulp-util')
-coffee = require('gulp-coffee')
-coffeelint = require('gulp-coffeelint')
+babel = require('gulp-babel')
+eslint = require('gulp-eslint')
 plumber = require('gulp-plumber')
 template = require('gulp-template')
-bump = require('gulp-bump')
 spawn = require('child_process').spawn
 clean = require('del')
 
@@ -16,7 +15,8 @@ clean = require('del')
 appRoot = __dirname
 pak = JSON.parse(fs.readFileSync './package.json', 'utf8')
 readmeTemplate = 'src/README.md'
-sourceDir = 'src/**/*.coffee'
+sourceDirCoffee = 'src/**/*.coffee'
+sourceDir = 'src/**/*.es6'
 buildDir = 'lib'
 
 # small wrapper around gulp util logging
@@ -32,7 +32,7 @@ swallowError = (error) ->
 
 gulp.task 'watch', 'Watches coffeescript files and triggers build on change.', ->
   log 'watching files...'
-  gulp.watch sourceDir, ['build']
+  gulp.watch sourceDir, ['lint', 'build']
 
 gulp.task 'clean', 'Deletes build directory.', ->
   log 'deleting build diectory'
@@ -40,25 +40,23 @@ gulp.task 'clean', 'Deletes build directory.', ->
     buildDir
   ]
 
-gulp.task 'lint', 'Lints coffeescript.', ->
-  log 'linting coffeescript'
+gulp.task 'lint', 'Lints javascript.', ->
+  log 'linting es6 javascript...'
   gulp
     .src(sourceDir)
-    .pipe(coffeelint())
-    .pipe(coffeelint.reporter())
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failOnError())
 
-gulp.task 'build', 'Compiles coffeescript source into javascript.', ->
-  log 'compiling coffeescript'
+gulp.task 'build', 'Compiles ES6 javascript source into ES5 javascript.', ->
+  log 'compiling es6 javascript'
   gulp
     .src(sourceDir)
     .pipe(plumber())
-    .pipe(coffee(
-      bare: true
-      sourceMap: false
-    ))
+    .pipe(babel())
     .on('error', swallowError)
     .pipe(
-      gulp.dest buildDir
+      gulp.dest(buildDir)
     )
 
 gulp.task 'docs', 'Generates readme file.', ->
@@ -76,13 +74,10 @@ gulp.task 'docs', 'Generates readme file.', ->
       gulp.dest './'
     )
 
-gulp.task 'bump', 'Bumps patch version of module', ->
-  gulp
-  .src('./package.json')
-  .pipe(bump(
-    type: 'patch'
-  ))
-  .pipe gulp.dest('./')
+gulp.task 'bump', 'Bumps patch version of module', (done) ->
+  spawn('npm', ['version', 'patch'],
+    stdio: 'inherit'
+  ).on 'close', done
 
 gulp.task 'publish', 'Publishes module to npm', (done) ->
   spawn('npm', ['publish'],
@@ -92,8 +87,9 @@ gulp.task 'publish', 'Publishes module to npm', (done) ->
 gulp.task 'release', 'Builds module, bumps version & publishes to npm.', (done) ->
   run(
     'clean'
-    ['docs', 'build']
+    'build'
     'bump'
+    'docs'
     'publish'
     done
   )

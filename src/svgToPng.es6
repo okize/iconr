@@ -1,10 +1,8 @@
 /*global phantom*/
-'use strict';
+const webpage = require('webpage');
 
-var webpage = require('webpage');
-
-var convert = function convert(source, destination, height, width) {
-  var page = webpage.create();
+const convert = function (source, destination, height, width) {
+  let page = webpage.create();
   return page.open(source, function renderSVG(status) {
 
     if (status !== 'success') {
@@ -25,6 +23,7 @@ var convert = function convert(source, destination, height, width) {
       page.render(destination);
       return phantom.exit();
     }, 0);
+
   });
 };
 

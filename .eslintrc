@@ -1,0 +1,45 @@
+{
+  "env": {
+    "node": true,
+    "mocha": true,
+    "es6": true
+  },
+
+  "ecmaFeatures": {
+    "arrowFunctions": true,
+    "blockBindings": true,
+    "templateStrings": true,
+    "forOf": true,
+    "destructuring": true,
+    "defaultParams": true
+  },
+
+  "rules": {
+    "strict": [2, "never"],
+    "no-var": 1,
+    "no-trailing-spaces": 0,
+    "no-extra-boolean-cast": 2,
+    "no-extra-parens": 0,
+    "no-extra-semi": 2,
+    "indent": [2, 2],
+    "brace-style": [2, "1tbs"],
+    "curly": 2,
+    "camelcase": 0,
+    "quotes": [2, "single"],
+    "dot-notation": 0,
+    "no-underscore-dangle": 0,
+    "no-multi-spaces": 2,
+    "space-after-keywords": "always",
+    "no-else-return": 2,
+    "guard-for-in": 2,
+    "no-return-assign": 2,
+    "block-scoped-var": 2,
+    "no-undef": 2,
+    "new-cap": 0,
+    "comma-style": [1, "last"],
+    "comma-spacing": [1, {"before": false, "after": true}],
+    "no-unused-vars": [1, {"vars": "local", "args": "after-used"}],
+    "space-in-parens": "never",
+    "space-before-function-paren": [2, {"anonymous": "always", "named": "never"}],
+  }
+}

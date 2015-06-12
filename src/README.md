@@ -1,5 +1,6 @@
 [![NPM version](http://img.shields.io/npm/v/iconr.svg?style=flat)](https://www.npmjs.org/package/iconr)
 [![Dependency Status](http://img.shields.io/david/okize/iconr.svg?style=flat)](https://david-dm.org/okize/iconr)
+[![bitHound Score](https://www.bithound.io/github/okize/iconr/badges/score.svg)](https://www.bithound.io/github/okize/iconr)
 [![Downloads](http://img.shields.io/npm/dm/iconr.svg?style=flat)](https://www.npmjs.org/package/iconr)
 
 # <%= name %>

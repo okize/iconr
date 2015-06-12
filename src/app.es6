@@ -1,21 +1,19 @@
-'use strict';
+const Promise = require('bluebird');
+const fs = Promise.promisifyAll(require('fs'));
+const path = require('path');
+const _ = require('lodash');
+const microtime = require('microtime');
+const mkdirp = require('mkdirp');
+const rimraf = require('rimraf');
+const Progger = require('progger');
+const util = require(path.resolve(__dirname, './', 'util'));
+const msg = require(path.resolve(__dirname, './', 'msg'));
+const p = new Progger({speed: 100, token: '.', color: 'blue'});
 
-var Promise = require('bluebird');
-var fs = Promise.promisifyAll(require('fs'));
-var path = require('path');
-var _ = require('lodash');
-var microtime = require('microtime');
-var mkdirp = require('mkdirp');
-var rimraf = require('rimraf');
-var Progger = require('progger');
-var util = require(path.resolve(__dirname, './', 'util'));
-var msg = require(path.resolve(__dirname, './', 'msg'));
-var p = new Progger({ speed: 100, token: '.', color: 'blue' });
-
-module.exports = function (args, opts) {
+module.exports = (args, opts) => {
 
   // input directory of SVG icons
-  var inputDir = path.resolve(args[0]);
+  const inputDir = path.resolve(args[0]);
 
   // confirm input directory exists
   if (!fs.existsSync(inputDir)) {
@@ -28,10 +26,10 @@ module.exports = function (args, opts) {
   }
 
   // output directory
-  var outputDir = path.resolve(args[1]);
+  const outputDir = path.resolve(args[1]);
 
   // png directory
-  var pngDir = outputDir + '/images';
+  const pngDir = outputDir + '/images';
 
   // if the output directory does not exist, create it
   if (!fs.existsSync(outputDir)) {
@@ -45,17 +43,17 @@ module.exports = function (args, opts) {
   }
 
   // name of the CSS file output
-  var cssFilename = opts.filename !== null ? util.trimExt(opts.filename) : 'iconr';
+  const cssFilename = (opts.filename !== null) ? util.trimExt(opts.filename) : 'iconr';
 
   // this is necessary to prevent the analytics from displaying
   // during an application error
-  var showAnalytics = true;
+  let showAnalytics = true;
 
   // stores results through the promise chain
-  var results = [];
+  let results = [];
 
   // logs data about the application operations
-  var log = {
+  let log = {
     appStart: microtime.now(),
     appEnd: 0,
     svgCount: 0,
@@ -70,7 +68,7 @@ module.exports = function (args, opts) {
 
   // start of promise chain
   // read files in directory
-  return fs.readdirAsync(inputDir).then(function (files) {
+  return fs.readdirAsync(inputDir).then((files) => {
 
     if (opts.verbose) {
       msg.log('info', 'filterNonSvg');
@@ -78,7 +76,8 @@ module.exports = function (args, opts) {
 
     // filter anything that isn't an SVG
     return util.filterNonSvgFiles(files, inputDir);
-  }).then(function (svgFiles) {
+
+  }).then((svgFiles) => {
 
     // exit if no SVG images found
     if (svgFiles.length < 1) {
@@ -87,25 +86,27 @@ module.exports = function (args, opts) {
     }
 
     // store list of files after spaces (if any) have been removed
-    var filteredFiles = [];
+    let filteredFiles = [];
 
     // replace spaces in filenames
-    svgFiles.forEach(function (filename) {
+    svgFiles.forEach((filename) => {
 
       if (util.hasSpace(filename) === true) {
         if (opts.verbose) {
           msg.log('warn', 'spaceInFilename', filename);
         }
-        var newFilename = filename.split(' ').join('-');
+        let newFilename = filename.split(' ').join('-');
         filteredFiles.push(newFilename);
         return util.replaceSpaceInFilename(filename, newFilename, inputDir);
       }
 
       return filteredFiles.push(filename);
+
     });
 
     return filteredFiles;
-  }).then(function (filteredFiles) {
+
+  }).then((filteredFiles) => {
 
     // read SVGs into memory
     if (opts.verbose) {
@@ -115,10 +116,10 @@ module.exports = function (args, opts) {
     // log icon count
     log.svgCount = filteredFiles.length;
 
-    var queue = [];
+    let queue = [];
 
-    filteredFiles.forEach(function (file) {
-      var svgPath = path.resolve(inputDir, file);
+    filteredFiles.forEach((file) => {
+      let svgPath = path.resolve(inputDir, file);
       queue.push(fs.readFileAsync(svgPath, 'utf8'));
 
       // log total file size of the SVG files we're optimizing
@@ -132,7 +133,8 @@ module.exports = function (args, opts) {
     });
 
     return Promise.all(queue);
-  }).then(function (svgData) {
+
+  }).then((svgData) => {
 
     // optimize SVG data and get width & heights
     // note: optimization process is necessary even if it is not requested
@@ -141,24 +143,25 @@ module.exports = function (args, opts) {
       msg.log('info', 'optimizingSvg');
     }
 
-    var queue = [];
+    let queue = [];
 
-    svgData.forEach(function (svg) {
+    svgData.forEach((svg) => {
       return queue.push(util.optimizeSvg(svg));
     });
 
     return Promise.all(queue);
-  }).then(function (data) {
+
+  }).then((data) => {
 
     // merge compressed & encoded SVG data into results
     if (opts.verbose) {
       msg.log('info', 'encodingSvg');
     }
 
-    return _.each(data, function (obj, i) {
-      var encoding = opts.base64 ? 'base64' : '';
-      var svgOut = opts.optimizesvg ? obj.data : obj.original;
-      var svgData = {
+    return _.each(data, (obj, i) => {
+      let encoding = opts.base64 ? 'base64' : '';
+      let svgOut = opts.optimizesvg ? obj.data : obj.original;
+      let svgData = {
         svgsrc: svgOut,
         svgdatauri: util.encodeImage(svgOut, encoding, 'svg'),
         height: util.roundNum(obj.info.height),
@@ -166,78 +169,69 @@ module.exports = function (args, opts) {
       };
       return _.extend(results[i], svgData);
     });
-  }).then(function () {
+
+  }).then(() => {
 
     if (!(opts.nopngdata && opts.nopng)) {
-      var _ret = (function () {
 
-        // convert SVGs to PNGs
-        if (opts.verbose) {
-          msg.log('info', 'convertingSvg');
-        }
+      // convert SVGs to PNGs
+      if (opts.verbose) {
+        msg.log('info', 'convertingSvg');
+      }
 
-        var queue = [];
+      let queue = [];
 
-        _.each(results, function (obj) {
-          var destFile = path.resolve(pngDir, obj.name + '.png');
-          return queue.push(util.saveSvgAsPng(obj.svgpath, destFile, obj.height, obj.width));
-        });
+      _.each(results, (obj) => {
+        let destFile = path.resolve(pngDir, obj.name + '.png');
+        return queue.push(util.saveSvgAsPng(obj.svgpath, destFile, obj.height, obj.width));
+      });
 
-        // start progress dots
-        if (opts.verbose) {
-          p.start();
-        }
+      // start progress dots
+      if (opts.verbose) {
+        p.start();
+      }
 
-        return {
-          v: Promise.all(queue)
-        };
-      })();
+      return Promise.all(queue);
 
-      if (typeof _ret === 'object') return _ret.v;
     }
-  }).then(function (pngPaths) {
+  }).then((pngPaths) => {
 
     // remove undefined items from path array
-    pngPaths = _.filter(pngPaths, function (pngPath) {
+    pngPaths = _.filter(pngPaths, (pngPath) => {
       return typeof pngPath !== 'undefined';
     });
 
     if (pngPaths !== null) {
-      var _ret2 = (function () {
 
-        // stop progress dots
-        if (opts.verbose) {
-          p.stop();
+      // stop progress dots
+      if (opts.verbose) {
+        p.stop();
+      }
+
+      // read PNGs into memory
+      if (opts.verbose) {
+        msg.log('info', 'readingPng');
+      }
+
+      let queue = [];
+
+      pngPaths.forEach((pngPath, i) => {
+
+        queue.push(fs.readFileAsync(pngPath, null));
+
+        // PNG fallbacks enabled
+        // make path relative to location of output css file then
+        // add to results object
+        if (!opts.nopng) {
+          let pngpath = pngPath.replace(outputDir, '.');
+          return _.extend(results[i], {pngpath: pngpath});
         }
 
-        // read PNGs into memory
-        if (opts.verbose) {
-          msg.log('info', 'readingPng');
-        }
+      });
 
-        var queue = [];
-
-        pngPaths.forEach(function (pngPath, i) {
-
-          queue.push(fs.readFileAsync(pngPath, null));
-
-          // PNG fallbacks enabled
-          // make path relative to location of output css file then
-          // add to results object
-          if (!opts.nopng) {
-            var pngpath = pngPath.replace(outputDir, '.');
-            return _.extend(results[i], { pngpath: pngpath });
-          }
-        });
-
-        return {
-          v: Promise.all(queue)
-        };
-      })();
-
-      if (typeof _ret2 === 'object') return _ret2.v;
+      return Promise.all(queue);
     }
-  }).then(function (pngData) {
+  }).then((pngData) => {
 
     if (pngData !== null) {
 
@@ -246,15 +240,17 @@ module.exports = function (args, opts) {
         msg.log('info', 'encodingPng');
       }
 
-      return pngData.forEach(function (data, i) {
+      return pngData.forEach((data, i) => {
 
         // add to results object
         return _.extend(results[i], {
           pngdatauri: util.encodeImage(data, 'base64', 'png')
         });
+
       });
+
     }
-  }).then(function () {
+  }).then(() => {
 
     if (opts.nopng || opts.stdout) {
 
@@ -263,13 +259,15 @@ module.exports = function (args, opts) {
         msg.log('info', 'deletingPng');
       }
 
-      return rimraf(pngDir, function (error) {
+      return rimraf(pngDir, (error) => {
         if (error) {
           throw error;
         }
       });
+
     }
-  }).then(function () {
+
+  }).then(() => {
 
     // generate a string of CSS rules from the results
     if (opts.verbose) {
@@ -277,9 +275,10 @@ module.exports = function (args, opts) {
     }
 
     return util.createCssRules(results, opts);
-  }).then(function (cssArray) {
 
-    var cssString = util.mungeCss(cssArray);
+  }).then((cssArray) => {
+
+    let cssString = util.mungeCss(cssArray);
 
     if (opts.stdout) {
 
@@ -305,34 +304,32 @@ module.exports = function (args, opts) {
     }
 
     return util.saveCss(path.resolve(outputDir, cssFilename), cssArray, opts);
-  }).then(function () {
+
+  }).then(() => {
 
     if (!opts.nopngdata) {
-      var _ret3 = (function () {
 
-        // number of bytes that will cause IE8 to choke on a datauri
-        var TOO_BIG_FOR_IE8 = 32768;
+      // number of bytes that will cause IE8 to choke on a datauri
+      const TOO_BIG_FOR_IE8 = 32768;
 
-        // check the size of the datauris and throw warning if too big
-        return {
-          v: results.forEach(function (res) {
-            var size = res.pngdatauri !== null ? res.pngdatauri.length : void 0;
-            if (size >= TOO_BIG_FOR_IE8 && opts.verbose) {
-              return msg.log('warn', 'largeDataUri', res.name + ' (' + size + ' bytes)');
-            }
-          })
-        };
-      })();
+      // check the size of the datauris and throw warning if too big
+      return results.forEach((res) => {
+        let size = (res.pngdatauri !== null) ? res.pngdatauri.length : void 0;
+        if (size >= TOO_BIG_FOR_IE8 && opts.verbose) {
+          return msg.log('warn', 'largeDataUri', res.name + ' (' + size + ' bytes)');
+        }
+      });
 
-      if (typeof _ret3 === 'object') return _ret3.v;
     }
-  }).then(function () {
+
+  }).then(() => {
 
     // finished!
     if (opts.verbose) {
       return msg.log('info', 'appEnd');
     }
-  })['catch'](function (error) {
+
+  }).catch((error) => {
 
     // errors should output here
     if (opts.debug) {
@@ -343,7 +340,8 @@ module.exports = function (args, opts) {
     showAnalytics = false;
 
     return;
-  })['finally'](function () {
+
+  }).finally(() => {
 
     // in debug mode also expose results object
     // msg.dump results if opts.debug
@@ -353,5 +351,7 @@ module.exports = function (args, opts) {
       log.appEnd = microtime.now();
       return msg.analytics(log);
     }
+
   }).done();
+
 };
