@@ -18,21 +18,20 @@ const displayHelp = () => {
 // create options object from cli arguments
 const parseArguments = (args) => {
 
-  return {
-    analytics: args.analytics || args.a ? true : false,
-    base64: args.base64 || args.b ? true : false,
-    classname: args.classname || args.c ? args.classname || args.c : null,
-    debug: args.debug || args.d ? true : false,
-    filename: args.filename || args.f ? args.filename || args.f : null,
-    killcomment: args.killcomment || args.k ? true : false,
-    nopng: args.nopng || args.n ? true : false,
-    nopngdata: args.nopngdata || args.N ? true : false,
-    optimizesvg: args.optimizesvg || args.o ? true : false,
-    pretty: args.pretty || args.p ? true : false,
-    separatecss: args.separatecss || args.s ? true : false,
-    stdout: args.stdout || args.S ? true : false,
-    verbose: args.verbose || args.v ? true : false
-  };
+  const options = require(path.join(__dirname, '..', 'lang', 'options.json'));
+  const parsedOptions = {};
+
+  options.forEach((opt) => {
+    let val = args[opt.longName] || args[opt.shortName];
+    if (opt.type === 'string') {
+      parsedOptions[opt.longName] = val ? val : null;
+    } else {
+      parsedOptions[opt.longName] = val ? true : false;
+    }
+    return;
+  });
+
+  return parsedOptions;
 
 };
 
