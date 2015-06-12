@@ -36,14 +36,14 @@ module.exports = (args, opts) => {
     mkdirp(pngDir);
   }
 
-  // if the sdout option
+  // if sdout option set, supress output noise
   if (opts.stdout) {
     opts.verbose = false;
     opts.analytics = false;
   }
 
   // name of the CSS file output
-  const cssFilename = (opts.filename != null) ? util.trimFilename(opts.filename) : 'iconr';
+  const cssFilename = (opts.filename !== null) ? util.trimFilename(opts.filename) : 'iconr';
 
   // this is necessary to prevent the analytics from displaying
   // during an application error
@@ -201,7 +201,7 @@ module.exports = (args, opts) => {
       return typeof pngPath !== 'undefined';
     });
 
-    if (pngPaths != null) {
+    if (pngPaths !== null) {
 
       // stop progress dots
       if (opts.verbose) {
@@ -233,7 +233,7 @@ module.exports = (args, opts) => {
     }
   }).then((pngData) => {
 
-    if (pngData != null) {
+    if (pngData !== null) {
 
       // convert PNGs to data strings
       if (opts.verbose) {
@@ -314,7 +314,7 @@ module.exports = (args, opts) => {
 
       // check the size of the datauris and throw warning if too big
       return results.forEach((res) => {
-        let size = (res.pngdatauri != null) ? res.pngdatauri.length : void 0;
+        let size = (res.pngdatauri !== null) ? res.pngdatauri.length : void 0;
         if (size >= TOO_BIG_FOR_IE8 && opts.verbose) {
           return msg.log('warn', 'largeDataUri', res.name + ' (' + size + ' bytes)');
         }

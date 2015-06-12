@@ -16,12 +16,12 @@ const displayHelp = () => {
 };
 
 // create options object from cli arguments
-const getOptions = (args) => {
+const parseArguments = (args) => {
 
   return {
     analytics: args.analytics || args.a ? true : false,
     base64: args.base64 || args.b ? true : false,
-    classname: args.classname || args.c ? args.classname || args.c : '',
+    classname: args.classname || args.c ? args.classname || args.c : null,
     debug: args.debug || args.d ? true : false,
     filename: args.filename || args.f ? args.filename || args.f : null,
     killcomment: args.killcomment || args.k ? true : false,
@@ -36,20 +36,20 @@ const getOptions = (args) => {
 
 };
 
-module.exports = (argv) => {
+module.exports = (args) => {
 
   // args passed
-  if (argv._.length > 0) {
-    return iconr(argv._, getOptions(argv));
+  if (args._.length > 0) {
+    return iconr(args._, parseArguments(args));
   }
 
   // --version
-  if (argv.version || argv.V) {
+  if (args.version || args.V) {
     return displayVersion();
   }
 
   // --help (or no args)
-  if (argv.help || argv.h || !argv._.length) {
+  if (args.help || args.h || !args._.length) {
     return displayHelp();
   }
 

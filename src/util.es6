@@ -100,7 +100,7 @@ module.exports = {
 
   // returns a string that can be saved as a CSS file
   createCssRules: (results, opts) => {
-    const cssClassnamePrefix = opts.classname != null ? opts.classname : '';
+    const cssClassnamePrefix = opts.classname !== null ? opts.classname : '';
     let css = [];
     let cssSvg = '';
     let cssNoInlineSvg = '';
@@ -156,12 +156,12 @@ module.exports = {
       fs.writeFileAsync(filename + '.css', cssArr[0]);
 
       // save CSS with fallback PNG data URIs
-      if (((ref = cssArr[1]) != null ? ref.length : void 0) !== 0) {
+      if (((ref = cssArr[1]) !== null ? ref.length : void 0) !== 0) {
         return fs.writeFileAsync(filename + '-noinlinesvg.css', cssArr[1]);
       }
 
       // save CSS with fallback PNG image paths
-      if (((ref1 = cssArr[2]) != null ? ref1.length : void 0) !== 0) {
+      if (((ref1 = cssArr[2]) !== null ? ref1.length : void 0) !== 0) {
         return fs.writeFileAsync(filename + '-nodatauri.css', cssArr[2]);
       }
 
