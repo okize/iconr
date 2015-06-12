@@ -6,8 +6,6 @@ run = require('run-sequence')
 gutil = require('gulp-util')
 babel = require('gulp-babel')
 eslint = require('gulp-eslint')
-coffee = require('gulp-coffee')
-coffeelint = require('gulp-coffeelint')
 plumber = require('gulp-plumber')
 template = require('gulp-template')
 bump = require('gulp-bump')
@@ -42,27 +40,6 @@ gulp.task 'clean', 'Deletes build directory.', ->
   clean [
     buildDir
   ]
-
-gulp.task 'lint-coffee', 'Lints coffeescript.', ->
-  log 'linting coffeescript'
-  gulp
-    .src(sourceDirCoffee)
-    .pipe(coffeelint())
-    .pipe(coffeelint.reporter())
-
-gulp.task 'build-coffee', 'Compiles coffeescript source into javascript.', ->
-  log 'compiling coffeescript'
-  gulp
-    .src(sourceDirCoffee)
-    .pipe(plumber())
-    .pipe(coffee(
-      bare: true
-      sourceMap: false
-    ))
-    .on('error', swallowError)
-    .pipe(
-      gulp.dest buildDir
-    )
 
 gulp.task 'lint', 'Lints javascript.', ->
   log 'linting es6 javascript...'
