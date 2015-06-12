@@ -1,7 +1,7 @@
 {
   "name": "iconr",
   "version": "0.6.0",
-  "description": "CLI tool that parses a directory of SVG images and outputs a CSS file of inlined data URIs as well as a directory of PNG images for fallback.",
+  "description": "CLI tool that consumes a directory of SVG images and outputs a CSS file of inlined data as well as a directory of PNG images for fallback if necessary.",
   "preferGlobal": true,
   "main": "./bin/iconr.js",
   "bin": {
@@ -24,7 +24,7 @@
     "mkdirp": "^0.5.0",
     "optimist": "^0.6.0",
     "phantomjs": "^1.9.0",
-    "progger": "^0.1.0",
+    "progger": "^1.0.0",
     "rimraf": "^2.2.0",
     "svgo": "^0.5.0",
     "yargs": "^3.10.0"
