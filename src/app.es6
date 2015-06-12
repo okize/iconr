@@ -3,6 +3,7 @@ const fs = Bluebird.promisifyAll(require('fs'));
 const path = require('path');
 const _ = require('lodash');
 const microtime = require('microtime');
+const gzipSize = require('gzip-size');
 const mkdirp = require('mkdirp');
 const rimraf = require('rimraf');
 const Progger = require('progger');
@@ -58,7 +59,8 @@ module.exports = (args, opts) => {
     appEnd: 0,
     svgCount: 0,
     svgSize: 0,
-    cssSize: 0
+    cssSize: 0,
+    cssGzipSize: 0
   };
 
   // starting app
@@ -295,8 +297,9 @@ module.exports = (args, opts) => {
       return process.stdout.write(cssString);
     }
 
-    // save CSS size
+    // save CSS & gzipped size
     log.cssSize = cssString.length;
+    log.cssGzipSize = gzipSize.sync(cssString);
 
     // save generated CSS to file
     if (opts.verbose) {
