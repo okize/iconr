@@ -1,5 +1,5 @@
-const Promise = require('bluebird');
-const fs = Promise.promisifyAll(require('fs'));
+const Bluebird = require('bluebird');
+const fs = Bluebird.promisifyAll(require('fs'));
 const path = require('path');
 const _ = require('lodash');
 const microtime = require('microtime');
@@ -132,7 +132,7 @@ module.exports = (args, opts) => {
       });
     });
 
-    return Promise.all(queue);
+    return Bluebird.all(queue);
 
   }).then((svgData) => {
 
@@ -149,7 +149,7 @@ module.exports = (args, opts) => {
       return queue.push(util.optimizeSvg(svg));
     });
 
-    return Promise.all(queue);
+    return Bluebird.all(queue);
 
   }).then((data) => {
 
@@ -191,7 +191,7 @@ module.exports = (args, opts) => {
         p.start();
       }
 
-      return Promise.all(queue);
+      return Bluebird.all(queue);
 
     }
   }).then((pngPaths) => {
@@ -229,7 +229,7 @@ module.exports = (args, opts) => {
 
       });
 
-      return Promise.all(queue);
+      return Bluebird.all(queue);
     }
   }).then((pngData) => {
 

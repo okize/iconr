@@ -1,6 +1,6 @@
-const Promise = require('bluebird');
-const fs = Promise.promisifyAll(require('fs'));
-const proc = Promise.promisifyAll(require('child_process'));
+const Bluebird = require('bluebird');
+const fs = Bluebird.promisifyAll(require('fs'));
+const proc = Bluebird.promisifyAll(require('child_process'));
 const path = require('path');
 const mime = require('mime');
 const _ = require('lodash');
@@ -59,7 +59,7 @@ module.exports = {
   // returns an optimized SVG data string as a promise
   // also appends the original SVG data to the SVGO output
   optimizeSvg: (data) => {
-    const svgo = Promise.promisifyAll(new SvgOptimize());
+    const svgo = Bluebird.promisifyAll(new SvgOptimize());
     return svgo
             .optimizeAsync(data)
             .catch((result) => {
