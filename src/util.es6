@@ -17,7 +17,7 @@ module.exports = {
 
   // returns binary data as encoded string
   encodeImage: (data, type, format) => {
-    let encoded;
+    let encoded = '';
     let str = ',';
     const formatMap = {
       'svg': '\'data:image/svg+xml',
