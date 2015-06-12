@@ -8,7 +8,6 @@ babel = require('gulp-babel')
 eslint = require('gulp-eslint')
 plumber = require('gulp-plumber')
 template = require('gulp-template')
-bump = require('gulp-bump')
 spawn = require('child_process').spawn
 clean = require('del')
 
@@ -75,13 +74,10 @@ gulp.task 'docs', 'Generates readme file.', ->
       gulp.dest './'
     )
 
-gulp.task 'bump', 'Bumps patch version of module', ->
-  gulp
-  .src('./package.json')
-  .pipe(bump(
-    type: 'patch'
-  ))
-  .pipe gulp.dest('./')
+gulp.task 'bump', 'Bumps patch version of module', (done) ->
+  spawn('npm', ['version', 'patch'],
+    stdio: 'inherit'
+  ).on 'close', done
 
 gulp.task 'publish', 'Publishes module to npm', (done) ->
   spawn('npm', ['publish'],

@@ -33,7 +33,6 @@
     "del": "*",
     "gulp": "*",
     "gulp-babel": "*",
-    "gulp-bump": "*",
     "gulp-eslint": "*",
     "gulp-help": "*",
     "gulp-plumber": "*",
