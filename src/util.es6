@@ -10,15 +10,6 @@ const SvgOptimize = require('svgo');
 
 module.exports = {
 
-  // remove .css from end of filename if present
-  trimFilename: (filename) => {
-    let index = filename.lastIndexOf('.css');
-    if (index !== -1) {
-      filename = filename.substring(0, index);
-    }
-    return filename;
-  },
-
   // trims file extension from filename
   trimExt: (filename) => {
     return filename.replace(/\.[^\/.]+$/, '');

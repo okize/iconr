@@ -43,7 +43,7 @@ module.exports = (args, opts) => {
   }
 
   // name of the CSS file output
-  const cssFilename = (opts.filename !== null) ? util.trimFilename(opts.filename) : 'iconr';
+  const cssFilename = (opts.filename !== null) ? util.trimExt(opts.filename) : 'iconr';
 
   // this is necessary to prevent the analytics from displaying
   // during an application error
