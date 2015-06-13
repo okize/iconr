@@ -39,6 +39,7 @@
     "gulp-eslint": "*",
     "gulp-help": "*",
     "gulp-plumber": "*",
+    "gulp-rename": "*",
     "gulp-template": "*",
     "gulp-util": "*",
     "mocha": "*",
