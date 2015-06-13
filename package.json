@@ -30,6 +30,7 @@
     "yargs": "^3.10.0"
   },
   "devDependencies": {
+    "babel-eslint": "*",
     "chai": "*",
     "coffee-script": "*",
     "del": "*",
