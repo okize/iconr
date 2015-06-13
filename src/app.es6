@@ -8,6 +8,7 @@ const mkdirp = require('mkdirp');
 const rimraf = require('rimraf');
 const Progger = require('progger');
 const util = require(path.resolve(__dirname, './', 'util'));
+const css = require(path.resolve(__dirname, './', 'css'));
 const image = require(path.resolve(__dirname, './', 'image'));
 const msg = require(path.resolve(__dirname, './', 'msg'));
 const analytics = require(path.resolve(__dirname, './', 'analytics'));
@@ -278,11 +279,11 @@ module.exports = (args, opts) => {
       msg.log('info', 'generatingCss');
     }
 
-    return util.createCssRules(results, opts);
+    return css.createRules(results, opts);
 
   }).then((cssArray) => {
 
-    let cssString = util.mungeCss(cssArray);
+    let cssString = css.munge(cssArray);
 
     if (opts.stdout) {
 
@@ -308,7 +309,7 @@ module.exports = (args, opts) => {
       msg.log('info', 'saveCss');
     }
 
-    return util.saveCss(path.resolve(outputDir, cssFilename), cssArray, opts);
+    return css.save(path.resolve(outputDir, cssFilename), cssArray, opts);
 
   }).then(() => {
 
