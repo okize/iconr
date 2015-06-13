@@ -47,7 +47,7 @@ gulp.task 'lint', 'Lints javascript.', ->
     .pipe(eslint.format())
     .pipe(eslint.failOnError())
 
-gulp.task 'build', 'Compiles ES6 javascript source into ES5 javascript.', ->
+gulp.task 'compile', 'Compiles ES6 javascript source into ES5 javascript.', ->
   log 'compiling es6 javascript'
   gulp
     .src(sourceDir)
@@ -83,12 +83,17 @@ gulp.task 'publish', 'Publishes module to npm', (done) ->
     stdio: 'inherit'
   ).on 'close', done
 
+gulp.task 'build', 'Compiles ES6 javascript source into ES5 javascript.', (done) ->
+  run(
+    'compile'
+    'docs'
+    done
+  )
+
 gulp.task 'release', 'Builds module, bumps version & publishes to npm.', (done) ->
   run(
-    'clean'
     'build'
     'bump'
-    'docs'
     'publish'
     done
   )
