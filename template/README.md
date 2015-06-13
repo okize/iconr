@@ -31,7 +31,7 @@ Expects [Modernizr](http://modernizr.com/) classes on front-end.
 
 Contributions and pull requests are very welcome. Please follow these guidelines when submitting new code.
 
-1. Make all changes in ES6 files in ./src, **not** JavaScript build files.
+1. Make all changes in ./src, **not** in ./lib, which is a build target.
 2. Use `npm install -d` to install the correct development dependencies.
 3. Use `gulp watch` to generate Iconr's compiled JavaScript files as you code.
 4. Submit a Pull Request using GitHub.

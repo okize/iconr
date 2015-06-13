@@ -15,8 +15,7 @@ clean = require('del')
 appRoot = __dirname
 pak = JSON.parse(fs.readFileSync './package.json', 'utf8')
 readmeTemplate = 'template/README.md'
-sourceDirCoffee = 'src/**/*.coffee'
-sourceDir = 'src/**/*.es6'
+sourceDir = 'src/**/*.js'
 buildDir = 'lib'
 
 # small wrapper around gulp util logging
