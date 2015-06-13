@@ -1,8 +1,8 @@
 .eslintrc
 .editorconfig
 .jshintrc
+.bithoundrc
 gulpfile*
 src/
 test/
 samples/
-*.es6
