@@ -17,15 +17,15 @@ const render = (str, data) => {
 
   // mutate the data object by wrapping property values in white chalk
   _.each(data, (value, key, obj) => {
-    obj[key] = chalk[COLORMAP['data']].bold(value);
+    obj[key] = chalk[COLORMAP.data].bold(value);
   });
 
   if (data.title) {
-    output = '\n' + chalk[COLORMAP['text']].inverse(str);
+    output = '\n' + chalk[COLORMAP.text].inverse(str);
   } else {
     let template = _.template(str);
-    let bullet = chalk[COLORMAP['bullet']](' ☉');
-    output = chalk[COLORMAP['text']](bullet, template(data));
+    let bullet = chalk[COLORMAP.bullet](' ☉');
+    output = chalk[COLORMAP.text](bullet, template(data));
   }
 
   return console.log(output);
