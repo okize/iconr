@@ -30,7 +30,7 @@
     "yargs": "^3.10.0"
   },
   "devDependencies": {
-    "chai": "^3.0.0",
+    "chai": "*",
     "coffee-script": "*",
     "del": "*",
     "gulp": "*",
@@ -40,11 +40,14 @@
     "gulp-plumber": "*",
     "gulp-template": "*",
     "gulp-util": "*",
-    "mocha": "^2.2.5",
+    "mocha": "*",
     "run-sequence": "*"
   },
   "engines": {
     "node": ">=0.8.0"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --compilers coffee:coffee-script/register"
   },
   "repository": {
     "type": "git",
