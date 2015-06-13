@@ -6,24 +6,33 @@ const microtime = require('microtime');
 const gzipSize = require('gzip-size');
 const mkdirp = require('mkdirp');
 const rimraf = require('rimraf');
-const Progger = require('progger');
+const Logger = require(path.resolve(__dirname, './', 'logger'));
 const util = require(path.resolve(__dirname, './', 'util'));
-const msg = require(path.resolve(__dirname, './', 'msg'));
-const p = new Progger({speed: 100, token: '.', color: 'blue'});
+const css = require(path.resolve(__dirname, './', 'css'));
+const image = require(path.resolve(__dirname, './', 'image'));
+const analytics = require(path.resolve(__dirname, './', 'analytics'));
 
 module.exports = (args, opts) => {
+
+  // if sdout option set, supress output noise
+  if (opts.stdout) {
+    opts.verbose = false;
+    opts.analytics = false;
+  }
+
+  const log = new Logger(opts);
 
   // input directory of SVG icons
   const inputDir = path.resolve(args[0]);
 
   // confirm input directory exists
   if (!fs.existsSync(inputDir)) {
-    return msg.log('error', 'wrongDirectory');
+    return log.msg('error', 'wrongDirectory');
   }
 
   // no output directory provided
   if (args.length < 2) {
-    return msg.log('error', 'noOutputDir');
+    return log.msg('error', 'noOutputDir');
   }
 
   // output directory
@@ -37,12 +46,6 @@ module.exports = (args, opts) => {
     mkdirp(pngDir);
   }
 
-  // if sdout option set, supress output noise
-  if (opts.stdout) {
-    opts.verbose = false;
-    opts.analytics = false;
-  }
-
   // name of the CSS file output
   const cssFilename = (opts.filename !== null) ? util.trimExt(opts.filename) : 'iconr';
 
@@ -54,7 +57,7 @@ module.exports = (args, opts) => {
   let results = [];
 
   // logs data about the application operations
-  let log = {
+  let appLog = {
     appStart: microtime.now(),
     appEnd: 0,
     svgCount: 0,
@@ -64,17 +67,13 @@ module.exports = (args, opts) => {
   };
 
   // starting app
-  if (opts.verbose) {
-    msg.log('info', 'appStart');
-  }
+  log.msg('info', 'appStart');
 
   // start of promise chain
   // read files in directory
   return fs.readdirAsync(inputDir).then((files) => {
 
-    if (opts.verbose) {
-      msg.log('info', 'filterNonSvg');
-    }
+    log.msg('info', 'filterNonSvg');
 
     // filter anything that isn't an SVG
     return util.filterNonSvgFiles(files, inputDir);
@@ -84,7 +83,7 @@ module.exports = (args, opts) => {
     // exit if no SVG images found
     if (svgFiles.length < 1) {
       showAnalytics = false;
-      return msg.log('error', 'noSvg');
+      return log.msg('error', 'noSvg');
     }
 
     // store list of files after spaces (if any) have been removed
@@ -94,9 +93,7 @@ module.exports = (args, opts) => {
     svgFiles.forEach((filename) => {
 
       if (util.hasSpace(filename) === true) {
-        if (opts.verbose) {
-          msg.log('warn', 'spaceInFilename', filename);
-        }
+        log.msg('warn', 'spaceInFilename', filename);
         let newFilename = filename.split(' ').join('-');
         filteredFiles.push(newFilename);
         return util.replaceSpaceInFilename(filename, newFilename, inputDir);
@@ -111,12 +108,10 @@ module.exports = (args, opts) => {
   }).then((filteredFiles) => {
 
     // read SVGs into memory
-    if (opts.verbose) {
-      msg.log('info', 'readingSvg');
-    }
+    log.msg('info', 'readingSvg');
 
     // log icon count
-    log.svgCount = filteredFiles.length;
+    appLog.svgCount = filteredFiles.length;
 
     let queue = [];
 
@@ -125,7 +120,7 @@ module.exports = (args, opts) => {
       queue.push(fs.readFileAsync(svgPath, 'utf8'));
 
       // log total file size of the SVG files we're optimizing
-      log.svgSize += fs.statSync(svgPath).size;
+      appLog.svgSize += fs.statSync(svgPath).size;
 
       // add to results object
       return results.push({
@@ -141,14 +136,12 @@ module.exports = (args, opts) => {
     // optimize SVG data and get width & heights
     // note: optimization process is necessary even if it is not requested
     // in order to get SVG width & height
-    if (opts.verbose) {
-      msg.log('info', 'optimizingSvg');
-    }
+    log.msg('info', 'optimizingSvg');
 
     let queue = [];
 
     svgData.forEach((svg) => {
-      return queue.push(util.optimizeSvg(svg));
+      return queue.push(image.optimizeSvg(svg));
     });
 
     return Bluebird.all(queue);
@@ -156,16 +149,14 @@ module.exports = (args, opts) => {
   }).then((data) => {
 
     // merge compressed & encoded SVG data into results
-    if (opts.verbose) {
-      msg.log('info', 'encodingSvg');
-    }
+    log.msg('info', 'encodingSvg');
 
     return _.each(data, (obj, i) => {
       let encoding = opts.base64 ? 'base64' : '';
       let svgOut = opts.optimizesvg ? obj.data : obj.original;
       let svgData = {
         svgsrc: svgOut,
-        svgdatauri: util.encodeImage(svgOut, encoding, 'svg'),
+        svgdatauri: image.encode(svgOut, encoding, 'svg'),
         height: util.roundNum(obj.info.height),
         width: util.roundNum(obj.info.width)
       };
@@ -177,21 +168,17 @@ module.exports = (args, opts) => {
     if (!(opts.nopngdata && opts.nopng)) {
 
       // convert SVGs to PNGs
-      if (opts.verbose) {
-        msg.log('info', 'convertingSvg');
-      }
+      log.msg('info', 'convertingSvg');
 
       let queue = [];
 
       _.each(results, (obj) => {
         let destFile = path.resolve(pngDir, obj.name + '.png');
-        return queue.push(util.saveSvgAsPng(obj.svgpath, destFile, obj.height, obj.width));
+        return queue.push(image.saveSvgAsPng(obj.svgpath, destFile, obj.height, obj.width));
       });
 
       // start progress dots
-      if (opts.verbose) {
-        p.start();
-      }
+      log.startProgress();
 
       return Bluebird.all(queue);
 
@@ -206,14 +193,10 @@ module.exports = (args, opts) => {
     if (pngPaths !== null) {
 
       // stop progress dots
-      if (opts.verbose) {
-        p.stop();
-      }
+      log.stopProgress();
 
       // read PNGs into memory
-      if (opts.verbose) {
-        msg.log('info', 'readingPng');
-      }
+      log.msg('info', 'readingPng');
 
       let queue = [];
 
@@ -238,15 +221,13 @@ module.exports = (args, opts) => {
     if (pngData !== null) {
 
       // convert PNGs to data strings
-      if (opts.verbose) {
-        msg.log('info', 'encodingPng');
-      }
+      log.msg('info', 'encodingPng');
 
       return pngData.forEach((data, i) => {
 
         // add to results object
         return _.extend(results[i], {
-          pngdatauri: util.encodeImage(data, 'base64', 'png')
+          pngdatauri: image.encode(data, 'base64', 'png')
         });
 
       });
@@ -257,9 +238,7 @@ module.exports = (args, opts) => {
     if (opts.nopng || opts.stdout) {
 
       // delete generated PNG directory
-      if (opts.verbose) {
-        msg.log('info', 'deletingPng');
-      }
+      log.msg('info', 'deletingPng');
 
       return rimraf(pngDir, (error) => {
         if (error) {
@@ -272,22 +251,18 @@ module.exports = (args, opts) => {
   }).then(() => {
 
     // generate a string of CSS rules from the results
-    if (opts.verbose) {
-      msg.log('info', 'generatingCss');
-    }
+    log.msg('info', 'generatingCss');
 
-    return util.createCssRules(results, opts);
+    return css.createRules(results, opts);
 
   }).then((cssArray) => {
 
-    let cssString = util.mungeCss(cssArray);
+    let cssString = css.munge(cssArray);
 
     if (opts.stdout) {
 
       // send generated CSS to stdout
-      if (opts.verbose) {
-        msg.log('info', 'outputCss');
-      }
+      log.msg('info', 'outputCss');
 
       // prettify the CSS if necessary
       if (opts.pretty) {
@@ -298,15 +273,13 @@ module.exports = (args, opts) => {
     }
 
     // save CSS & gzipped size
-    log.cssSize = cssString.length;
-    log.cssGzipSize = gzipSize.sync(cssString);
+    appLog.cssSize = cssString.length;
+    appLog.cssGzipSize = gzipSize.sync(cssString);
 
     // save generated CSS to file
-    if (opts.verbose) {
-      msg.log('info', 'saveCss');
-    }
+    log.msg('info', 'saveCss');
 
-    return util.saveCss(path.resolve(outputDir, cssFilename), cssArray, opts);
+    return css.save(path.resolve(outputDir, cssFilename), cssArray, opts);
 
   }).then(() => {
 
@@ -319,7 +292,7 @@ module.exports = (args, opts) => {
       return results.forEach((res) => {
         let size = (res.pngdatauri !== null) ? res.pngdatauri.length : void 0;
         if (size >= TOO_BIG_FOR_IE8 && opts.verbose) {
-          return msg.log('warn', 'largeDataUri', res.name + ' (' + size + ' bytes)');
+          return log.msg('warn', 'largeDataUri', res.name + ' (' + size + ' bytes)');
         }
       });
 
@@ -328,9 +301,7 @@ module.exports = (args, opts) => {
   }).then(() => {
 
     // finished!
-    if (opts.verbose) {
-      return msg.log('info', 'appEnd');
-    }
+    return log.msg('info', 'appEnd');
 
   }).catch((error) => {
 
@@ -346,13 +317,10 @@ module.exports = (args, opts) => {
 
   }).finally(() => {
 
-    // in debug mode also expose results object
-    // msg.dump results if opts.debug
-
     // log the process analytics
     if (opts.analytics && showAnalytics) {
-      log.appEnd = microtime.now();
-      return msg.analytics(log);
+      appLog.appEnd = microtime.now();
+      return analytics(appLog);
     }
 
   }).done();

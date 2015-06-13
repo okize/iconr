@@ -23,10 +23,15 @@ const parseArguments = (args) => {
 
   options.forEach((opt) => {
     let val = args[opt.longName] || args[opt.shortName];
-    if (opt.type === 'string') {
-      parsedOptions[opt.longName] = val ? val : null;
-    } else {
-      parsedOptions[opt.longName] = val ? true : false;
+    switch (opt.type) {
+      case 'string':
+        parsedOptions[opt.longName] = val ? val : null;
+        break;
+      case 'boolean':
+        parsedOptions[opt.longName] = val ? true : false;
+        break;
+      default:
+        console.error('Options need to have a type specified');
     }
     return;
   });
