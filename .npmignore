@@ -2,7 +2,9 @@
 .editorconfig
 .jshintrc
 .bithoundrc
+.travis.yml
 gulpfile*
 src/
 test/
+temp/
 samples/
