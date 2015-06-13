@@ -1,7 +1,6 @@
 const path = require('path');
 const chalk = require('chalk');
 const Progger = require('progger');
-const progress = new Progger({speed: 100, token: '.', color: 'blue'});
 const messages = require(path.resolve(__dirname, '..', 'lang', 'messages.json'));
 
 // configuration for command line colorization
@@ -16,6 +15,7 @@ const COLORMAP = {
 class Logger {
   constructor(options) {
     this.verbose = options.verbose;
+    this.progress = new Progger({speed: 100, token: '.', color: 'blue'});
   }
 
   msg(type, key, data) {
@@ -27,13 +27,13 @@ class Logger {
 
   startProgress() {
     if (this.verbose) {
-      progress.start();
+      this.progress.start();
     }
   }
 
   stopProgress() {
     if (this.verbose) {
-      progress.stop();
+      this.progress.stop();
     }
   }
 }
