@@ -47,11 +47,13 @@ module.exports = {
   // can't use arrow syntax here because of "this" reference
   save: function saveCss(filename, cssArr, opts) {
 
+    let css;
+
     // save separate css files
     if (opts.separatecss) {
 
       // prettify the CSS if necessary
-      let css = opts.pretty ? cssArr.map((cssStr) => pretty(cssStr)) : css;
+      css = opts.pretty ? cssArr.map((cssStr) => pretty(cssStr)) : css;
 
       // save CSS with SVG data URIs
       fs.writeFileAsync(filename + '.css', css[0]);
@@ -69,7 +71,7 @@ module.exports = {
     } else {
 
       // combine CSS into string
-      let css = this.munge(cssArr);
+      css = this.munge(cssArr);
 
       // prettify the CSS if necessary
       if (opts.pretty) {
