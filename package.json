@@ -30,6 +30,8 @@
     "yargs": "^3.10.0"
   },
   "devDependencies": {
+    "babel-eslint": "*",
+    "chai": "*",
     "coffee-script": "*",
     "del": "*",
     "gulp": "*",
@@ -39,10 +41,14 @@
     "gulp-plumber": "*",
     "gulp-template": "*",
     "gulp-util": "*",
+    "mocha": "*",
     "run-sequence": "*"
   },
   "engines": {
     "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/gulp lint"
   },
   "repository": {
     "type": "git",
@@ -55,6 +61,5 @@
     "email": "okize123@gmail.com",
     "url": "https://github.com/okize"
   },
-  "license": "MIT",
-  "scripts": {}
+  "license": "MIT"
 }

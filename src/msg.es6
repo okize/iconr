@@ -20,22 +20,18 @@ module.exports = {
 
   // logs requested message to the console
   log: (type, key, data) => {
-    if (typeof data === 'undefined') {
-      data = '';
-    }
-    return console.log(chalk[COLORMAP[type]](messages[type][key]), data);
+    let args = (data === undefined) ? '' : data;
+    return console.log(chalk[COLORMAP[type]](messages[type][key]), args);
   },
 
   // logs message to the console
   // to be used when not in control of message language
   data: (type, msg, data) => {
-    if (typeof data === 'undefined') {
-      data = '';
-    }
+    let args = (data === undefined) ? '' : data;
     if (type === 'error') {
       return console.error(msg);
     }
-    return console.log(chalk[COLORMAP[type]](msg, data));
+    return console.log(chalk[COLORMAP[type]](msg, args));
   },
 
   // logs analytics of application operation totals

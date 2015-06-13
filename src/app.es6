@@ -196,11 +196,11 @@ module.exports = (args, opts) => {
       return Bluebird.all(queue);
 
     }
-  }).then((pngPaths) => {
+  }).then((unfilteredPngPaths) => {
 
     // remove undefined items from path array
-    pngPaths = _.filter(pngPaths, (pngPath) => {
-      return typeof pngPath !== 'undefined';
+    let pngPaths = _.filter(unfilteredPngPaths, (pngPath) => {
+      return pngPath !== undefined;
     });
 
     if (pngPaths !== null) {

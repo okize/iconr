@@ -1,8 +1,8 @@
-*.coffee
-*.es6
-gulpfile*
-.jshintrc
 .eslintrc
+.editorconfig
+.jshintrc
+gulpfile*
 src/
 test/
 samples/
+*.es6

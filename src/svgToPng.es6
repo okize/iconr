@@ -1,7 +1,7 @@
 /*global phantom*/
 const webpage = require('webpage');
 
-const convert = function (source, destination, height, width) {
+const convert = (source, destination, height, width) => {
   let page = webpage.create();
   return page.open(source, function renderSVG(status) {
 
@@ -19,7 +19,7 @@ const convert = function (source, destination, height, width) {
     };
 
     // delay for resizing
-    setTimeout(function () {
+    setTimeout(() => {
       page.render(destination);
       return phantom.exit();
     }, 0);
