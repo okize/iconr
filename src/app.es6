@@ -9,6 +9,7 @@ const rimraf = require('rimraf');
 const Progger = require('progger');
 const util = require(path.resolve(__dirname, './', 'util'));
 const msg = require(path.resolve(__dirname, './', 'msg'));
+const analytics = require(path.resolve(__dirname, './', 'analytics'));
 const p = new Progger({speed: 100, token: '.', color: 'blue'});
 
 module.exports = (args, opts) => {
@@ -352,7 +353,7 @@ module.exports = (args, opts) => {
     // log the process analytics
     if (opts.analytics && showAnalytics) {
       log.appEnd = microtime.now();
-      return msg.analytics(log);
+      return analytics(log);
     }
 
   }).done();
