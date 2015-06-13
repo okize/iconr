@@ -1,21 +1,21 @@
 # modules
 path = require('path')
 fs = require('fs')
+_ = require('lodash')
 gulp = require('gulp-help')(require('gulp'))
 run = require('run-sequence')
 gutil = require('gulp-util')
 babel = require('gulp-babel')
 eslint = require('gulp-eslint')
-rename = require('gulp-rename')
 plumber = require('gulp-plumber')
 template = require('gulp-template')
+rename = require('gulp-rename')
+json2markdown = require('json2markdown')
 spawn = require('child_process').spawn
 clean = require('del')
 
 # configuration
 appRoot = __dirname
-pak = JSON.parse(fs.readFileSync './package.json', 'utf8')
-readmeTemplate = 'src/readme_template.md'
 sourceDir = 'src/**/*.js'
 buildDir = 'lib'
 
@@ -61,9 +61,14 @@ gulp.task 'compile', 'Compiles ES6 javascript source into ES5 javascript.', ->
 
 gulp.task 'docs', 'Generates readme file.', ->
   log 'generating readme'
-  helpText = fs.readFileSync './lang/help.txt', 'utf8'
+  pak = JSON.parse(fs.readFileSync './package.json', 'utf8')
+  helpOptions = JSON.parse(fs.readFileSync './lang/options.json', 'utf8')
+  helpOptions = _.map(helpOptions, (option) ->
+    _.pick(option, 'longName', 'shortName', 'description');
+  )
+  helpText = json2markdown(helpOptions)
   gulp
-    .src(readmeTemplate)
+    .src('src/readme_template.md')
     .pipe(
       template
         name: pak.name
