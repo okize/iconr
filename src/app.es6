@@ -7,10 +7,10 @@ const gzipSize = require('gzip-size');
 const mkdirp = require('mkdirp');
 const rimraf = require('rimraf');
 const Progger = require('progger');
+const Logger = require(path.resolve(__dirname, './', 'logger'));
 const util = require(path.resolve(__dirname, './', 'util'));
 const css = require(path.resolve(__dirname, './', 'css'));
 const image = require(path.resolve(__dirname, './', 'image'));
-const log = require(path.resolve(__dirname, './', 'logger'));
 const analytics = require(path.resolve(__dirname, './', 'analytics'));
 const p = new Progger({speed: 100, token: '.', color: 'blue'});
 
@@ -21,6 +21,8 @@ module.exports = (args, opts) => {
     opts.verbose = false;
     opts.analytics = false;
   }
+
+  const log = new Logger(opts);
 
   // input directory of SVG icons
   const inputDir = path.resolve(args[0]);
@@ -67,17 +69,13 @@ module.exports = (args, opts) => {
   };
 
   // starting app
-  if (opts.verbose) {
-    log.msg('info', 'appStart');
-  }
+  log.msg('info', 'appStart');
 
   // start of promise chain
   // read files in directory
   return fs.readdirAsync(inputDir).then((files) => {
 
-    if (opts.verbose) {
-      log.msg('info', 'filterNonSvg');
-    }
+    log.msg('info', 'filterNonSvg');
 
     // filter anything that isn't an SVG
     return util.filterNonSvgFiles(files, inputDir);
@@ -97,9 +95,7 @@ module.exports = (args, opts) => {
     svgFiles.forEach((filename) => {
 
       if (util.hasSpace(filename) === true) {
-        if (opts.verbose) {
-          log.msg('warn', 'spaceInFilename', filename);
-        }
+        log.msg('warn', 'spaceInFilename', filename);
         let newFilename = filename.split(' ').join('-');
         filteredFiles.push(newFilename);
         return util.replaceSpaceInFilename(filename, newFilename, inputDir);
@@ -114,9 +110,7 @@ module.exports = (args, opts) => {
   }).then((filteredFiles) => {
 
     // read SVGs into memory
-    if (opts.verbose) {
-      log.msg('info', 'readingSvg');
-    }
+    log.msg('info', 'readingSvg');
 
     // log icon count
     appLog.svgCount = filteredFiles.length;
@@ -144,9 +138,7 @@ module.exports = (args, opts) => {
     // optimize SVG data and get width & heights
     // note: optimization process is necessary even if it is not requested
     // in order to get SVG width & height
-    if (opts.verbose) {
-      log.msg('info', 'optimizingSvg');
-    }
+    log.msg('info', 'optimizingSvg');
 
     let queue = [];
 
@@ -159,9 +151,7 @@ module.exports = (args, opts) => {
   }).then((data) => {
 
     // merge compressed & encoded SVG data into results
-    if (opts.verbose) {
-      log.msg('info', 'encodingSvg');
-    }
+    log.msg('info', 'encodingSvg');
 
     return _.each(data, (obj, i) => {
       let encoding = opts.base64 ? 'base64' : '';
@@ -180,9 +170,7 @@ module.exports = (args, opts) => {
     if (!(opts.nopngdata && opts.nopng)) {
 
       // convert SVGs to PNGs
-      if (opts.verbose) {
-        log.msg('info', 'convertingSvg');
-      }
+      log.msg('info', 'convertingSvg');
 
       let queue = [];
 
@@ -192,9 +180,7 @@ module.exports = (args, opts) => {
       });
 
       // start progress dots
-      if (opts.verbose) {
-        p.start();
-      }
+      p.start();
 
       return Bluebird.all(queue);
 
@@ -209,14 +195,10 @@ module.exports = (args, opts) => {
     if (pngPaths !== null) {
 
       // stop progress dots
-      if (opts.verbose) {
-        p.stop();
-      }
+      p.stop();
 
       // read PNGs into memory
-      if (opts.verbose) {
-        log.msg('info', 'readingPng');
-      }
+      log.msg('info', 'readingPng');
 
       let queue = [];
 
@@ -241,9 +223,7 @@ module.exports = (args, opts) => {
     if (pngData !== null) {
 
       // convert PNGs to data strings
-      if (opts.verbose) {
-        log.msg('info', 'encodingPng');
-      }
+      log.msg('info', 'encodingPng');
 
       return pngData.forEach((data, i) => {
 
@@ -260,9 +240,7 @@ module.exports = (args, opts) => {
     if (opts.nopng || opts.stdout) {
 
       // delete generated PNG directory
-      if (opts.verbose) {
-        log.msg('info', 'deletingPng');
-      }
+      log.msg('info', 'deletingPng');
 
       return rimraf(pngDir, (error) => {
         if (error) {
@@ -275,9 +253,7 @@ module.exports = (args, opts) => {
   }).then(() => {
 
     // generate a string of CSS rules from the results
-    if (opts.verbose) {
-      log.msg('info', 'generatingCss');
-    }
+    log.msg('info', 'generatingCss');
 
     return css.createRules(results, opts);
 
@@ -288,9 +264,7 @@ module.exports = (args, opts) => {
     if (opts.stdout) {
 
       // send generated CSS to stdout
-      if (opts.verbose) {
-        log.msg('info', 'outputCss');
-      }
+      log.msg('info', 'outputCss');
 
       // prettify the CSS if necessary
       if (opts.pretty) {
@@ -305,9 +279,7 @@ module.exports = (args, opts) => {
     appLog.cssGzipSize = gzipSize.sync(cssString);
 
     // save generated CSS to file
-    if (opts.verbose) {
-      log.msg('info', 'saveCss');
-    }
+    log.msg('info', 'saveCss');
 
     return css.save(path.resolve(outputDir, cssFilename), cssArray, opts);
 
@@ -331,9 +303,7 @@ module.exports = (args, opts) => {
   }).then(() => {
 
     // finished!
-    if (opts.verbose) {
-      return log.msg('info', 'appEnd');
-    }
+    return log.msg('info', 'appEnd');
 
   }).catch((error) => {
 

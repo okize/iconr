@@ -2,7 +2,6 @@ const Bluebird = require('bluebird');
 const proc = Bluebird.promisifyAll(require('child_process'));
 const path = require('path');
 const _ = require('lodash');
-const log = require(path.resolve(__dirname, './', 'logger'));
 const SvgOptimize = require('svgo');
 
 module.exports = {
@@ -52,8 +51,8 @@ module.exports = {
                 return destinationFileName;
               }
             })
-            .catch(() => {
-              return log.msg('error', 'svgNotFound', sourceFileName);
+            .catch((err) => {
+              console.error(err);
             });
   }
 

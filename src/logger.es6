@@ -12,10 +12,16 @@ const COLORMAP = {
 };
 
 class Logger {
+  constructor(options) {
+    this.verbose = options.verbose;
+  }
+
   msg(type, key, data) {
-    let args = (data === undefined) ? '' : data;
-    return console.log(chalk[COLORMAP[type]](messages[type][key]), args);
+    if (this.verbose || type === 'error') {
+      let args = (data === undefined) ? '' : data;
+      return console.log(chalk[COLORMAP[type]](messages[type][key]), args);
+    }
   }
 }
 
-module.exports = exports = new Logger();
+module.exports = Logger;
