@@ -11,12 +11,11 @@ const COLORMAP = {
   list: 'white'
 };
 
-module.exports = {
-
-  // logs requested message to the console
-  log: (type, key, data) => {
+class Logger {
+  msg(type, key, data) {
     let args = (data === undefined) ? '' : data;
     return console.log(chalk[COLORMAP[type]](messages[type][key]), args);
   }
+}
 
-};
+module.exports = exports = new Logger();
