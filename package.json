@@ -42,6 +42,7 @@
     "gulp-rename": "*",
     "gulp-template": "*",
     "gulp-util": "*",
+    "json2markdown": "*",
     "mocha": "*",
     "run-sequence": "*"
   },
