@@ -6,6 +6,7 @@ run = require('run-sequence')
 gutil = require('gulp-util')
 babel = require('gulp-babel')
 eslint = require('gulp-eslint')
+rename = require('gulp-rename')
 plumber = require('gulp-plumber')
 template = require('gulp-template')
 spawn = require('child_process').spawn
@@ -14,7 +15,7 @@ clean = require('del')
 # configuration
 appRoot = __dirname
 pak = JSON.parse(fs.readFileSync './package.json', 'utf8')
-readmeTemplate = 'template/README.md'
+readmeTemplate = 'src/readme_template.md'
 sourceDir = 'src/**/*.js'
 buildDir = 'lib'
 
@@ -69,9 +70,8 @@ gulp.task 'docs', 'Generates readme file.', ->
         description: pak.description
         help: helpText
     )
-    .pipe(
-      gulp.dest './'
-    )
+    .pipe(rename('README.md'))
+    .pipe(gulp.dest './')
 
 gulp.task 'bump', 'Bumps patch version of module', (done) ->
   spawn('npm', ['version', 'patch'],
