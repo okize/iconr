@@ -1,8 +1,10 @@
 const chalk = require('chalk');
 
 // logs analytics of application operation totals
-const analytics = (log) => {
+module.exports = (log) => {
+
   let totalTime = (log.appEnd - log.appStart) / 1000000;
+
   console.log('\n');
   console.log(' ' + chalk.magenta.inverse(' SUMMARY: '));
   console.log(chalk.magenta('', '☉', 'converted', chalk.white.bold(log.svgCount), 'SVG images totaling', chalk.white.bold(log.svgSize), 'bytes'));
@@ -11,7 +13,7 @@ const analytics = (log) => {
   console.log(chalk.magenta('', '☉', 'and it took', chalk.white.bold(totalTime), 'seconds'));
   console.log(chalk.magenta('', '☉', 'at an average of', chalk.white.bold(totalTime / log.svgCount), 'seconds per icon'));
   console.log('\n');
-  return;
-};
 
-module.exports = analytics;
+  return;
+
+};
