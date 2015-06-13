@@ -6,13 +6,11 @@ const microtime = require('microtime');
 const gzipSize = require('gzip-size');
 const mkdirp = require('mkdirp');
 const rimraf = require('rimraf');
-const Progger = require('progger');
 const Logger = require(path.resolve(__dirname, './', 'logger'));
 const util = require(path.resolve(__dirname, './', 'util'));
 const css = require(path.resolve(__dirname, './', 'css'));
 const image = require(path.resolve(__dirname, './', 'image'));
 const analytics = require(path.resolve(__dirname, './', 'analytics'));
-const p = new Progger({speed: 100, token: '.', color: 'blue'});
 
 module.exports = (args, opts) => {
 
@@ -180,7 +178,7 @@ module.exports = (args, opts) => {
       });
 
       // start progress dots
-      p.start();
+      log.startProgress();
 
       return Bluebird.all(queue);
 
@@ -195,7 +193,7 @@ module.exports = (args, opts) => {
     if (pngPaths !== null) {
 
       // stop progress dots
-      p.stop();
+      log.stopProgress();
 
       // read PNGs into memory
       log.msg('info', 'readingPng');
