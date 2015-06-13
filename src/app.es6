@@ -14,6 +14,12 @@ const p = new Progger({speed: 100, token: '.', color: 'blue'});
 
 module.exports = (args, opts) => {
 
+  // if sdout option set, supress output noise
+  if (opts.stdout) {
+    opts.verbose = false;
+    opts.analytics = false;
+  }
+
   // input directory of SVG icons
   const inputDir = path.resolve(args[0]);
 
@@ -36,12 +42,6 @@ module.exports = (args, opts) => {
   // if the output directory does not exist, create it
   if (!fs.existsSync(outputDir)) {
     mkdirp(pngDir);
-  }
-
-  // if sdout option set, supress output noise
-  if (opts.stdout) {
-    opts.verbose = false;
-    opts.analytics = false;
   }
 
   // name of the CSS file output
@@ -346,9 +346,6 @@ module.exports = (args, opts) => {
     return;
 
   }).finally(() => {
-
-    // in debug mode also expose results object
-    // msg.dump results if opts.debug
 
     // log the process analytics
     if (opts.analytics && showAnalytics) {
