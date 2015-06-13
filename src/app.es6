@@ -8,6 +8,7 @@ const mkdirp = require('mkdirp');
 const rimraf = require('rimraf');
 const Progger = require('progger');
 const util = require(path.resolve(__dirname, './', 'util'));
+const image = require(path.resolve(__dirname, './', 'image'));
 const msg = require(path.resolve(__dirname, './', 'msg'));
 const analytics = require(path.resolve(__dirname, './', 'analytics'));
 const p = new Progger({speed: 100, token: '.', color: 'blue'});
@@ -149,7 +150,7 @@ module.exports = (args, opts) => {
     let queue = [];
 
     svgData.forEach((svg) => {
-      return queue.push(util.optimizeSvg(svg));
+      return queue.push(image.optimizeSvg(svg));
     });
 
     return Bluebird.all(queue);
@@ -166,7 +167,7 @@ module.exports = (args, opts) => {
       let svgOut = opts.optimizesvg ? obj.data : obj.original;
       let svgData = {
         svgsrc: svgOut,
-        svgdatauri: util.encodeImage(svgOut, encoding, 'svg'),
+        svgdatauri: image.encode(svgOut, encoding, 'svg'),
         height: util.roundNum(obj.info.height),
         width: util.roundNum(obj.info.width)
       };
@@ -186,7 +187,7 @@ module.exports = (args, opts) => {
 
       _.each(results, (obj) => {
         let destFile = path.resolve(pngDir, obj.name + '.png');
-        return queue.push(util.saveSvgAsPng(obj.svgpath, destFile, obj.height, obj.width));
+        return queue.push(image.saveSvgAsPng(obj.svgpath, destFile, obj.height, obj.width));
       });
 
       // start progress dots
@@ -247,7 +248,7 @@ module.exports = (args, opts) => {
 
         // add to results object
         return _.extend(results[i], {
-          pngdatauri: util.encodeImage(data, 'base64', 'png')
+          pngdatauri: image.encode(data, 'base64', 'png')
         });
 
       });
