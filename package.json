@@ -48,7 +48,7 @@
     "node": ">=0.8.0"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha --compilers coffee:coffee-script/register"
+    "test": "./node_modules/.bin/gulp lint"
   },
   "repository": {
     "type": "git",
