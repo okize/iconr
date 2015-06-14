@@ -1,5 +1,4 @@
 # modules
-path = require('path')
 fs = require('fs')
 _ = require('lodash')
 gulp = require('gulp-help')(require('gulp'))
@@ -13,11 +12,14 @@ rename = require('gulp-rename')
 json2markdown = require('json2markdown')
 spawn = require('child_process').spawn
 clean = require('del')
+mocha = require('gulp-mocha')
 
-# configuration
-appRoot = __dirname
-sourceDir = 'src/**/*.js'
-buildDir = 'lib'
+# directory paths
+dir =
+  root: __dirname
+  test: 'test/**.coffee'
+  source: 'src/**/*.js'
+  build: 'lib'
 
 # small wrapper around gulp util logging
 log = (msg, type) ->
@@ -30,38 +32,45 @@ log = (msg, type) ->
 swallowError = (error) ->
   log error, 'error'
 
-gulp.task 'lint', 'Lints ES6 javascript.', ->
-  log 'linting es6 javascript...'
-  gulp
-    .src(sourceDir)
-    .pipe(eslint())
-    .pipe(eslint.format())
-    .pipe(eslint.failOnError())
-
-gulp.task 'run-tests', 'Runs test suite.', (done) ->
+gulp.task 'tests', 'Runs test suite.', (done) ->
   log 'running tests...'
+  gulp
+    .src(dir.test)
+    .pipe(mocha(reporter: 'spec')) #list
 
 gulp.task 'test', 'Lints ES6 javascript and runs test suite.', (done) ->
   run(
     'lint'
-    'run-tests'
+    'tests'
     done
   )
+
+gulp.task 'test-watch', 'Watches test files and runs suite on changes.', ->
+  log 'watching files...'
+  gulp.watch(dir.test, ['tests', 'compile'])
+
+gulp.task 'lint', 'Lints ES6 javascript.', ->
+  log 'linting es6 javascript...'
+  gulp
+    .src(dir.source)
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failOnError())
 
 gulp.task 'compile', 'Compiles ES6 javascript source into ES5.', ->
   log 'compiling es6 javascript...'
   gulp
-    .src(sourceDir)
+    .src(dir.source)
     .pipe(plumber())
     .pipe(babel())
     .on('error', swallowError)
     .pipe(
-      gulp.dest(buildDir)
+      gulp.dest(dir.build)
     )
 
 gulp.task 'watch', 'Watches ES6 javascript files and lints/compiles on changes.', ->
   log 'watching files...'
-  gulp.watch sourceDir, ['lint', 'compile']
+  gulp.watch(dir.source, ['lint', 'compile'])
 
 gulp.task 'docs', 'Generates readme file.', ->
   log 'generating readme...'
@@ -80,12 +89,14 @@ gulp.task 'docs', 'Generates readme file.', ->
         help: helpText
     )
     .pipe(rename('README.md'))
-    .pipe(gulp.dest './')
+    .pipe(
+      gulp.dest(dir.root)
+    )
 
 gulp.task 'clean', 'Deletes build directory.', ->
   log 'deleting build diectory...'
   clean [
-    buildDir
+    dir.build
   ]
 
 gulp.task 'bump', 'Bumps patch version of module.', (done) ->
