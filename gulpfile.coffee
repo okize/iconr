@@ -26,21 +26,11 @@ log = (msg, type) ->
   else
     gutil.log gutil.colors.blue(msg)
 
-# used to prevent watch from breaking on CS error
+# used to prevent watch from breaking on compilation error
 swallowError = (error) ->
   log error, 'error'
 
-gulp.task 'watch', 'Watches coffeescript files and triggers build on change.', ->
-  log 'watching files...'
-  gulp.watch sourceDir, ['lint', 'build']
-
-gulp.task 'clean', 'Deletes build directory.', ->
-  log 'deleting build diectory'
-  clean [
-    buildDir
-  ]
-
-gulp.task 'lint', 'Lints javascript.', ->
+gulp.task 'lint', 'Lints ES6 javascript.', ->
   log 'linting es6 javascript...'
   gulp
     .src(sourceDir)
@@ -48,8 +38,18 @@ gulp.task 'lint', 'Lints javascript.', ->
     .pipe(eslint.format())
     .pipe(eslint.failOnError())
 
-gulp.task 'compile', 'Compiles ES6 javascript source into ES5 javascript.', ->
-  log 'compiling es6 javascript'
+gulp.task 'run-tests', 'Runs test suite.', (done) ->
+  log 'running tests...'
+
+gulp.task 'test', 'Lints ES6 javascript and runs test suite.', (done) ->
+  run(
+    'lint'
+    'run-tests'
+    done
+  )
+
+gulp.task 'compile', 'Compiles ES6 javascript source into ES5.', ->
+  log 'compiling es6 javascript...'
   gulp
     .src(sourceDir)
     .pipe(plumber())
@@ -59,8 +59,12 @@ gulp.task 'compile', 'Compiles ES6 javascript source into ES5 javascript.', ->
       gulp.dest(buildDir)
     )
 
+gulp.task 'watch', 'Watches ES6 javascript files and lints/compiles on changes.', ->
+  log 'watching files...'
+  gulp.watch sourceDir, ['lint', 'compile']
+
 gulp.task 'docs', 'Generates readme file.', ->
-  log 'generating readme'
+  log 'generating readme...'
   pak = JSON.parse(fs.readFileSync './package.json', 'utf8')
   helpOptions = JSON.parse(fs.readFileSync './lang/options.json', 'utf8')
   helpOptions = _.map(helpOptions, (option) ->
@@ -78,17 +82,23 @@ gulp.task 'docs', 'Generates readme file.', ->
     .pipe(rename('README.md'))
     .pipe(gulp.dest './')
 
-gulp.task 'bump', 'Bumps patch version of module', (done) ->
+gulp.task 'clean', 'Deletes build directory.', ->
+  log 'deleting build diectory...'
+  clean [
+    buildDir
+  ]
+
+gulp.task 'bump', 'Bumps patch version of module.', (done) ->
   spawn('npm', ['version', 'patch'],
     stdio: 'inherit'
   ).on 'close', done
 
-gulp.task 'publish', 'Publishes module to npm', (done) ->
+gulp.task 'publish', 'Publishes module to npm.', (done) ->
   spawn('npm', ['publish'],
     stdio: 'inherit'
   ).on 'close', done
 
-gulp.task 'build', 'Compiles ES6 javascript source into ES5 javascript.', (done) ->
+gulp.task 'build', 'Compiles ES6 javascript source into ES5 and creates docs.', (done) ->
   run(
     'compile'
     'docs'

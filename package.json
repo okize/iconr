@@ -14,6 +14,12 @@
     "datauri",
     "fallback"
   ],
+  "scripts": {
+    "test": "./node_modules/.bin/gulp test",
+    "clean": "./node_modules/.bin/gulp clean",
+    "build": "./node_modules/.bin/gulp build",
+    "prepublish": "npm run clean && npm run build"
+  },
   "dependencies": {
     "bluebird": "^2.9.25",
     "chalk": "^1.0.0",
@@ -48,12 +54,6 @@
   },
   "engines": {
     "node": ">=0.10.0"
-  },
-  "scripts": {
-    "test": "./node_modules/.bin/gulp lint",
-    "clean": "./node_modules/.bin/gulp clean",
-    "build": "./node_modules/.bin/gulp build",
-    "prepublish": "npm run clean && npm run build"
   },
   "repository": {
     "type": "git",
