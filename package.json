@@ -52,6 +52,7 @@
     "gulp-util": "*",
     "json2markdown": "*",
     "mocha": "*",
+    "mocha-lcov-reporter": "*",
     "run-sequence": "*"
   },
   "engines": {
