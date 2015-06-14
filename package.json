@@ -39,6 +39,7 @@
     "babel-eslint": "*",
     "chai": "*",
     "coffee-script": "*",
+    "coveralls": "*",
     "del": "*",
     "gulp": "*",
     "gulp-babel": "*",
