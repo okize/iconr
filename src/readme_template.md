@@ -1,6 +1,7 @@
 [![NPM version](http://img.shields.io/npm/v/<%= name %>.svg?style=flat)](https://www.npmjs.org/package/<%= name %>)
 [![Dependency Status](http://img.shields.io/david/okize/<%= name %>.svg?style=flat)](https://david-dm.org/okize/<%= name %>)
 [![Build Status](http://img.shields.io/travis/okize/<%= name %>.svg?style=flat)](https://travis-ci.org/okize/<%= name %>)
+[![Coverage Status](https://coveralls.io/repos/okize/<%= name %>/badge.svg)](https://coveralls.io/r/okize/<%= name %>)
 [![bitHound Score](https://www.bithound.io/github/okize/<%= name %>/badges/score.svg)](https://www.bithound.io/github/okize/<%= name %>)
 [![Downloads](http://img.shields.io/npm/dm/<%= name %>.svg?style=flat)](https://www.npmjs.org/package/<%= name %>)
 
