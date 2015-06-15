@@ -1,18 +1,18 @@
-const iconr = require('./app');
 const path = require('path');
 const fs = require('fs');
+const yargs = require('yargs');
+const iconr = require(path.resolve(__dirname, './', 'app'));
 
 // output version number of app
-const displayVersion = () => {
+const getVersion = () => {
   const pkg = require('../package.json');
-  return console.log(pkg.version);
+  return pkg.version;
 };
 
 // output help documentation of app
-const displayHelp = () => {
+const getHelpText = () => {
   const helpFile = path.join(__dirname, '..', 'lang', 'help.txt');
-  const helpText = fs.readFileSync(helpFile, 'utf8');
-  return console.log('\n' + helpText + '\n');
+  return fs.readFileSync(helpFile, 'utf8');
 };
 
 // create options object from cli arguments
@@ -40,21 +40,27 @@ const parseArguments = (args) => {
 
 };
 
-module.exports = (args) => {
+module.exports = (process) => {
 
-  // args passed
-  if (args._.length > 0) {
-    return iconr(args._, parseArguments(args));
-  }
+  const args = yargs.parse(process.argv);
+  const commands = args._.slice(2, 4);
 
   // --version
   if (args.version || args.V) {
-    return displayVersion();
+    return console.log(getVersion());
   }
 
-  // --help (or no args)
-  if (args.help || args.h || !args._.length) {
-    return displayHelp();
+  // --help
+  if (args.help || args.h) {
+    return console.log('\n' + getHelpText() + '\n');
   }
+
+  // at least one command sent
+  if (commands.length) {
+    return iconr(commands, parseArguments(args));
+  }
+
+  // display help as default
+  return console.log('\n' + getHelpText() + '\n');
 
 };
