@@ -31,7 +31,7 @@ const parseArguments = (args) => {
         parsedOptions[opt.longName] = val ? true : false;
         break;
       default:
-        console.error('Options need to have a type specified');
+        throw new Error('Options need to have a type specified');
     }
     return;
   });
