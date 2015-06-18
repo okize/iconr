@@ -19,12 +19,12 @@ module.exports = {
     _.each(results, (result) => {
       let height = !isNaN(result.height) ? 'height:' + result.height + 'px;' : '';
       let width = !isNaN(result.width) ? 'width:' + result.width + 'px;' : '';
-      cssSvg += '.#' + (cssClassnamePrefix + result.name) + '{' + height + width + 'background-image:url("' + result.svgdatauri + '");}';
+      cssSvg += '.' + (cssClassnamePrefix + result.name) + '{' + height + width + 'background-image:url(' + result.svgdatauri + ');}';
       if (!opts.nopngdata) {
-        cssNoInlineSvg += '.no-inlinesvg .' + (cssClassnamePrefix + result.name) + '{background-image:url("' + result.pngdatauri + '");}';
+        cssNoInlineSvg += '.no-inlinesvg .' + (cssClassnamePrefix + result.name) + '{background-image:url(' + result.pngdatauri + ');}';
       }
       if (!opts.nopng && !opts.stdout) {
-        cssNoDataUri += '.no-datauri .' + (cssClassnamePrefix + result.name) + '{background-image:url("' + result.pngpath + '");}';
+        cssNoDataUri += '.no-datauri .' + (cssClassnamePrefix + result.name) + '{background-image:url(' + result.pngpath + ');}';
       }
     });
 
@@ -52,8 +52,12 @@ module.exports = {
     // save separate css files
     if (opts.separatecss) {
 
+      console.log(cssArr[0]);
+
       // prettify the CSS if necessary
       css = opts.pretty ? cssArr.map((cssStr) => pretty(cssStr)) : css;
+
+      console.log(css[0]);
 
       // save CSS with SVG data URIs
       fs.writeFileAsync(filename + '.css', css[0]);
