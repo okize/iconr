@@ -52,12 +52,8 @@ module.exports = {
     // save separate css files
     if (opts.separatecss) {
 
-      console.log(cssArr[0]);
-
       // prettify the CSS if necessary
       css = opts.pretty ? cssArr.map((cssStr) => pretty(cssStr)) : css;
-
-      console.log(css[0]);
 
       // save CSS with SVG data URIs
       fs.writeFileAsync(filename + '.css', css[0]);
