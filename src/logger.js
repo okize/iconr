@@ -9,20 +9,21 @@ const COLORMAP = {
   warn: 'yellow',
   info: 'blue',
   ask: 'green',
-  list: 'white'
+  list: 'white',
 };
 
 class Logger {
   constructor(options) {
     this.verbose = options.verbose;
-    this.progress = new Progger({speed: 100, token: '.', color: 'blue'});
+    this.progress = new Progger({ speed: 100, token: '.', color: 'blue' });
   }
 
   msg(type, key, data) {
     if (this.verbose || type === 'error') {
-      let args = (data === undefined) ? '' : data;
+      const args = (data === undefined) ? '' : data;
       return console.log(chalk[COLORMAP[type]](messages[type][key]), args);
     }
+    return false;
   }
 
   startProgress() {
