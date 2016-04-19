@@ -11,8 +11,8 @@ module.exports = {
     let encoded = '';
     let str = ',';
     const formatMap = {
-      'svg': '\'data:image/svg+xml',
-      'png': '\'data:image/png'
+      svg: '\'data:image/svg+xml',
+      png: '\'data:image/png'
     };
     if (type === 'base64') {
       str = ';base64,';

@@ -23,16 +23,16 @@ module.exports = {
 
   // replaces spaces in filenames with dashes
   replaceSpaceInFilename: (oldFilename, newFilename, inDir) => {
-    return fs.renameSync(inDir + '/' + oldFilename, inDir + '/' + newFilename);
+    return fs.renameSync(`${inDir}/${oldFilename}`, `${inDir}/${newFilename}`);
   },
 
   // removes files from a list that aren't SVG images
   filterNonSvgFiles: (files, dir) => {
     return _.filter(files, (file) => {
-      let isFile = fs.statSync(path.join(dir + '/' + file)).isFile() === true;
-      let isSvg = mime.lookup(file) === 'image/svg+xml';
+      const isFile = fs.statSync(path.join(`${dir}/${file}`)).isFile() === true;
+      const isSvg = mime.lookup(file) === 'image/svg+xml';
       return isFile && isSvg;
     });
-  }
+  },
 
 };
