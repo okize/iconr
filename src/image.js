@@ -11,8 +11,8 @@ module.exports = {
     let encoded = '';
     let str = ',';
     const formatMap = {
-      svg: '\'data:image/svg+xml',
-      png: '\'data:image/png'
+      svg: 'data:image/svg+xml',
+      png: 'data:image/png',
     };
     if (type === 'base64') {
       str = ';base64,';
@@ -20,7 +20,7 @@ module.exports = {
     } else {
       encoded = encodeURIComponent(new Buffer(data).toString());
     }
-    return formatMap[format] + str + encoded + '\'';
+    return `'${formatMap[format]}${str}${encoded}'`;
   },
 
   // returns an optimized SVG data string as a promise
@@ -31,7 +31,7 @@ module.exports = {
             .optimizeAsync(data)
             .catch((result) => {
               // I have no idea why this needs to be done in a catch block
-              _.assign(result, {original: data});
+              _.assign(result, { original: data });
               return result;
             });
   },
@@ -41,7 +41,7 @@ module.exports = {
   saveSvgAsPng: (sourceFileName, destinationFileName, height, width) => {
     const phantomjs = path.resolve(__dirname, '../node_modules/phantomjs/bin/', 'phantomjs');
     const svgToPngFile = path.resolve(__dirname, './', 'svgToPng.js');
-    let args = [phantomjs, svgToPngFile, sourceFileName, destinationFileName, height, width];
+    const args = [phantomjs, svgToPngFile, sourceFileName, destinationFileName, height, width];
     return proc
             .execFileAsync(process.execPath, args)
             .then((stdout) => {
@@ -54,6 +54,6 @@ module.exports = {
             .catch((err) => {
               console.error(err);
             });
-  }
+  },
 
 };
