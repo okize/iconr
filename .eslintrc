@@ -1,5 +1,9 @@
 {
   "extends": "airbnb",
+  "env": {
+    "node": true,
+    "phantomjs": true
+  },
   "rules": {
     "no-console": 0,
     "arrow-body-style": 0
