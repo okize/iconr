@@ -1,10 +1,8 @@
-/*global phantom*/
 const webpage = require('webpage');
 
 const convert = (source, destination, height, width) => {
-  let page = webpage.create();
-  return page.open(source, function renderSVG(status) {
-
+  const page = webpage.create();
+  return page.open(source, (status) => {
     if (status !== 'success') {
       console.error('Couldn\'t load the source SVG!');
       phantom.exit();
@@ -15,7 +13,7 @@ const convert = (source, destination, height, width) => {
     page.zoomFactor = 1;
     page.viewportSize = {
       width: Math.round(width),
-      height: Math.round(height)
+      height: Math.round(height),
     };
 
     // delay for resizing
@@ -23,7 +21,6 @@ const convert = (source, destination, height, width) => {
       page.render(destination);
       return phantom.exit();
     }, 0);
-
   });
 };
 
