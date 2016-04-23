@@ -17,18 +17,17 @@ const getHelpText = () => {
 
 // create options object from cli arguments
 const parseArguments = (args) => {
-
   const options = require(path.join(__dirname, '..', 'lang', 'options.json'));
   const parsedOptions = {};
 
   options.forEach((opt) => {
-    let val = args[opt.longName] || args[opt.shortName];
+    const value = args[opt.longName] || args[opt.shortName];
     switch (opt.type) {
       case 'string':
-        parsedOptions[opt.longName] = val ? val : null;
+        parsedOptions[opt.longName] = value || null;
         break;
       case 'boolean':
-        parsedOptions[opt.longName] = val ? true : false;
+        parsedOptions[opt.longName] = value === true;
         break;
       default:
         throw new Error('Options need to have a type specified');
@@ -37,11 +36,13 @@ const parseArguments = (args) => {
   });
 
   return parsedOptions;
+};
 
+const printHelp = () => {
+  return console.log(`\n${getHelpText()}\n`);
 };
 
 module.exports = (process) => {
-
   const args = yargs.parse(process.argv);
   const commands = args._.slice(2, 4);
 
@@ -52,7 +53,7 @@ module.exports = (process) => {
 
   // --help
   if (args.help || args.h) {
-    return console.log('\n' + getHelpText() + '\n');
+    return printHelp();
   }
 
   // at least one command sent
@@ -61,6 +62,5 @@ module.exports = (process) => {
   }
 
   // display help as default
-  return console.log('\n' + getHelpText() + '\n');
-
+  return printHelp();
 };
