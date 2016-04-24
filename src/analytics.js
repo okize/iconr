@@ -2,12 +2,10 @@ const _ = require('lodash');
 const chalk = require('chalk');
 
 const render = (str, data) => {
-
-  // colors
   const COLORMAP = {
     bullet: 'grey',
     text: 'magenta',
-    data: 'white'
+    data: 'white',
   };
 
   let output = '';
@@ -21,10 +19,10 @@ const render = (str, data) => {
   });
 
   if (data.title) {
-    output = '\n' + chalk[COLORMAP.text].inverse(str);
+    output = `\n${chalk[COLORMAP.text].inverse(str)}`;
   } else {
-    let template = _.template(str);
-    let bullet = chalk[COLORMAP.bullet](' ☉');
+    const template = _.template(str);
+    const bullet = chalk[COLORMAP.bullet](' ☉');
     output = chalk[COLORMAP.text](bullet, template(data));
   }
 
@@ -33,16 +31,14 @@ const render = (str, data) => {
 
 // logs analytics of application operation totals
 module.exports = (log) => {
-
   const totalTime = (log.appEnd - log.appStart) / 1000000;
 
-  render(' SUMMARY: ', {title: true});
-  render('converted {{count}} SVG images totaling {{size}} bytes', {count: log.svgCount, size: log.svgSize});
-  render('into a CSS file that is {{size}} bytes', {size: log.cssSize});
-  render('after gzipping, it should be {{size}} bytes', {size: log.cssGzipSize});
-  render('and it took {{time}} seconds', {time: totalTime});
-  render('at an average of {{time}} seconds per icon', {time: totalTime / log.svgCount});
+  render(' SUMMARY: ', { title: true });
+  render('converted {{count}} SVG images totaling {{size}} bytes', { count: log.svgCount, size: log.svgSize });
+  render('into a CSS file that is {{size}} bytes', { size: log.cssSize });
+  render('after gzipping, it should be {{size}} bytes', { size: log.cssGzipSize });
+  render('and it took {{time}} seconds', { time: totalTime });
+  render('at an average of {{time}} seconds per icon', { time: totalTime / log.svgCount });
 
   return;
-
 };
