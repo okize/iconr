@@ -53,7 +53,7 @@ gulp.task 'compile', 'Compiles ES6 javascript source into ES5 javascript.', ->
   gulp
     .src(sourceDir)
     .pipe(plumber())
-    .pipe(babel())
+    .pipe(babel(presets: [ 'es2015' ]))
     .on('error', swallowError)
     .pipe(
       gulp.dest(buildDir)
