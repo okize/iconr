@@ -1,7 +1,6 @@
-const path = require('path');
 const chalk = require('chalk');
 const Progger = require('progger');
-const messages = require(path.resolve(__dirname, '..', 'lang', 'messages.json'));
+const messages = require('../lang/messages.json');
 
 // configuration for command line colorization
 const COLORMAP = {

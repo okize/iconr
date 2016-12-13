@@ -39,6 +39,4 @@ module.exports = (log) => {
   render('after gzipping, it should be {{size}} bytes', { size: log.cssGzipSize });
   render('and it took {{time}} seconds', { time: totalTime });
   render('at an average of {{time}} seconds per icon', { time: totalTime / log.svgCount });
-
-  return;
 };
