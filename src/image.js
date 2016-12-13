@@ -1,8 +1,9 @@
-const Bluebird = require('bluebird');
-const proc = Bluebird.promisifyAll(require('child_process'));
 const path = require('path');
+const Bluebird = require('bluebird');
+const childProcess = Bluebird.promisifyAll(require('child_process'));
 const _ = require('lodash');
 const SvgOptimize = require('svgo');
+const phantomjs = require('phantomjs-prebuilt');
 
 module.exports = {
 
@@ -39,21 +40,21 @@ module.exports = {
   // spins up phantomjs and saves SVGs as PNGs
   // phantomjs will output WARNINGS to stderr so ignore for now
   saveSvgAsPng: (sourceFileName, destinationFileName, height, width) => {
-    const phantomjs = path.resolve(__dirname, '../node_modules/phantomjs/bin/', 'phantomjs');
     const svgToPngFile = path.resolve(__dirname, './', 'svgToPng.js');
-    const args = [phantomjs, svgToPngFile, sourceFileName, destinationFileName, height, width];
-    return proc
-            .execFileAsync(process.execPath, args)
-            .then((stdout) => {
-              if (stdout[0].length > 0) {
-                throw new Error(stdout[0].toString().trim());
-              } else {
-                return destinationFileName;
-              }
-            })
-            .catch((err) => {
-              console.error(err);
-            });
+    const childArgs = [svgToPngFile, sourceFileName, destinationFileName, height, width];
+
+    return childProcess
+      .execFileAsync(phantomjs.path, childArgs)
+      .then((stdout) => {
+        if (stdout[0].length > 0) {
+          throw new Error(stdout[0].toString().trim());
+        } else {
+          return destinationFileName;
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   },
 
 };

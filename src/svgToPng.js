@@ -1,8 +1,10 @@
-const webpage = require('webpage');
+/* eslint-disable */
+var webpage = require('webpage');
+var system = require('system');
 
-const convert = (source, destination, height, width) => {
-  const page = webpage.create();
-  return page.open(source, (status) => {
+var convert = function convert(source, destination, height, width) {
+  var page = webpage.create();
+  return page.open(source, function (status) {
     if (status !== 'success') {
       console.error('Couldn\'t load the source SVG!');
       phantom.exit();
@@ -13,11 +15,11 @@ const convert = (source, destination, height, width) => {
     page.zoomFactor = 1;
     page.viewportSize = {
       width: Math.round(width),
-      height: Math.round(height),
+      height: Math.round(height)
     };
 
     // delay for resizing
-    setTimeout(() => {
+    setTimeout(function () {
       page.render(destination);
       return phantom.exit();
     }, 0);
@@ -25,9 +27,9 @@ const convert = (source, destination, height, width) => {
 };
 
 // expects 4 arguments: source SVG, destination PNG, height & width
-if (phantom.args.length !== 4) {
+if (system.args.length !== 5) {
   console.error('Missing arguments! Usage: source SVG, destination PNG, height & width');
   phantom.exit();
 } else {
-  convert(phantom.args[0], phantom.args[1], phantom.args[2], phantom.args[3]);
+  convert(system.args[1], system.args[2], system.args[3], system.args[4]);
 }
