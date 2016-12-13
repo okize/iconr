@@ -5,7 +5,6 @@ _ = require('lodash')
 gulp = require('gulp-help')(require('gulp'))
 run = require('run-sequence')
 gutil = require('gulp-util')
-babel = require('gulp-babel')
 eslint = require('gulp-eslint')
 plumber = require('gulp-plumber')
 template = require('gulp-template')
@@ -16,8 +15,7 @@ clean = require('del')
 
 # configuration
 appRoot = __dirname
-sourceDir = 'src/**/*.js'
-buildDir = 'lib'
+sourceDir = 'lib/**/*.js'
 
 # small wrapper around gulp util logging
 log = (msg, type) ->
@@ -30,15 +28,9 @@ log = (msg, type) ->
 swallowError = (error) ->
   log error, 'error'
 
-gulp.task 'watch', 'Watches coffeescript files and triggers build on change.', ->
+gulp.task 'watch', 'Watches files and triggers lint on change.', ->
   log 'watching files...'
-  gulp.watch sourceDir, ['lint', 'build']
-
-gulp.task 'clean', 'Deletes build directory.', ->
-  log 'deleting build diectory'
-  clean [
-    buildDir
-  ]
+  gulp.watch sourceDir, ['lint']
 
 gulp.task 'lint', 'Lints javascript.', ->
   log 'linting es6 javascript...'
@@ -47,17 +39,6 @@ gulp.task 'lint', 'Lints javascript.', ->
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failOnError())
-
-gulp.task 'compile', 'Compiles ES6 javascript source into ES5 javascript.', ->
-  log 'compiling es6 javascript'
-  gulp
-    .src(sourceDir)
-    .pipe(plumber())
-    .pipe(babel(presets: [ 'es2015' ]))
-    .on('error', swallowError)
-    .pipe(
-      gulp.dest(buildDir)
-    )
 
 gulp.task 'docs', 'Generates readme file.', ->
   log 'generating readme'
@@ -88,16 +69,9 @@ gulp.task 'publish', 'Publishes module to npm', (done) ->
     stdio: 'inherit'
   ).on 'close', done
 
-gulp.task 'build', 'Compiles ES6 javascript source into ES5 javascript.', (done) ->
-  run(
-    'compile'
-    'docs'
-    done
-  )
-
 gulp.task 'release', 'Builds module, bumps version & publishes to npm.', (done) ->
   run(
-    'build'
+    'docs'
     'bump'
     'publish'
     done

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-var path = require('path');
-var cli = require(path.resolve(__dirname, '..', 'lib', 'cli'));
+const path = require('path');
+const cli = require('../lib/cli');
 
 cli({
   stdin:  process.stdin,
