@@ -1,5 +1,4 @@
 {
-
   "info": {
     "genericMessage": "%s",
     "appStart": " - Starting conversion of SVG images",
@@ -16,7 +15,6 @@
     "saveCss": " - Saving CSS file(s)",
     "appEnd": " - Finished!"
   },
-
   "error": {
     "genericError": "%s",
     "wrongDirectory": "Cannot resolve the input directory path, was it entered correctly?",
@@ -24,15 +22,12 @@
     "noSvg": "No SVG images found in input directory!",
     "svgNotFound": "\nSource SVG could not be found, is %s the correct path?"
   },
-
   "warn": {
     "genericWarn": " ⚠ %s",
     "largeDataUri": " ⚠ IE8 will be unable to display %s because its data URI is too large",
     "spaceInFilename": " ⚠ Found a space in file '%s' and replaced with a hyphen"
   },
-
   "ask": {
     "genericAsk": " ? %s"
   }
-
 }

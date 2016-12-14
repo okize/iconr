@@ -7,6 +7,14 @@
   "bin": {
     "iconr": "./bin/iconr.js"
   },
+  "files": [
+    "bin",
+    "lang",
+    "lib"
+  ],
+  "scripts": {
+    "lint": "eslint . --ext .js --cache && echo \"eslint: no lint errors found\" || true"
+  },
   "keywords": [
     "svg",
     "png",
@@ -15,43 +23,33 @@
     "fallback"
   ],
   "dependencies": {
-    "bluebird": "^2.9.25",
+    "bluebird": "^3.0.0",
     "chalk": "^1.0.0",
     "cssbeautify": "^0.3.0",
-    "gzip-size": "^1.0.0",
-    "lodash": "^3.0.0",
+    "gzip-size": "^3.0.0",
     "microtime": "^2.1.0",
     "mime": "^1.2.0",
     "mkdirp": "^0.5.0",
-    "phantomjs-prebuilt": "^2.1.14",
+    "phantomjs-prebuilt": "^2.1.0",
     "progger": "^1.0.0",
     "rimraf": "^2.2.0",
-    "svgo": "^0.5.0",
-    "yargs": "^3.10.0"
+    "svgo": "^0.7.0",
+    "yargs": "^6.5.0"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "coffee-script": "^1.10.0",
-    "del": "^2.2.1",
     "eslint": "^3.12.1",
     "eslint-config-airbnb-base": "^11.0.0",
     "eslint-plugin-import": "^2.2.0",
-    "gulp": "^3.9.1",
-    "gulp-eslint": "^3.0.1",
-    "gulp-help": "^1.6.1",
-    "gulp-plumber": "^1.1.0",
+    "gulp": "^3.9.0",
+    "gulp-help": "^1.6.0",
     "gulp-rename": "^1.2.2",
     "gulp-template": "^4.0.0",
-    "gulp-util": "^3.0.7",
+    "gulp-util": "^3.0.0",
     "json2markdown": "^1.0.0",
-    "mocha": "^2.5.3",
-    "run-sequence": "^1.2.2"
+    "run-sequence": "^1.2.0"
   },
   "engines": {
     "node": ">=6.0"
-  },
-  "scripts": {
-    "test": "gulp lint"
   },
   "repository": {
     "type": "git",
