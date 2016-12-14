@@ -10,7 +10,9 @@ const helpText = helpOptions.map(({ longName, shortName, description }) => {
   return { longName, shortName, description };
 });
 const helpTextMarkdown = json2markdown(helpText);
-const newReadme = readmeTemplate.replace('<%= description %>', project.description).replace('<%= options %>', helpTextMarkdown)
+const newReadme = readmeTemplate
+                    .replace('<%= description %>', project.description)
+                    .replace('<%= options %>', helpTextMarkdown);
 
 console.log('generating readme...');
 
