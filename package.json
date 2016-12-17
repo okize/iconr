@@ -59,7 +59,8 @@
     "test": "./node_modules/.bin/gulp lint",
     "clean": "./node_modules/.bin/gulp clean",
     "build": "./node_modules/.bin/gulp build",
-    "prepublish": "npm run clean && npm run build"
+    "prepublish": "npm run clean && npm run build",
+    "example": "node ./bin/iconr ./example/svg ./example/css --analytics --separatecss --debug --pretty --verbose --filename=\"icons.css\" --classname=\"icon-\""
   },
   "repository": {
     "type": "git",
