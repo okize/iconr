@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Iconr example</title>
+  <style type="text/css">
+    body {
+      margin: 0;
+      padding: 0;
+      font: 16px sans-serif;
+    }
+    h1 {
+      font-size: 250%;
+    }
+    h2 {
+      font-size: 150%;
+    }
+    h1, h2, ul {
+      margin: 50px 50px 25px;
+    }
+    ul {
+      margin-top: 0;
+    }
+    .icon {
+      display: inline-block;
+      background-repeat: no-repeat;
+      background-position: 0 0;
+    }
+  </style>
+  <link rel="stylesheet" href="css/icons.css" />
+  <script src="https://cdn.jsdelivr.net/modernizr/3.3.1/modernizr.min.js"></script>
+</head>
+<body>
+
+  <h1>Iconr example</h1>
+
+  <h2>This browser supports:</h2>
+  <ul id="supportList"></ul>
+
+  <h2>SVG classes:</h2>
+  <ul id="svgList"></ul>
+
+  <script type="text/javascript">
+    function addIconClass(el, str) {
+      if (el.classList) {
+        el.classList.add('icon', 'icon-' + str);
+        return el;
+      }
+
+      el.className += ' icon icon-' + str;
+      return el;
+    }
+
+    function makeListItem(str, isSvg) {
+      var li = document.createElement('li');
+
+      if (isSvg) {
+        var span = document.createElement('span');
+        var icon = addIconClass(span, str);
+        li.appendChild(icon);
+        return li;
+      }
+
+      var liText = document.createTextNode(str);
+      li.appendChild(liText)
+      return li;
+    }
+
+    window.onload = function() {
+      // modernizr supports list
+      var supportList = document.getElementById('supportList');
+      if (Modernizr.svg) {
+        supportList.appendChild(makeListItem('SVG'));
+      }
+      if (Modernizr.inlinesvg) {
+        supportList.appendChild(makeListItem('inline SVG'));
+      }
+      if (Modernizr.datauri) {
+        supportList.appendChild(makeListItem('data URI'));
+      }
+      if (Modernizr.datauri && Modernizr.datauri.over32kb) {
+        supportList.appendChild(makeListItem('data URI > 32kb'));
+      }
+
+      // svg examples
+      var svgList = document.getElementById('svgList');
+      var svgImages = [
+        'home',
+        'infinity',
+        'mountain',
+        'weather',
+        'english_bull-terrier'
+      ];
+
+      for (var i = 0; i < svgImages.length; i++) {
+        svgList.appendChild(makeListItem(svgImages[i], true));
+      }
+    };
+  </script>
+</body>
+</html>
