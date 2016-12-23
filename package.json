@@ -3,6 +3,9 @@
   "version": "0.8.5",
   "description": "CLI tool that consumes a directory of SVG images and outputs a CSS file of inlined data as well as a directory of PNG images for fallback if necessary.",
   "preferGlobal": true,
+  "engines": {
+    "node": ">=6.0"
+  },
   "main": "./bin/iconr.js",
   "bin": {
     "iconr": "./bin/iconr.js"
@@ -14,7 +17,9 @@
   ],
   "scripts": {
     "lint": "eslint . --ext .js --cache && echo \"eslint: no lint errors found\" || true",
-    "test": "npm run lint"
+    "test": "npm run lint",
+    "example": "node ./bin/iconr ./example/svg ./example/css --analytics --debug --pretty --verbose --filename=\"icons.css\" --classname=\"icon-\"",
+    "example:server": "http-server ./example -p 4321 -o"
   },
   "keywords": [
     "svg",
@@ -45,11 +50,9 @@
     "gulp-rename": "^1.2.2",
     "gulp-template": "^4.0.0",
     "gulp-util": "^3.0.0",
+    "http-server": "^0.9.0",
     "json2markdown": "^1.0.0",
     "run-sequence": "^1.2.0"
-  },
-  "engines": {
-    "node": ">=6.0"
   },
   "repository": {
     "type": "git",
