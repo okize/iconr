@@ -21,6 +21,15 @@
     ul {
       margin-top: 0;
     }
+    .no-bullets {
+      list-style-type: none;
+      margin-left: 50px;
+      padding: 0;
+    }
+    .no-bullets li {
+      float: left;
+      margin-right: 50px;
+    }
     .icon {
       display: inline-block;
       background-repeat: no-repeat;
@@ -38,7 +47,7 @@
   <ul id="supportList"></ul>
 
   <h2>SVG classes:</h2>
-  <ul id="svgList"></ul>
+  <ul id="svgList" class="no-bullets"></ul>
 
   <script type="text/javascript">
     function addIconClass(el, str) {
@@ -87,8 +96,8 @@
       var svgImages = [
         'home',
         'infinity',
-        'mountain',
         'weather',
+        'mountain',
         'english_bull-terrier'
       ];
 
