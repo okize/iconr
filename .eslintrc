@@ -1,13 +1,12 @@
 {
-  "extends": "airbnb",
-  "env": {
-    "node": true,
-    "phantomjs": true
+  'extends': 'airbnb-base',
+  'env': {
+    'node': true
   },
-  "rules": {
-    "arrow-body-style": 0,
-    "max-len": [2, 120, 4],
-    "no-console": 0,
-    "no-param-reassign": 0
+  'rules': {
+    'arrow-body-style': 'off',
+    'max-len': [2, 120, 4],
+    'no-console': 'off',
+    'no-param-reassign': 'off',
   }
 }
