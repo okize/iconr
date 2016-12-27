@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const yargs = require('yargs');
-const iconr = require(path.resolve(__dirname, './', 'app'));
+const iconr = require('./app');
 
 // output version number of app
 const getVersion = () => {
@@ -17,7 +17,7 @@ const getHelpText = () => {
 
 // create options object from cli arguments
 const parseArguments = (args) => {
-  const options = require(path.join(__dirname, '..', 'lang', 'options.json'));
+  const options = require('../lang/options.json');
   const parsedOptions = {};
 
   options.forEach((opt) => {

@@ -6,11 +6,11 @@ const microtime = require('microtime');
 const gzipSize = require('gzip-size');
 const mkdirp = require('mkdirp');
 const rimraf = require('rimraf');
-const Logger = require(path.resolve(__dirname, './', 'logger'));
-const util = require(path.resolve(__dirname, './', 'util'));
-const css = require(path.resolve(__dirname, './', 'css'));
-const image = require(path.resolve(__dirname, './', 'image'));
-const analytics = require(path.resolve(__dirname, './', 'analytics'));
+const Logger = require('./logger');
+const util = require('./util');
+const css = require('./css');
+const image = require('./image');
+const analytics = require('./analytics');
 
 module.exports = (args, opts) => {
   // if sdout option set, supress output noise
