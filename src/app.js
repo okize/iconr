@@ -75,7 +75,8 @@ module.exports = (args, opts) => {
 
     // filter anything that isn't an SVG
     return util.filterNonSvgFiles(files, inputDir);
-  }).then((svgFiles) => {
+  })
+  .then((svgFiles) => {
     // exit if no SVG images found
     if (svgFiles.length < 1) {
       showAnalytics = false;
@@ -98,7 +99,8 @@ module.exports = (args, opts) => {
     });
 
     return filteredFiles;
-  }).then((filteredFiles) => {
+  })
+  .then((filteredFiles) => {
     // read SVGs into memory
     log.msg('info', 'readingSvg');
 
@@ -122,7 +124,8 @@ module.exports = (args, opts) => {
     });
 
     return Bluebird.all(queue);
-  }).then((svgData) => {
+  })
+  .then((svgData) => {
     // optimize SVG data and get width & heights
     // note: optimization process is necessary even if it is not requested
     // in order to get SVG width & height
@@ -135,7 +138,8 @@ module.exports = (args, opts) => {
     });
 
     return Bluebird.all(queue);
-  }).then((data) => {
+  })
+  .then((data) => {
     // merge compressed & encoded SVG data into results
     log.msg('info', 'encodingSvg');
 
@@ -150,28 +154,32 @@ module.exports = (args, opts) => {
       };
       return _.extend(results[i], svgData);
     });
-  }).then(() => {
+  })
+  .then(() => {
+    const queue = [];
+
     if (!(opts.nopngdata && opts.nopng)) {
       // convert SVGs to PNGs
       log.msg('info', 'convertingSvg');
 
-      const queue = [];
-
-      _.each(results, (obj) => {
+      results.forEach((obj) => {
         const destFile = path.resolve(pngDir, `${obj.name}.png`);
         return queue.push(image.saveSvgAsPng(obj.svgpath, destFile, obj.height, obj.width));
       });
 
       // start progress dots
       log.startProgress();
-
-      return Bluebird.all(queue);
     }
-  }).then((unfilteredPngPaths) => {
+
+    return Bluebird.all(queue);
+  })
+  .then((unfilteredPngPaths) => {
     // remove undefined items from path array
     const pngPaths = _.filter(unfilteredPngPaths, (pngPath) => {
       return pngPath !== undefined;
     });
+
+    const queue = [];
 
     if (pngPaths !== null) {
       // stop progress dots
@@ -179,8 +187,6 @@ module.exports = (args, opts) => {
 
       // read PNGs into memory
       log.msg('info', 'readingPng');
-
-      const queue = [];
 
       pngPaths.forEach((pngPath, i) => {
         queue.push(fs.readFileAsync(pngPath, null));
@@ -192,11 +198,13 @@ module.exports = (args, opts) => {
           const pngpath = pngPath.replace(outputDir, '.');
           return _.extend(results[i], { pngpath });
         }
+        return null;
       });
-
-      return Bluebird.all(queue);
     }
-  }).then((pngData) => {
+
+    return Bluebird.all(queue);
+  })
+  .then((pngData) => {
     if (pngData !== null) {
       // convert PNGs to data strings
       log.msg('info', 'encodingPng');
@@ -208,7 +216,9 @@ module.exports = (args, opts) => {
         });
       });
     }
-  }).then(() => {
+    return null;
+  })
+  .then(() => {
     if (opts.nopng || opts.stdout) {
       // delete generated PNG directory
       log.msg('info', 'deletingPng');
@@ -219,12 +229,15 @@ module.exports = (args, opts) => {
         }
       });
     }
-  }).then(() => {
+    return null;
+  })
+  .then(() => {
     // generate a string of CSS rules from the results
     log.msg('info', 'generatingCss');
 
     return css.createRules(results, opts);
-  }).then((cssArray) => {
+  })
+  .then((cssArray) => {
     let cssString = css.munge(cssArray);
 
     if (opts.stdout) {
@@ -246,23 +259,28 @@ module.exports = (args, opts) => {
     log.msg('info', 'saveCss');
 
     return css.save(path.resolve(outputDir, cssFilename), cssArray, opts);
-  }).then(() => {
+  })
+  .then(() => {
     if (!opts.nopngdata) {
       // number of bytes that will cause IE8 to choke on a datauri
       const TOO_BIG_FOR_IE8 = 32768;
 
       // check the size of the datauris and throw warning if too big
       return results.forEach((res) => {
-        const size = (res.pngdatauri !== null) ? res.pngdatauri.length : void 0;
+        const size = (res.pngdatauri !== null) ? res.pngdatauri.length : undefined;
         if (size >= TOO_BIG_FOR_IE8 && opts.verbose) {
           return log.msg('warn', 'largeDataUri', `${res.name} (${size} bytes)`);
         }
+        return null;
       });
     }
-  }).then(() => {
+    return null;
+  })
+  .then(() => {
     // finished!
     return log.msg('info', 'appEnd');
-  }).catch((error) => {
+  })
+  .catch((error) => {
     // errors should output here
     if (opts.debug) {
       console.log(error.stack);
@@ -270,13 +288,13 @@ module.exports = (args, opts) => {
 
     // if there's errors don't show analytics
     showAnalytics = false;
-
-    return;
-  }).finally(() => {
+  })
+  .finally(() => {
     // log the process analytics
     if (opts.analytics && showAnalytics) {
       appLog.appEnd = microtime.now();
-      return analytics(appLog);
+      analytics(appLog);
     }
-  }).done();
+  })
+  .done();
 };

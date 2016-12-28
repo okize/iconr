@@ -7,6 +7,6 @@
     'arrow-body-style': 'off',
     'max-len': [2, 120, 4],
     'no-console': 'off',
-    'no-param-reassign': 'off',
+    'no-param-reassign': ['error', { 'props': false }]
   }
 }

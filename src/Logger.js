@@ -1,4 +1,3 @@
-const path = require('path');
 const chalk = require('chalk');
 const Progger = require('progger');
 const messages = require('../lang/messages.json');

@@ -8,7 +8,7 @@ module.exports = {
 
   // trims file extension from filename
   trimExt: (filename) => {
-    return filename.replace(/\.[^\/.]+$/, '');
+    return filename.replace(/\.[^/.]+$/, '');
   },
 
   // returns a rounded string from a float or string

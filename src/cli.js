@@ -3,9 +3,11 @@ const fs = require('fs');
 const yargs = require('yargs');
 const iconr = require('./app');
 
+const pkg = require('../package.json');
+const options = require('../lang/options.json');
+
 // output version number of app
 const getVersion = () => {
-  const pkg = require('../package.json');
   return pkg.version;
 };
 
@@ -17,7 +19,6 @@ const getHelpText = () => {
 
 // create options object from cli arguments
 const parseArguments = (args) => {
-  const options = require('../lang/options.json');
   const parsedOptions = {};
 
   options.forEach((opt) => {
@@ -32,7 +33,6 @@ const parseArguments = (args) => {
       default:
         throw new Error('Options need to have a type specified');
     }
-    return;
   });
 
   return parsedOptions;
