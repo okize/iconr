@@ -5,7 +5,6 @@ _ = require('lodash')
 gulp = require('gulp-help')(require('gulp'))
 run = require('run-sequence')
 gutil = require('gulp-util')
-babel = require('gulp-babel')
 eslint = require('gulp-eslint')
 plumber = require('gulp-plumber')
 template = require('gulp-template')
@@ -48,17 +47,6 @@ gulp.task 'lint', 'Lints javascript.', ->
     .pipe(eslint.format())
     .pipe(eslint.failOnError())
 
-gulp.task 'compile', 'Compiles ES6 javascript source into ES5 javascript.', ->
-  log 'compiling es6 javascript'
-  gulp
-    .src(sourceDir)
-    .pipe(plumber())
-    .pipe(babel(presets: [ 'es2015' ]))
-    .on('error', swallowError)
-    .pipe(
-      gulp.dest(buildDir)
-    )
-
 gulp.task 'docs', 'Generates readme file.', ->
   log 'generating readme'
   pak = JSON.parse(fs.readFileSync './package.json', 'utf8')
@@ -88,16 +76,9 @@ gulp.task 'publish', 'Publishes module to npm', (done) ->
     stdio: 'inherit'
   ).on 'close', done
 
-gulp.task 'build', 'Compiles ES6 javascript source into ES5 javascript.', (done) ->
-  run(
-    'compile'
-    'docs'
-    done
-  )
-
 gulp.task 'release', 'Builds module, bumps version & publishes to npm.', (done) ->
   run(
-    'build'
+    'docs'
     'bump'
     'publish'
     done
