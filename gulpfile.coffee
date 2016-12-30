@@ -15,8 +15,7 @@ clean = require('del')
 
 # configuration
 appRoot = __dirname
-sourceDir = 'src/**/*.js'
-buildDir = 'lib'
+sourceDir = 'lib/**/*.js'
 
 # small wrapper around gulp util logging
 log = (msg, type) ->
@@ -29,15 +28,9 @@ log = (msg, type) ->
 swallowError = (error) ->
   log error, 'error'
 
-gulp.task 'watch', 'Watches coffeescript files and triggers build on change.', ->
+gulp.task 'watch', 'Watches files and triggers lint on change.', ->
   log 'watching files...'
-  gulp.watch sourceDir, ['lint', 'build']
-
-gulp.task 'clean', 'Deletes build directory.', ->
-  log 'deleting build diectory'
-  clean [
-    buildDir
-  ]
+  gulp.watch sourceDir, ['lint']
 
 gulp.task 'lint', 'Lints javascript.', ->
   log 'linting es6 javascript...'
