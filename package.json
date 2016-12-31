@@ -48,7 +48,7 @@
     "run-sequence": "^1.2.2"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=6.0"
   },
   "scripts": {
     "test": "./node_modules/.bin/gulp lint",
