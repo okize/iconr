@@ -51,7 +51,7 @@
     "node": ">=6.0"
   },
   "scripts": {
-    "test": "./node_modules/.bin/gulp lint",
+    "test": "gulp lint"
   },
   "repository": {
     "type": "git",
