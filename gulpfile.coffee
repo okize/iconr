@@ -11,7 +11,6 @@ template = require('gulp-template')
 rename = require('gulp-rename')
 json2markdown = require('json2markdown')
 spawn = require('child_process').spawn
-clean = require('del')
 
 # configuration
 appRoot = __dirname
