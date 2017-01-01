@@ -15,7 +15,6 @@ clean = require('del')
 
 # configuration
 appRoot = __dirname
-sourceDir = 'lib/**/*.js'
 
 # small wrapper around gulp util logging
 log = (msg, type) ->
@@ -30,12 +29,12 @@ swallowError = (error) ->
 
 gulp.task 'watch', 'Watches files and triggers lint on change.', ->
   log 'watching files...'
-  gulp.watch sourceDir, ['lint']
+  gulp.watch 'lib/**/*.js', ['lint']
 
 gulp.task 'lint', 'Lints javascript.', ->
   log 'linting es6 javascript...'
   gulp
-    .src(sourceDir)
+    .src('**/*.js')
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failOnError())
