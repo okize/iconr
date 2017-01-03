@@ -7,6 +7,9 @@
   "bin": {
     "iconr": "./bin/iconr.js"
   },
+  "scripts": {
+    "lint": "eslint . --ext .js --cache && echo \"eslint: no lint errors found\" || true"
+  },
   "keywords": [
     "svg",
     "png",
@@ -36,7 +39,6 @@
     "eslint-config-airbnb-base": "^11.0.0",
     "eslint-plugin-import": "^2.2.0",
     "gulp": "^3.9.1",
-    "gulp-eslint": "^3.0.1",
     "gulp-help": "^1.6.1",
     "gulp-plumber": "^1.1.0",
     "gulp-rename": "^1.2.2",
@@ -48,9 +50,6 @@
   },
   "engines": {
     "node": ">=6.0"
-  },
-  "scripts": {
-    "test": "gulp lint"
   },
   "repository": {
     "type": "git",

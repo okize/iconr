@@ -26,18 +26,6 @@ log = (msg, type) ->
 swallowError = (error) ->
   log error, 'error'
 
-gulp.task 'watch', 'Watches files and triggers lint on change.', ->
-  log 'watching files...'
-  gulp.watch 'lib/**/*.js', ['lint']
-
-gulp.task 'lint', 'Lints javascript.', ->
-  log 'linting es6 javascript...'
-  gulp
-    .src('**/*.js')
-    .pipe(eslint())
-    .pipe(eslint.format())
-    .pipe(eslint.failOnError())
-
 gulp.task 'docs', 'Generates readme file.', ->
   log 'generating readme'
   pak = JSON.parse(fs.readFileSync './package.json', 'utf8')
