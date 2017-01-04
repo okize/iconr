@@ -33,19 +33,16 @@
     "yargs": "^3.10.0"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
     "coffee-script": "^1.10.0",
     "eslint": "^3.12.1",
     "eslint-config-airbnb-base": "^11.0.0",
     "eslint-plugin-import": "^2.2.0",
     "gulp": "^3.9.1",
     "gulp-help": "^1.6.1",
-    "gulp-plumber": "^1.1.0",
     "gulp-rename": "^1.2.2",
     "gulp-template": "^4.0.0",
     "gulp-util": "^3.0.7",
     "json2markdown": "^1.0.0",
-    "mocha": "^2.5.3",
     "run-sequence": "^1.2.2"
   },
   "engines": {
