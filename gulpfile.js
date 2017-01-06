@@ -1,5 +1,4 @@
 const fs = require('fs');
-const _ = require('lodash');
 const gulp = require('gulp-help')(require('gulp'));
 const run = require('run-sequence');
 const gutil = require('gulp-util');
@@ -19,21 +18,22 @@ function log(msg, type) {
 gulp.task('docs', 'Generates readme file.', () => {
   log('generating readme');
   const pak = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
-  let helpOptions = JSON.parse(fs.readFileSync('./lang/options.json', 'utf8'));
-  helpOptions = _.map(helpOptions, (option) => {
-    return _.pick(option, 'longName', 'shortName', 'description');
+  const helpOptions = JSON.parse(fs.readFileSync('./lang/options.json', 'utf8'));
+  const helpText = helpOptions.map(({ longName, shortName, description }) => {
+    return { longName, shortName, description };
   });
-  const helpText = json2markdown(helpOptions);
 
-  return gulp
-          .src('src/readme_template.md')
-          .pipe(template({
-            name: pak.name,
-            description: pak.description,
-            help: helpText,
-          }))
-          .pipe(rename('README.md'))
-          .pipe(gulp.dest('./'));
+  return (
+    gulp
+      .src('lib/readme_template.md')
+      .pipe(template({
+        name: pak.name,
+        description: pak.description,
+        help: json2markdown(helpText),
+      }))
+      .pipe(rename('README.md'))
+      .pipe(gulp.dest('./'))
+  );
 });
 
 gulp.task('bump', 'Bumps patch version of module', (done) => {
