@@ -7,6 +7,11 @@
   "bin": {
     "iconr": "./bin/iconr.js"
   },
+  "files": [
+    "bin",
+    "lang",
+    "lib"
+  ],
   "scripts": {
     "lint": "eslint . --ext .js --cache && echo \"eslint: no lint errors found\" || true"
   },
