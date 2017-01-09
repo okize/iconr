@@ -23,7 +23,7 @@
     "fallback"
   ],
   "dependencies": {
-    "bluebird": "^2.0.0",
+    "bluebird": "^3.0.0",
     "chalk": "^1.0.0",
     "cssbeautify": "^0.3.0",
     "gzip-size": "^3.0.0",
