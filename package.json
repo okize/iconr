@@ -13,7 +13,8 @@
     "lib"
   ],
   "scripts": {
-    "lint": "eslint . --ext .js --cache && echo \"eslint: no lint errors found\" || true"
+    "lint": "eslint . --ext .js --cache && echo \"eslint: no lint errors found\" || true",
+    "test": "npm run lint"
   },
   "keywords": [
     "svg",
