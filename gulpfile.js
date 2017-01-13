@@ -1,11 +1,9 @@
 const fs = require('fs');
 const gulp = require('gulp-help')(require('gulp'));
-const run = require('run-sequence');
 const gutil = require('gulp-util');
 const template = require('gulp-template');
 const rename = require('gulp-rename');
 const json2markdown = require('json2markdown');
-const spawn = require('child_process').spawn;
 
 // small wrapper around gulp util logging
 function log(msg, type) {
@@ -34,16 +32,4 @@ gulp.task('docs', 'Generates readme file.', () => {
       .pipe(rename('README.md'))
       .pipe(gulp.dest('./'))
   );
-});
-
-gulp.task('bump', 'Bumps patch version of module', (done) => {
-  return spawn('npm', ['version', 'patch'], { stdio: 'inherit' }).on('close', done);
-});
-
-gulp.task('publish', 'Publishes module to npm', (done) => {
-  return spawn('npm', ['publish'], { stdio: 'inherit' }).on('close', done);
-});
-
-gulp.task('release', 'Builds module, bumps version & publishes to npm.', (done) => {
-  return run('docs', 'bump', 'publish', done);
 });
