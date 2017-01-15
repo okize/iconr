@@ -7,7 +7,7 @@
 # iconr
 
 ## Description
-CLI tool that consumes a directory of SVG images and outputs a CSS file of inlined data as well as a directory of PNG images for fallback if necessary.
+<%= description %>
 
 ![iconr screenshot](https://raw.github.com/okize/iconr/gh-pages/iconr-screenshot.gif)
 
@@ -18,7 +18,7 @@ iconr [inputDirectory] [outputDirectory] -options
 ```
 
 ## Options
-<%= help %>
+<%= options %>
 
 ## Installing
 
