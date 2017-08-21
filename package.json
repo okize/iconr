@@ -19,7 +19,7 @@
     "docs": "node ./generate-readme.js",
     "example": "node ./bin/iconr ./example/svg ./example/css --analytics --debug --pretty --verbose --filename=\"icons.css\" --classname=\"icon-\"",
     "example:server": "http-server ./example -p 4321 -o",
-    "lint": "eslint . --ext .js --cache && echo \"eslint: no lint errors found\" || true",
+    "lint": "eslint . --fix --ext .js --cache && echo \"eslint: no lint errors found\" || true",
     "preversion": "npm run docs",
     "test": "npm run lint"
   },
@@ -44,9 +44,9 @@
     "yargs": "^8.0.0"
   },
   "devDependencies": {
-    "eslint": "^3.12.1",
-    "eslint-config-airbnb-base": "^11.0.0",
-    "eslint-plugin-import": "^2.2.0",
+    "eslint": "^4.5.0",
+    "eslint-config-airbnb-base": "^11.3.1",
+    "eslint-plugin-import": "^2.7.0",
     "http-server": "^0.10.0",
     "json2markdown": "^1.0.0",
     "run-sequence": "^1.2.0"
