@@ -44,9 +44,9 @@
     "yargs": "^8.0.2"
   },
   "devDependencies": {
-    "eslint": "^5.14.1",
+    "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.0.0",
-    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-import": "^2.17.2",
     "http-server": "^0.11.0",
     "json2markdown": "^1.0.0"
   },
