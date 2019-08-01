@@ -40,7 +40,7 @@
     "phantomjs-prebuilt": "^2.1.16",
     "progger": "^1.0.0",
     "rimraf": "^2.6.3",
-    "svgo": "^0.7.0",
+    "svgo": "^1.2.2",
     "yargs": "^8.0.2"
   },
   "devDependencies": {
