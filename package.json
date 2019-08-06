@@ -19,9 +19,9 @@
     "docs": "node ./generate-readme.js",
     "example": "node ./bin/iconr ./example/svg ./example/css --analytics --debug --pretty --verbose --filename=\"icons.css\" --classname=\"icon-\"",
     "example:server": "http-server ./example -p 4321 -o",
-    "lint": "eslint . --fix --ext .js --cache && echo \"eslint: no lint errors found\" || true",
+    "lint": "npm run test -- --fix --cache && echo \"eslint: no lint errors found\" || true",
     "preversion": "npm run docs",
-    "test": "npm run lint"
+    "test": "eslint . "
   },
   "keywords": [
     "svg",
