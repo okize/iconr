@@ -1,12 +1,12 @@
 [![NPM version](http://img.shields.io/npm/v/iconr.svg?style=flat)](https://www.npmjs.org/package/iconr)
 [![Dependency Status](http://img.shields.io/david/okize/iconr.svg?style=flat)](https://david-dm.org/okize/iconr)
 [![Build Status](http://img.shields.io/travis/okize/iconr.svg?style=flat)](https://travis-ci.org/okize/iconr)
-[![bitHound Score](https://www.bithound.io/github/okize/iconr/badges/score.svg)](https://www.bithound.io/github/okize/iconr)
 [![Downloads](http://img.shields.io/npm/dm/iconr.svg?style=flat)](https://www.npmjs.org/package/iconr)
 
 # iconr
 
 ## Description
+
 <%= description %>
 
 ![iconr screenshot](https://raw.github.com/okize/iconr/gh-pages/iconr-screenshot.gif)
@@ -18,6 +18,7 @@ iconr [inputDirectory] [outputDirectory] -options
 ```
 
 ## Options
+
 <%= options %>
 
 ## Installing
