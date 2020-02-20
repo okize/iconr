@@ -39,15 +39,15 @@
     "mkdirp": "^0.5.0",
     "phantomjs-prebuilt": "^2.1.16",
     "progger": "^1.0.0",
-    "rimraf": "^3.0.0",
+    "rimraf": "^3.0.2",
     "svgo": "^0.7.0",
     "yargs": "^15.0.0"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-config-prettier": "^6.9.0",
-    "eslint-plugin-import": "^2.20.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-prettier": "^3.1.2",
     "http-server": "^0.12.1",
     "json2markdown": "^1.0.0",
