@@ -17,7 +17,7 @@
   ],
   "scripts": {
     "docs": "node ./generate-readme.js",
-    "example": "node ./bin/iconr ./example/svg ./example/css --analytics --debug --pretty --verbose --filename=\"icons.css\" --classname=\"icon-\"",
+    "example": "node ./bin/iconr ./example/svg ./example/iconr_output --analytics --debug --pretty --verbose --filename=\"icons.css\" --classname=\"icon-\"",
     "example:server": "http-server ./example -p 4321 -o",
     "lint": "npm run test -- --fix --cache && echo \"eslint: no lint errors found\" || true",
     "preversion": "npm run docs",
