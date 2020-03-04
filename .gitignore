@@ -1,6 +1,4 @@
 /node_modules
-/lib
 /example/iconr_output
-/temp
 *.log
 .eslintcache
