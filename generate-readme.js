@@ -14,11 +14,11 @@ const newReadme = readmeTemplate
   .replace('<%= description %>', project.description)
   .replace('<%= options %>', helpTextMarkdown);
 
-console.log('generating readme...');
+console.log('Generating README.md...');
 
 fs.writeFile('README.md', newReadme, (err) => {
   if (err) {
     return console.error(err);
   }
-  return console.log('new readme saved!');
+  return console.log('Updated README.md saved!');
 });
