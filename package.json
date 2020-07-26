@@ -20,9 +20,9 @@
     "example": "npm-run-all example:*",
     "example:cli": "rm -rf ./example/iconr_output && node ./bin/iconr ./example/svg ./example/iconr_output --analytics --debug --pretty --verbose --filename=\"icons.css\" --classname=\"icon-\"",
     "example:server": "http-server ./example -p 4321 -o",
-    "lint": "npm run test -- --fix --cache && echo \"eslint: no lint errors found\" || true",
+    "lint": "npm run test && echo \"eslint: no lint errors found\" || true",
     "preversion": "npm run docs",
-    "test": "eslint . "
+    "test": "eslint . --cache --fix"
   },
   "keywords": [
     "svg",
