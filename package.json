@@ -33,7 +33,7 @@
   ],
   "dependencies": {
     "bluebird": "^3.7.2",
-    "chalk": "^3.0.0",
+    "chalk": "^4.0.0",
     "cssbeautify": "^0.3.0",
     "gzip-size": "^5.1.1",
     "mime": "^2.4.6",
