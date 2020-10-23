@@ -1,12 +1,11 @@
-name: Lint
+name: Tests & Linting
 
 on: push
 
 jobs:
-  run-linters:
-    name: Run linters
+  setup:
+    name: Javascript Build
     runs-on: ubuntu-latest
-
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v2
@@ -17,9 +16,23 @@ jobs:
           node-version: 12.18.2
 
       - name: Install Node.js dependencies
-        run: yarn
+        run: npm i
 
-      - name: Run linters
+  lint:
+    name: Run linter
+    needs: setup
+    steps:
+      - name: Invoke linters
+        uses: wearerequired/lint-action@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          eslint: true
+
+  lint2:
+    name: Run linter2
+    needs: setup
+    steps:
+      - name: Invoke linters2
         uses: wearerequired/lint-action@v1
         with:
           github_token: ${{ secrets.github_token }}
