@@ -18,7 +18,8 @@ jobs:
         run: yarn
 
       - name: some bullshit
-      - run: npm run step1
+        run: npm run step1
+
   build:
     needs: setup
     runs-on: ubuntu-latest
