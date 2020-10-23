@@ -18,21 +18,7 @@ jobs:
       - name: Install Node.js dependencies
         run: npm i
 
-  lint:
-    name: Run linter
-    needs: setup
-    steps:
       - name: Invoke linters
-        uses: wearerequired/lint-action@v1
-        with:
-          github_token: ${{ secrets.github_token }}
-          eslint: true
-
-  lint2:
-    name: Run linter2
-    needs: setup
-    steps:
-      - name: Invoke linters2
         uses: wearerequired/lint-action@v1
         with:
           github_token: ${{ secrets.github_token }}
