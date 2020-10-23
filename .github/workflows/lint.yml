@@ -4,7 +4,6 @@ on: push
 
 jobs:
   setup:
-    name: Javascript Build
     runs-on: ubuntu-latest
     steps:
       - name: Check out Git repository
@@ -13,13 +12,20 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 12.18.2
+          node-version: 10.16.0
 
       - name: Install Node.js dependencies
-        run: npm i
+        run: yarn
 
-      - name: Invoke linters
-        uses: wearerequired/lint-action@v1
-        with:
-          github_token: ${{ secrets.github_token }}
-          eslint: true
+      - name: some bullshit
+      - run: npm run step1
+  build:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - run: npm run step2
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - run: npm run step3

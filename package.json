@@ -16,6 +16,9 @@
     "lib"
   ],
   "scripts": {
+    "step1": "echo 'step one'",
+    "step2": "echo 'step two A'",
+    "step3": "echo 'step two B'",
     "docs": "node ./generate-readme.js",
     "example": "npm-run-all example:*",
     "example:cli": "rm -rf ./example/iconr_output && node ./bin/iconr ./example/svg ./example/iconr_output --analytics --debug --pretty --verbose --filename=\"icons.css\" --classname=\"icon-\"",
