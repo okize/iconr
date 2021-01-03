@@ -45,10 +45,8 @@
   },
   "devDependencies": {
     "eslint": "^7.15.0",
-    "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-okize": "^1.7.0",
     "eslint-config-prettier": "^7.0.0",
-    "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.3.0",
     "http-server": "^0.12.3",
     "json2markdown": "^1.0.0",
