@@ -36,7 +36,7 @@
     "chalk": "^4.1.2",
     "cssbeautify": "^0.3.0",
     "gzip-size": "^6.0.0",
-    "mime": "^2.6.0",
+    "mime": "^3.0.0",
     "phantomjs-prebuilt": "^2.1.16",
     "progger": "^1.0.0",
     "rimraf": "^5.0.1",
