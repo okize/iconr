@@ -35,7 +35,7 @@
     "bluebird": "^3.7.2",
     "chalk": "^5.4.1",
     "cssbeautify": "^0.3.0",
-    "gzip-size": "^6.0.0",
+    "gzip-size": "^7.0.0",
     "mime": "^3.0.0",
     "phantomjs-prebuilt": "^2.1.16",
     "progger": "^1.0.0",
