@@ -44,7 +44,7 @@
     "yargs": "^18.0.0"
   },
   "devDependencies": {
-    "eslint": "^8.57.1",
+    "eslint": "^9.32.0",
     "eslint-config-okize": "^1.7.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.2.1",
