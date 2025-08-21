@@ -34,24 +34,14 @@
   "dependencies": {
     "bluebird": "^3.7.2",
     "chalk": "^5.4.1",
-    "cssbeautify": "^0.3.0",
+    "cssbeautify": "^0.3.1",
     "gzip-size": "^7.0.0",
     "mime": "^4.0.7",
     "phantomjs-prebuilt": "^2.1.16",
-    "progger": "^1.0.0",
+    "progger": "^1.0.1",
     "rimraf": "^6.0.1",
     "svgo": "^0.7.0",
     "yargs": "^18.0.0"
-  },
-  "devDependencies": {
-    "eslint": "^9.32.0",
-    "eslint-config-okize": "^1.7.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.2.1",
-    "http-server": "^14.1.1",
-    "json2markdown": "^1.0.0",
-    "npm-run-all": "^4.1.5",
-    "prettier": "^3.3.3"
   },
   "repository": {
     "type": "git",
@@ -64,5 +54,15 @@
     "email": "okize123@gmail.com",
     "url": "https://github.com/okize"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^9.32.0",
+    "eslint-config-okize": "^1.7.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.3",
+    "http-server": "^14.1.1",
+    "json2markdown": "^1.0.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^3.6.2"
+  }
 }
